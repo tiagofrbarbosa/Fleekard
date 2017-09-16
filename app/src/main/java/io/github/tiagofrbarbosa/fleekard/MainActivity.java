@@ -1,9 +1,16 @@
 package io.github.tiagofrbarbosa.fleekard;
 
+import android.animation.IntArrayEvaluator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,7 +23,12 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
+    private AppComponent component;
+
+    @Inject Glide glide;
+
     @BindView(R.id.mybutton) Button b;
+    @BindView(R.id.myImageView) ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -25,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Timber.e("Timber test");
+
+        FleekardApplication app = (FleekardApplication) getApplication();
+        component = app.getComponent();
+        component.inject(this);
+
+        glide.with(this).load("http://i.imgur.com/DvpvklR.png").into(imageView);
     }
 
     @OnClick(R.id.mybutton)

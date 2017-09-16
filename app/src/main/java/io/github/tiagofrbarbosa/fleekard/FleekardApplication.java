@@ -9,6 +9,7 @@ import timber.log.Timber;
  */
 
 public class FleekardApplication extends Application {
+    private AppComponent component;
 
     @Override
     public void onCreate(){
@@ -17,5 +18,13 @@ public class FleekardApplication extends Application {
         if(BuildConfig.DEBUG){
             Timber.plant(new Timber.DebugTree());
         }
+
+        component = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+    }
+
+    public AppComponent getComponent(){
+        return component;
     }
 }
