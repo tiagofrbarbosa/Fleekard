@@ -1,6 +1,5 @@
-package io.github.tiagofrbarbosa.fleekard;
+package io.github.tiagofrbarbosa.fleekard.activity;
 
-import android.animation.IntArrayEvaluator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -8,13 +7,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
+import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import timber.log.Timber;
 
 /**

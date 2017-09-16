@@ -2,6 +2,9 @@ package io.github.tiagofrbarbosa.fleekard;
 
 import android.app.Application;
 
+import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
+import io.github.tiagofrbarbosa.fleekard.component.DaggerAppComponent;
+import io.github.tiagofrbarbosa.fleekard.module.AppModule;
 import timber.log.Timber;
 
 /**

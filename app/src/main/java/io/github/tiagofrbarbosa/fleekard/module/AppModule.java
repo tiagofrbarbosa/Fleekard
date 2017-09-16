@@ -1,4 +1,4 @@
-package io.github.tiagofrbarbosa.fleekard;
+package io.github.tiagofrbarbosa.fleekard.module;
 
 import android.app.Application;
 
