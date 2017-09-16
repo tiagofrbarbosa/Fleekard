@@ -30,7 +30,12 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     private AppComponent component;
+
     ViewPagerAdapter viewPagerAdapter;
+    private int[] tabIcons = {R.drawable.ic_gps_fixed_white_24dp,
+                              R.drawable.ic_notifications_white_24dp,
+                              R.drawable.ic_question_answer_white_24dp,
+                              R.drawable.ic_favorite_white_24dp};
 
     @BindView(R.id.tabs) TabLayout tabLayout;
     @BindView(R.id.viewPager) ViewPager viewPager;
@@ -53,6 +58,15 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        setupTabIcons();
+    }
+
+    public void setupTabIcons(){
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
     }
 
     @Override

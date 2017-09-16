@@ -74,4 +74,27 @@
         <item>Item 3S</item>
         <item>Item 3T</item>
     </string-array>
+
+    <string-array name="tab_D">
+        <item>Item 4A</item>
+        <item>Item 4B</item>
+        <item>Item 4C</item>
+        <item>Item 4D</item>
+        <item>Item 4E</item>
+        <item>Item 4F</item>
+        <item>Item 4G</item>
+        <item>Item 4H</item>
+        <item>Item 4I</item>
+        <item>Item 4J</item>
+        <item>Item 4K</item>
+        <item>Item 4L</item>
+        <item>Item 4M</item>
+        <item>Item 4N</item>
+        <item>Item 4O</item>
+        <item>Item 4P</item>
+        <item>Item 4Q</item>
+        <item>Item 4R</item>
+        <item>Item 4S</item>
+        <item>Item 4T</item>
+    </string-array>
 </resources>

@@ -27,28 +27,19 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         }else if(position == 2){
             fragment = new FragmentC();
 
+        } else if(position == 3){
+        fragment = new FragmentD();
         }
         return fragment;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override
     public CharSequence getPageTitle(int position){
-        String title = null;
-        if(position == 0){
-            title = "Tab-1";
-
-        }else if(position == 1){
-            title = "Tab-2";
-
-        }else if (position == 2){
-            title = "Tab-3";
-
-        }
-        return title;
+       return null;
     }
 }
