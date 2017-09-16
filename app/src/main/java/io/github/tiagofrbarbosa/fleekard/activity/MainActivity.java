@@ -1,7 +1,12 @@
 package io.github.tiagofrbarbosa.fleekard.activity;
 
 import android.os.Bundle;
+import android.os.ParcelUuid;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,11 +30,13 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     private AppComponent component;
+    ViewPagerAdapter viewPagerAdapter;
+
+    @BindView(R.id.tabs) TabLayout tabLayout;
+    @BindView(R.id.viewPager) ViewPager viewPager;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Inject Glide glide;
-
-    @BindView(R.id.mybutton) Button b;
-    @BindView(R.id.myImageView) ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -37,17 +44,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Timber.e("Timber test");
-
         FleekardApplication app = (FleekardApplication) getApplication();
         component = app.getComponent();
         component.inject(this);
 
-        glide.with(this).load("http://i.imgur.com/DvpvklR.png").into(imageView);
+        setSupportActionBar(toolbar);
+
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
-    @OnClick(R.id.mybutton)
-    public void myButtonClick(){
-        Toast.makeText(this,"Butter test",Toast.LENGTH_LONG).show();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
