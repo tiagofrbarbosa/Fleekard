@@ -24,7 +24,7 @@ import timber.log.Timber;
  * Created by tfbarbosa on 17/09/17.
  */
 
-public class Profile_Activity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.user_name) TextView userName;

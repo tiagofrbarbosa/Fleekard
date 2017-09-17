@@ -1,5 +1,6 @@
 package io.github.tiagofrbarbosa.fleekard.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.activity.ChatActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.ChatAdapter;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
 import timber.log.Timber;
@@ -55,6 +57,8 @@ public class FragmentChat extends Fragment {
             public void onClickChat(ChatAdapter.ChatsViewHolder holder, int idx) {
                 Chat c = chats.get(idx);
                 Timber.i(String.valueOf(c.userName));
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                startActivity(intent);
             }
         };
     }

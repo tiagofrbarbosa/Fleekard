@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.activity.Profile_Activity;
+import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.UserAdapter;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
@@ -58,10 +58,10 @@ public class FragmentUser extends Fragment{
                 User u = users.get(idx);
                 Timber.e(String.valueOf(u.userName));
 
-                Intent intent = new Intent(getActivity(), Profile_Activity.class);
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString(Profile_Activity.PROFILE_IMAGE_PATH,u.img);
-                bundle.putString(Profile_Activity.USER_NAME,u.userName);
+                bundle.putString(ProfileActivity.PROFILE_IMAGE_PATH,u.img);
+                bundle.putString(ProfileActivity.USER_NAME,u.userName);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

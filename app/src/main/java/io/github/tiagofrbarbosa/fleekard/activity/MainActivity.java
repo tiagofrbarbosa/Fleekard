@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.profile_settings) {
-            startActivity(new Intent(this, Profile_Activity.class));
+            startActivity(new Intent(this, ProfileActivity.class));
         }
 
         if (id == R.id.action_settings) {

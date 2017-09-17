@@ -1,7 +1,7 @@
 package io.github.tiagofrbarbosa.fleekard.component;
 
 import dagger.Component;
-import io.github.tiagofrbarbosa.fleekard.activity.Profile_Activity;
+import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.module.AppModule;
 import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 
@@ -14,5 +14,5 @@ import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 public interface AppComponent {
 
     void inject(MainActivity activity);
-    void inject(Profile_Activity profile_activity);
+    void inject(ProfileActivity profile_activity);
 }

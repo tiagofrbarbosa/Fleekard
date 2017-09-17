@@ -8,4 +8,5 @@
     <string name="menu_exit">Exit profile</string>
     <string name="content_desc_user_image">user image</string>
     <string name="favorite_user_text">you liked this user on this day: </string>
+    <string name="send_button_label">Send</string>
 </resources>
