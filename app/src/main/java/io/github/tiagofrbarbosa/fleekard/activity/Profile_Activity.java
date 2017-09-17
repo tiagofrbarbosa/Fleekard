@@ -7,14 +7,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import org.w3c.dom.Text;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -23,10 +27,14 @@ import io.github.tiagofrbarbosa.fleekard.R;
 public class Profile_Activity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.user_name) TextView userName;
     @BindView(R.id.profile_image) ImageView profileImage;
 
     @Inject
     Glide glide;
+
+    public static final String PROFILE_IMAGE_PATH = "profile_image_path";
+    public static final String USER_NAME = "user_name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -37,7 +45,10 @@ public class Profile_Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        glide.with(this).load("https://api.adorable.io/avatars/285/27;png").into(profileImage);
+        Bundle extras = getIntent().getExtras();
+
+        glide.with(this).load(extras.getString(PROFILE_IMAGE_PATH)).into(profileImage);
+        userName.setText(extras.getString(USER_NAME));
     }
 
     @Override
