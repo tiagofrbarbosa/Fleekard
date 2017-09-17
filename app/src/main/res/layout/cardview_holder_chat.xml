@@ -29,16 +29,14 @@
                         android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/user_image"
-                        android:text="teste" />
+                        android:layout_toEndOf="@id/user_image"/>
 
                     <TextView
                         android:id="@+id/user_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/user_name"
-                        android:layout_toEndOf="@id/user_image"
-                        android:text="teste"/>
+                        android:layout_toEndOf="@id/user_image" />
 
                     <ImageView
                         android:id="@+id/user_chat_presence"

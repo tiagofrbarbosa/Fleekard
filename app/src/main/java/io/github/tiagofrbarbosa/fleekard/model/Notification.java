@@ -21,7 +21,7 @@ public class Notification {
 
         List<Notification> notifications = new ArrayList<Notification>();
 
-        for(int i=0;i<10;i++) {
+        for(int i=0;i<50;i++) {
             notifications.add(new Notification("https://api.adorable.io/avatars/285/" + i + ".png", "teste" + i));
         }
 

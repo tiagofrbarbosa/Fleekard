@@ -28,7 +28,7 @@ public class Favorite {
 
         List<Favorite> favorites = new ArrayList<Favorite>();
 
-        for(int i=0;i<10;i++) {
+        for(int i=0;i<50;i++) {
             favorites.add(new Favorite("https://api.adorable.io/avatars/285/" + i + ".png", "teste" + i,
                     context.getResources().getString(R.string.favorite_user_text) + i));
         }

@@ -58,7 +58,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         glide.with(context).load(favorite.img).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
         holder.userName.setText(favorite.userName);
         holder.userFavoriteData.setText(favorite.userFavoriteDate);
-        Timber.e(String.valueOf(holder.userName));
+        Timber.e(String.valueOf(favorite.img));
 
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
