@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -53,7 +54,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
     public void onBindViewHolder(final UsersViewHolder holder, final int position) {
         User user = users.get(position);
         holder.userName.setText(user.userName);
-        glide.with(context).load(user.img).into(holder.imageView);
+
+        glide.with(context)
+                .load(user.img)
+                //.apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher))
+                .into(holder.imageView);
+
         Timber.e(String.valueOf(user.img));
 
         if (onClickListener != null) {
