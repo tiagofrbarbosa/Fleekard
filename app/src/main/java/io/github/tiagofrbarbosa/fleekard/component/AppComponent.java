@@ -14,5 +14,4 @@ import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 public interface AppComponent {
 
     void inject(MainActivity activity);
-    void inject(UserAdapter userAdapter);
 }

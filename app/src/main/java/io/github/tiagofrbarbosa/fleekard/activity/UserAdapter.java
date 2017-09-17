@@ -14,6 +14,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
@@ -55,16 +57,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
     }
 
     public static class UsersViewHolder extends RecyclerView.ViewHolder{
-        public TextView userName;
-        public ImageView imageView;
+        @BindView(R.id.user_name) TextView userName;
+        @BindView(R.id.user_image) ImageView imageView;
         private View view;
 
         public UsersViewHolder(View view) {
             super(view);
             this.view = view;
-
-            userName = (TextView) view.findViewById(R.id.user_name);
-            imageView = (ImageView) view.findViewById(R.id.user_image);
+            ButterKnife.bind(this, view);
         }
     }
 }
