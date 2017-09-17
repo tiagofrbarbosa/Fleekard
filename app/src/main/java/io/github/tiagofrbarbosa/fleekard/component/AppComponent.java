@@ -1,6 +1,7 @@
 package io.github.tiagofrbarbosa.fleekard.component;
 
 import dagger.Component;
+import io.github.tiagofrbarbosa.fleekard.activity.UserAdapter;
 import io.github.tiagofrbarbosa.fleekard.module.AppModule;
 import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 
@@ -13,4 +14,5 @@ import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 public interface AppComponent {
 
     void inject(MainActivity activity);
+    void inject(UserAdapter userAdapter);
 }

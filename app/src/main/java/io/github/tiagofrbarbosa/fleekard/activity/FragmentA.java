@@ -3,13 +3,19 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.model.User;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -17,7 +23,9 @@ import io.github.tiagofrbarbosa.fleekard.R;
 
 public class FragmentA extends Fragment{
 
-    RecyclerView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+
+    protected UserAdapter adapter;
 
     @Nullable
     @Override
@@ -29,12 +37,11 @@ public class FragmentA extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
 
-        String[] items = getResources().getStringArray(R.array.tab_A);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(items);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        List<User> users = User.getUsers();
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users));
     }
 }

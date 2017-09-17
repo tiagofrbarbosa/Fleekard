@@ -4,6 +4,7 @@
 
     <!-- translatable -->
     <string name="action_settings">Settings</string>
+    <string name="content_desc_user_image">user image</string>
 
 
     <string-array name="tab_A">
