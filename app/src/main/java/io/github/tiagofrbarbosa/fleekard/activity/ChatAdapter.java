@@ -57,6 +57,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
         glide.with(context).load(chat.img).apply(RequestOptions.circleCropTransform()).into(holder.img);
         holder.userName.setText(chat.userName);
         holder.userStatus.setText(chat.userStatus);
+
+        if(chat.userPresence == 1){
+            holder.userPresence.setImageResource(R.drawable.ic_connection_on);
+        }else{
+            holder.userPresence.setImageResource(R.drawable.ic_connection_off);
+        }
+
         holder.chatUnread.setText(String.valueOf(chat.chatUnread));
         Timber.e(String.valueOf(chat.img));
 
@@ -79,6 +86,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
         @BindView(R.id.user_image) ImageView img;
         @BindView(R.id.user_name) TextView userName;
         @BindView(R.id.user_status) TextView userStatus;
+        @BindView(R.id.user_chat_presence) ImageView userPresence;
         @BindView(R.id.chat_unread) TextView chatUnread;
         private View view;
 

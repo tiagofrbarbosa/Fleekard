@@ -29,7 +29,7 @@ public class Chat {
 
         for(int i=0;i<50;i++) {
             chats.add(new Chat("https://api.adorable.io/avatars/285/" + i + ".png",
-                    "teste" + i, "status" + i, 1, i));
+                    "teste" + i, "status" + i, i, i));
         }
 
         return chats;
