@@ -29,13 +29,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private List<Notification> notifications;
     private Context context;
+    private final NotificationAdapter.NotificationOnclickListener onClickListener;
 
-    @Inject
-    Glide glide;
+    @Inject Glide glide;
 
-    public NotificationAdapter(Context context, List<Notification> notifications){
+    public interface NotificationOnclickListener{
+        public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx);
+    }
+
+    public NotificationAdapter(Context context, List<Notification> notifications, NotificationOnclickListener onClickListener){
         this.context = context;
         this.notifications = notifications;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -46,11 +51,20 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     @Override
-    public void onBindViewHolder(NotificationsViewHolder holder, int position) {
+    public void onBindViewHolder(final NotificationsViewHolder holder, final int position) {
         Notification notification = notifications.get(position);
         glide.with(context).load(notification.img).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
         holder.notifications.setText(notification.notification);
         Timber.e(String.valueOf(notification.img));
+
+        if (onClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onClickNotification(holder, position);
+                }
+            });
+        }
     }
 
     @Override
