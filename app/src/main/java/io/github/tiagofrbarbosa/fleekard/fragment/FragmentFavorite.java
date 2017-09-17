@@ -22,7 +22,7 @@ import timber.log.Timber;
  * Created by tfbarbosa on 16/09/17.
  */
 
-public class FragmentD extends Fragment {
+public class FragmentFavorite extends Fragment {
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 

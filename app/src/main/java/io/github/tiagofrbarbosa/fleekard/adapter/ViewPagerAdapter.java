@@ -4,10 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import io.github.tiagofrbarbosa.fleekard.fragment.FragmentA;
-import io.github.tiagofrbarbosa.fleekard.fragment.FragmentB;
-import io.github.tiagofrbarbosa.fleekard.fragment.FragmentC;
-import io.github.tiagofrbarbosa.fleekard.fragment.FragmentD;
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentChat;
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentUser;
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentNotification;
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentFavorite;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -24,16 +24,16 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
 
         if(position == 0){
-            fragment = new FragmentA();
+            fragment = new FragmentUser();
 
         }else if(position == 1){
-            fragment = new FragmentB();
+            fragment = new FragmentNotification();
 
         }else if(position == 2){
-            fragment = new FragmentC();
+            fragment = new FragmentChat();
 
         } else if(position == 3){
-        fragment = new FragmentD();
+        fragment = new FragmentFavorite();
         }
         return fragment;
     }

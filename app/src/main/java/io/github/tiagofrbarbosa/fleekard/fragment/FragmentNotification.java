@@ -14,20 +14,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.adapter.ChatAdapter;
-import io.github.tiagofrbarbosa.fleekard.model.Chat;
+import io.github.tiagofrbarbosa.fleekard.adapter.NotificationAdapter;
+import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.
  */
 
-public class FragmentC extends Fragment {
+public class FragmentNotification extends Fragment {
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
-    protected ChatAdapter adapter;
-    protected List<Chat> chats;
+    protected NotificationAdapter adapter;
+    protected List<Notification> notifications;
 
     @Nullable
     @Override
@@ -41,20 +41,20 @@ public class FragmentC extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        chats = Chat.getChats();
+        notifications = Notification.getNotifications();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat()));
+        recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification()));
     }
 
-    protected ChatAdapter.ChatOnclickListener onClickChat(){
+    protected NotificationAdapter.NotificationOnclickListener onClickNotification(){
 
-        return new ChatAdapter.ChatOnclickListener(){
+        return new NotificationAdapter.NotificationOnclickListener(){
 
             @Override
-            public void onClickChat(ChatAdapter.ChatsViewHolder holder, int idx) {
-                Chat c = chats.get(idx);
-                Timber.i(String.valueOf(c.userName));
+            public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx) {
+                Notification n = notifications.get(idx);
+                Timber.i(String.valueOf(n.notification));
             }
         };
     }
