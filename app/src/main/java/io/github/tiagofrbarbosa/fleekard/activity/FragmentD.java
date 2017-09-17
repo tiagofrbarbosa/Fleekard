@@ -9,7 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.model.Favorite;
+import io.github.tiagofrbarbosa.fleekard.model.Notification;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -17,7 +24,10 @@ import io.github.tiagofrbarbosa.fleekard.R;
 
 public class FragmentD extends Fragment {
 
-    RecyclerView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+
+    protected FavoriteAdapter adapter;
+    protected List<Favorite> favorites;
 
     @Nullable
     @Override
@@ -29,12 +39,23 @@ public class FragmentD extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
 
-        String[] items = getResources().getStringArray(R.array.tab_D);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(items);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        favorites = Favorite.getFavorites(getActivity());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite()));
+    }
+
+    protected FavoriteAdapter.FavoriteOnclickListener onClickFavorite(){
+
+        return new FavoriteAdapter.FavoriteOnclickListener(){
+
+            @Override
+            public void onClickFavorite(FavoriteAdapter.FavoritesViewHolder holder, int idx) {
+                Favorite f = favorites.get(idx);
+                Timber.i(String.valueOf(f.userName));
+            }
+        };
     }
 }
