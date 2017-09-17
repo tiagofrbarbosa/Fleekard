@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".activity.Profile_Activity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -24,10 +25,90 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:text="teste"
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/cardview_margin"
+            android:layout_marginRight="@dimen/cardview_margin"
+            android:layout_marginTop="@dimen/cardview_margin"
+            android:layout_marginBottom="@dimen/cardview_margin"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="@dimen/cardview_corner"
+            app:cardElevation="@dimen/cardview_elevation">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:layout_alignParentStart="true"/>
+
+                <TextView
+                    android:id="@+id/user_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:layout_alignParentEnd="true"/>
+
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:layout_below="@id/user_name"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/user_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:layout_below="@id/profile_image"/>
+
+                <TextView
+                    android:id="@+id/user_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="27"
+                    android:layout_below="@id/user_status"/>
+
+                <ImageView
+                    android:id="@+id/user_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/user_status"
+                    android:layout_toEndOf="@id/user_age"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="@dimen/gender_icon"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_male"/>
+
+                <ImageView
+                    android:id="@+id/user_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@id/user_gender"
+                    android:src="@drawable/ic_favorite_border_black_24dp"/>
+
+                <ImageView
+                    android:id="@+id/user_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/user_like"
+                    android:layout_alignTop="@id/user_like"
+                    android:src="@drawable/ic_textsms_black_24dp"/>
+
+            </RelativeLayout>
+
+
+
+        </android.support.v7.widget.CardView>
 
     </android.support.v4.widget.NestedScrollView>
 

@@ -1,5 +1,6 @@
 package io.github.tiagofrbarbosa.fleekard.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.activity.Profile_Activity;
 import io.github.tiagofrbarbosa.fleekard.adapter.UserAdapter;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
@@ -55,6 +57,7 @@ public class FragmentUser extends Fragment{
             public void onClickUser(UserAdapter.UsersViewHolder holder, int idx) {
                 User u = users.get(idx);
                 Timber.i(String.valueOf(u.userName));
+                startActivity(new Intent(getActivity(), Profile_Activity.class));
             }
         };
     }
