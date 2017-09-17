@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -25,6 +26,7 @@ public class FragmentA extends Fragment{
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     protected UserAdapter adapter;
+    protected List<User> users;
 
     @Nullable
     @Override
@@ -38,9 +40,21 @@ public class FragmentA extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        List<User> users = User.getUsers();
+         users = User.getUsers();
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users));
+        recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser()));
+    }
+
+    protected UserAdapter.UserOnclickListener onClickUser(){
+
+        return new UserAdapter.UserOnclickListener(){
+
+            @Override
+            public void onClickUser(UserAdapter.UsersViewHolder holder, int idx) {
+                User u = users.get(idx);
+                Timber.i(String.valueOf(u.userName));
+            }
+        };
     }
 }

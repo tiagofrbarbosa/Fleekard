@@ -28,12 +28,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
 
     private List<User> users;
     private Context context;
+    private final UserOnclickListener onClickListener;
 
     @Inject Glide glide;
 
-    public UserAdapter(Context context, List<User> users){
+    public interface UserOnclickListener{
+        public void onClickUser(UsersViewHolder holder, int idx);
+    }
+
+    public UserAdapter(Context context, List<User> users, UserOnclickListener onClickListener){
         this.context = context;
         this.users = users;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -44,11 +50,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
     }
 
     @Override
-    public void onBindViewHolder(UsersViewHolder holder, int position) {
+    public void onBindViewHolder(final UsersViewHolder holder, final int position) {
         User user = users.get(position);
         holder.userName.setText(user.userName);
         glide.with(context).load(user.img).into(holder.imageView);
         Timber.e(String.valueOf(user.img));
+
+        if (onClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onClickUser(holder, position);
+                }
+            });
+        }
     }
 
     @Override
