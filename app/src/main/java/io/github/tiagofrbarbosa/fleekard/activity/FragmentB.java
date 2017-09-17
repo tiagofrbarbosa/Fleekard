@@ -9,7 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.model.Notification;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -17,7 +22,9 @@ import io.github.tiagofrbarbosa.fleekard.R;
 
 public class FragmentB extends Fragment {
 
-    RecyclerView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+
+    protected NotificationAdapter adapter;
 
     @Nullable
     @Override
@@ -29,12 +36,11 @@ public class FragmentB extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
 
-        String[] items = getResources().getStringArray(R.array.tab_B);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(items);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        List<Notification> notifications = Notification.getNotifications();
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications));
     }
 }
