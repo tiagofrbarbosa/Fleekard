@@ -1,9 +1,9 @@
-package io.github.tiagofrbarbosa.fleekard.activity;
+package io.github.tiagofrbarbosa.fleekard.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,19 +14,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.model.User;
+import io.github.tiagofrbarbosa.fleekard.adapter.ChatAdapter;
+import io.github.tiagofrbarbosa.fleekard.model.Chat;
 import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.
  */
 
-public class FragmentA extends Fragment{
+public class FragmentC extends Fragment {
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
-    protected UserAdapter adapter;
-    protected List<User> users;
+    protected ChatAdapter adapter;
+    protected List<Chat> chats;
 
     @Nullable
     @Override
@@ -40,20 +41,20 @@ public class FragmentA extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-         users = User.getUsers();
+        chats = Chat.getChats();
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat()));
     }
 
-    protected UserAdapter.UserOnclickListener onClickUser(){
+    protected ChatAdapter.ChatOnclickListener onClickChat(){
 
-        return new UserAdapter.UserOnclickListener(){
+        return new ChatAdapter.ChatOnclickListener(){
 
             @Override
-            public void onClickUser(UserAdapter.UsersViewHolder holder, int idx) {
-                User u = users.get(idx);
-                Timber.i(String.valueOf(u.userName));
+            public void onClickChat(ChatAdapter.ChatsViewHolder holder, int idx) {
+                Chat c = chats.get(idx);
+                Timber.i(String.valueOf(c.userName));
             }
         };
     }

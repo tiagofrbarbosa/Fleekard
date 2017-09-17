@@ -1,4 +1,4 @@
-package io.github.tiagofrbarbosa.fleekard.activity;
+package io.github.tiagofrbarbosa.fleekard.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 

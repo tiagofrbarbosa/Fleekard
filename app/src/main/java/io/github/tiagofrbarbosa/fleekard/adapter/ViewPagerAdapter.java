@@ -1,8 +1,13 @@
-package io.github.tiagofrbarbosa.fleekard.activity;
+package io.github.tiagofrbarbosa.fleekard.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentA;
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentB;
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentC;
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentD;
 
 /**
  * Created by tfbarbosa on 16/09/17.

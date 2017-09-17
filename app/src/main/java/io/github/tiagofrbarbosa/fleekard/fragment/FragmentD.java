@@ -1,4 +1,4 @@
-package io.github.tiagofrbarbosa.fleekard.activity;
+package io.github.tiagofrbarbosa.fleekard.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,20 +14,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.model.Notification;
-import io.github.tiagofrbarbosa.fleekard.model.User;
+import io.github.tiagofrbarbosa.fleekard.adapter.FavoriteAdapter;
+import io.github.tiagofrbarbosa.fleekard.model.Favorite;
 import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.
  */
 
-public class FragmentB extends Fragment {
+public class FragmentD extends Fragment {
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
-    protected NotificationAdapter adapter;
-    protected List<Notification> notifications;
+    protected FavoriteAdapter adapter;
+    protected List<Favorite> favorites;
 
     @Nullable
     @Override
@@ -41,20 +41,20 @@ public class FragmentB extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        notifications = Notification.getNotifications();
+        favorites = Favorite.getFavorites(getActivity());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification()));
+        recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite()));
     }
 
-    protected NotificationAdapter.NotificationOnclickListener onClickNotification(){
+    protected FavoriteAdapter.FavoriteOnclickListener onClickFavorite(){
 
-        return new NotificationAdapter.NotificationOnclickListener(){
+        return new FavoriteAdapter.FavoriteOnclickListener(){
 
             @Override
-            public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx) {
-                Notification n = notifications.get(idx);
-                Timber.i(String.valueOf(n.notification));
+            public void onClickFavorite(FavoriteAdapter.FavoritesViewHolder holder, int idx) {
+                Favorite f = favorites.get(idx);
+                Timber.i(String.valueOf(f.userName));
             }
         };
     }
