@@ -4,6 +4,8 @@
 
     <!-- translatable -->
     <string name="action_settings">Settings</string>
+    <string name="profile_settings">Profile settings</string>
+    <string name="menu_exit">Exit profile</string>
     <string name="content_desc_user_image">user image</string>
     <string name="favorite_user_text">you liked this user on this day: </string>
 </resources>
