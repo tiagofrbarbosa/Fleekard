@@ -1,6 +1,8 @@
 <resources>
 
+    <!-- no translatable -->
     <string name="app_name" translatable="false">Fleekard</string>
+    <string name="check_push_settings">PREF_CHECK_PUSH</string>
 
     <!-- translatable -->
     <string name="action_settings">Settings</string>
@@ -8,6 +10,7 @@
     <string name="menu_exit">Exit profile</string>
     <string name="favorite_user_text">you liked this user on this day: </string>
     <string name="send_button_label">Send</string>
+    <string name="settings_title">Settings</string>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>
@@ -25,4 +28,5 @@
     <string name="content_desc_user_profile">User profile image</string>
     <string name="content_desc_user_like">User like</string>
     <string name="content_desc_photo_chat">Photo image chat</string>
+    <string name="settings_activity_label">Settings</string>
 </resources>

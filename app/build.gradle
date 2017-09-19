@@ -19,7 +19,7 @@ android {
     }
 }
 
-ext{
+ext {
     supportLibraryVersion = '26.1.0'
     butterKnifeVersion = '8.8.1'
     timberVersion = '4.5.1'
@@ -38,6 +38,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
     compile "com.android.support:design:${supportLibraryVersion}"
     compile "com.android.support:cardview-v7:${supportLibraryVersion}"
+    compile "com.android.support:preference-v7:${supportLibraryVersion}"
 
     //ButterKnife
     compile "com.jakewharton:butterknife:${butterKnifeVersion}"
@@ -56,4 +57,5 @@ dependencies {
 
     //Test
     testCompile "junit:junit:${testLibraryVersion}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

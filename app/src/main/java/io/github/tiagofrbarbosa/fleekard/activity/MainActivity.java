@@ -17,8 +17,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.ViewPagerAdapter;
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 15/09/17.
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         if (id == R.id.menu_exit) {
