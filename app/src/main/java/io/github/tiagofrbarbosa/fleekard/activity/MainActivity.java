@@ -29,10 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private AppComponent component;
 
     ViewPagerAdapter viewPagerAdapter;
-    private int[] tabIcons = {R.drawable.ic_gps_fixed_white_24dp,
-                              R.drawable.ic_notifications_white_24dp,
-                              R.drawable.ic_question_answer_white_24dp,
-                              R.drawable.ic_favorite_white_24dp};
 
     @BindView(R.id.tabs) TabLayout tabLayout;
     @BindView(R.id.viewPager) ViewPager viewPager;
@@ -60,10 +56,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupTabIcons(){
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+
+            tabLayout.getTabAt(ViewPagerAdapter.TAB_USER)
+                    .setIcon(R.drawable.ic_gps_fixed_white_24dp)
+                    .setContentDescription(getResources().getString(R.string.content_desc_tab_user));
+
+            tabLayout.getTabAt(ViewPagerAdapter.TAB_NOTIFICATION)
+                    .setIcon(R.drawable.ic_notifications_white_24dp)
+                    .setContentDescription(getResources().getString(R.string.content_desc_tab_notification));
+
+            tabLayout.getTabAt(ViewPagerAdapter.TAB_CHAT)
+                    .setIcon(R.drawable.ic_question_answer_white_24dp)
+                    .setContentDescription(getResources().getString(R.string.content_desc_tab_chats));
+
+            tabLayout.getTabAt(ViewPagerAdapter.TAB_FAVORITE)
+                    .setIcon(R.drawable.ic_favorite_white_24dp)
+                    .setContentDescription(getResources().getString(R.string.content_desc_tab_favorite));
     }
 
     @Override

@@ -15,6 +15,12 @@ import io.github.tiagofrbarbosa.fleekard.fragment.FragmentFavorite;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
+    public static final int TAB_USER = 0;
+    public static final int TAB_NOTIFICATION = 1;
+    public static final int TAB_CHAT = 2;
+    public static final int TAB_FAVORITE = 3;
+    public static final int TABS = 4;
+
     public ViewPagerAdapter(FragmentManager fm){
         super(fm);
     }
@@ -23,16 +29,16 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = null;
 
-        if(position == 0){
+        if(position == TAB_USER){
             fragment = new FragmentUser();
 
-        }else if(position == 1){
+        }else if(position == TAB_NOTIFICATION){
             fragment = new FragmentNotification();
 
-        }else if(position == 2){
+        }else if(position == TAB_CHAT){
             fragment = new FragmentChat();
 
-        } else if(position == 3){
+        } else if(position == TAB_FAVORITE){
         fragment = new FragmentFavorite();
         }
         return fragment;
@@ -40,7 +46,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return TABS;
     }
 
     @Override

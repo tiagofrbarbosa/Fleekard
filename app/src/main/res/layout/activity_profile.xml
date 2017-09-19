@@ -9,6 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -28,8 +29,8 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/cardview_margin"
-            android:layout_marginRight="@dimen/cardview_margin"
+            android:layout_marginStart="@dimen/cardview_margin"
+            android:layout_marginEnd="@dimen/cardview_margin"
             android:layout_marginTop="@dimen/cardview_margin"
             android:layout_marginBottom="@dimen/cardview_margin"
             android:clickable="true"
@@ -57,6 +58,7 @@
 
                 <ImageView
                     android:id="@+id/profile_image"
+                    android:contentDescription="@string/content_desc_user_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
@@ -79,6 +81,7 @@
 
                 <ImageView
                     android:id="@+id/user_gender"
+                    android:contentDescription="@string/content_desc_user_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/user_status"
@@ -90,6 +93,7 @@
 
                 <ImageView
                     android:id="@+id/user_like"
+                    android:contentDescription="@string/content_desc_user_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -98,6 +102,7 @@
 
                 <ImageView
                     android:id="@+id/user_chat"
+                    android:contentDescription="@string/content_desc_content_desc_chat_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/user_like"

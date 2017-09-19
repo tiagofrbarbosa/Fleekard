@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/photoImageView"
+        android:contentDescription="@string/content_desc_photo_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true" />
