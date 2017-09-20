@@ -2,6 +2,8 @@ package io.github.tiagofrbarbosa.fleekard;
 
 import android.app.Application;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import io.github.tiagofrbarbosa.fleekard.component.DaggerAppComponent;
 import io.github.tiagofrbarbosa.fleekard.module.AppModule;

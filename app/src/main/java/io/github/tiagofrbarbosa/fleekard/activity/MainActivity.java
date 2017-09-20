@@ -10,6 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import javax.inject.Inject;
 
@@ -35,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tabs) TabLayout tabLayout;
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.adView) AdView mAdView;
+
+    FirebaseAnalytics mFirebaseAnalytics;
+    AdRequest adRequest;
 
     @Inject Glide glide;
 
@@ -44,11 +52,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        MobileAds.initialize(this, getResources().getString(R.string.app_ad_id));
+
+        adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("ABCDEF012345")
+                .build();
+
+        mAdView.loadAd(adRequest);
+
+        setSupportActionBar(toolbar);
+
         FleekardApplication app = (FleekardApplication) getApplication();
         component = app.getComponent();
         component.inject(this);
-
-        setSupportActionBar(toolbar);
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);

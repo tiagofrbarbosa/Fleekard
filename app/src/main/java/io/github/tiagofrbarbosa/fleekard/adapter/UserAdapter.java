@@ -59,8 +59,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
                 //.apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher))
                 .into(holder.imageView);
 
-        Timber.e(String.valueOf(user.img));
-
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

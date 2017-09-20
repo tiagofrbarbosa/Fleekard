@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "674841465815",
+    "firebase_url": "https://fleekard.firebaseio.com",
+    "project_id": "fleekard",
+    "storage_bucket": "fleekard.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674841465815:android:4a2d0e717247a53e",
+        "android_client_info": {
+          "package_name": "io.github.tiagofrbarbosa.fleekard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674841465815-187s7sbhhikkpfsfdn3ag4erddnneedv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.tiagofrbarbosa.fleekard",
+            "certificate_hash": "4b79981c62c3a1c69b45b5323c99b188d4115938"
+          }
+        },
+        {
+          "client_id": "674841465815-8m3hvnn52fsq3ccann3io85fg56t2b6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQviBZ8AgM74EgBYHvW3amDKb_MKEFUX4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674841465815-8m3hvnn52fsq3ccann3io85fg56t2b6l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

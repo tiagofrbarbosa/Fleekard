@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,6 +34,7 @@ public class FragmentUser extends Fragment{
 
     protected UserAdapter adapter;
     protected List<User> users;
+
 
     @Nullable
     @Override

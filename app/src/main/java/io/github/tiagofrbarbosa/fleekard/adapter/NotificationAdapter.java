@@ -55,7 +55,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification notification = notifications.get(position);
         glide.with(context).load(notification.img).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
         holder.notifications.setText(notification.notification);
-        Timber.e(String.valueOf(notification.img));
 
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
