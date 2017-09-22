@@ -56,7 +56,7 @@ public class FragmentChat extends Fragment {
             @Override
             public void onClickChat(ChatAdapter.ChatsViewHolder holder, int idx) {
                 Chat c = chats.get(idx);
-                Timber.i(String.valueOf(c.userName));
+                Timber.i(String.valueOf(c.getUser().getUserName()));
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 startActivity(intent);
             }

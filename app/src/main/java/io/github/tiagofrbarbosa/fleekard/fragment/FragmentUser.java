@@ -61,12 +61,11 @@ public class FragmentUser extends Fragment{
             @Override
             public void onClickUser(UserAdapter.UsersViewHolder holder, int idx) {
                 User u = users.get(idx);
-                Timber.e(String.valueOf(u.userName));
 
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString(ProfileActivity.PROFILE_IMAGE_PATH,u.img);
-                bundle.putString(ProfileActivity.USER_NAME,u.userName);
+                bundle.putString(ProfileActivity.PROFILE_IMAGE_PATH,u.getImg());
+                bundle.putString(ProfileActivity.USER_NAME,u.getUserName());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

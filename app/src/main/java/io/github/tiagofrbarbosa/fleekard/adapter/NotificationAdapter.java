@@ -53,8 +53,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(final NotificationsViewHolder holder, final int position) {
         Notification notification = notifications.get(position);
-        glide.with(context).load(notification.img).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
-        holder.notifications.setText(notification.notification);
+        glide.with(context).load(notification.getUser().getImg()).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
+
+        String descNotification = null;
+
+        if(notification.getNotification() == 1){
+            descNotification = context.getResources().getString(R.string.notification_desc_msg);
+        }else if(notification.getNotification() == 2){
+            descNotification = context.getResources().getString(R.string.notification_desc_like);
+        }else if(notification.getNotification() == 3){
+            descNotification = context.getResources().getString(R.string.notification_desc_visited);
+        }
+
+        holder.notifications.setText(notification.getUser().getUserName() + " " + descNotification);
 
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -11,6 +11,9 @@
     <string name="favorite_user_text">you liked this user on this day: </string>
     <string name="send_button_label">Send</string>
     <string name="settings_title">Settings</string>
+    <string name="notification_desc_msg">sent a message</string>
+    <string name="notification_desc_like">liked your profile</string>
+    <string name="notification_desc_visited">visited your profile</string>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>

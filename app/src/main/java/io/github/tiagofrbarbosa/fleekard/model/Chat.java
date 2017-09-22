@@ -9,18 +9,31 @@ import java.util.List;
 
 public class Chat {
 
-    public String img;
-    public String userName;
-    public String userStatus;
-    public int userPresence;
-    public int chatUnread;
+    private User user;
+    private int userPresence;
+    private int msgUnread;
 
-    public Chat(String img, String userName, String userStatus, int userPresence, int chatUnread){
-        this.img = img;
-        this.userName = userName;
-        this.userStatus = userStatus;
+    public static final int USER_PRESENCE_ONLINE = 1;
+    public static final int USER_PRESENCE_OFFLINE = 0;
+
+    public Chat(){}
+
+    public Chat(User user, int userPresence, int msgUnread){
+        this.user = user;
         this.userPresence = userPresence;
-        this.chatUnread = chatUnread;
+        this.msgUnread = msgUnread;
+    }
+
+    public User getUser(){
+        return this.user;
+    }
+
+    public int getUserPresence(){
+        return this.userPresence;
+    }
+
+    public int getMsgUnread(){
+        return this.msgUnread;
     }
 
     public static List<Chat> getChats(){
@@ -28,8 +41,11 @@ public class Chat {
         List<Chat> chats = new ArrayList<Chat>();
 
         for(int i=0;i<50;i++) {
-            chats.add(new Chat("https://api.adorable.io/avatars/285/" + i + ".png",
-                    "teste" + i, "status" + i, i, i));
+            User user = new User();
+            user.setImg("https://api.adorable.io/avatars/285/" + i + ".png");
+            user.setUserName("User " + i + " ");
+            user.setUserStatus("Status " + i + " ");
+            chats.add(new Chat(user, 1, i));
         }
 
         return chats;

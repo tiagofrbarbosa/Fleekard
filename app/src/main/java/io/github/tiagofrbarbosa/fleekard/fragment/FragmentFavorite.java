@@ -54,7 +54,6 @@ public class FragmentFavorite extends Fragment {
             @Override
             public void onClickFavorite(FavoriteAdapter.FavoritesViewHolder holder, int idx) {
                 Favorite f = favorites.get(idx);
-                Timber.i(String.valueOf(f.userName));
             }
         };
     }

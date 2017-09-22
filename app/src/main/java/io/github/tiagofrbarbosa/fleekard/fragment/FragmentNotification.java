@@ -54,7 +54,6 @@ public class FragmentNotification extends Fragment {
             @Override
             public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx) {
                 Notification n = notifications.get(idx);
-                Timber.i(String.valueOf(n.notification));
             }
         };
     }

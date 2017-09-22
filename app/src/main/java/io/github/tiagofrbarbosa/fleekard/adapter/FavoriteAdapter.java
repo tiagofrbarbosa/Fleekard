@@ -54,8 +54,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     @Override
     public void onBindViewHolder(final FavoritesViewHolder holder, final int position) {
         Favorite favorite = favorites.get(position);
-        glide.with(context).load(favorite.img).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
-        holder.userName.setText(favorite.userName);
+        glide.with(context).load(favorite.getUser().getImg()).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
+        holder.userName.setText(favorite.getUser().getUserName());
         holder.userFavoriteData.setText(favorite.userFavoriteDate);
 
         if (onClickListener != null) {

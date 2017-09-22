@@ -9,12 +9,26 @@ import java.util.List;
 
 public class Notification {
 
-    public String img;
-    public String notification;
+    private User user;
+    private int notification;
 
-    public Notification(String img, String notification){
-        this.img = img;
+    public static final int INTERACTION_CODE_MSG = 1;
+    public static final int INTERACTION_CODE_LIKE = 2;
+    public static final int INTERACTION_CODE_VISIT = 3;
+
+    public Notification(){}
+
+    public Notification(User user, int notification){
+        this.user = user;
         this.notification = notification;
+    }
+
+    public User getUser(){
+        return this.user;
+    }
+
+    public int getNotification(){
+        return this.notification;
     }
 
     public static List<Notification> getNotifications(){
@@ -22,7 +36,10 @@ public class Notification {
         List<Notification> notifications = new ArrayList<Notification>();
 
         for(int i=0;i<50;i++) {
-            notifications.add(new Notification("https://api.adorable.io/avatars/285/" + i + ".png", "teste" + i));
+            User user = new User();
+            user.setUserName("User " + i + " ");
+            user.setImg("https://api.adorable.io/avatars/285/" + i + ".png");
+            notifications.add(new Notification(user, 1));
         }
 
         return notifications;

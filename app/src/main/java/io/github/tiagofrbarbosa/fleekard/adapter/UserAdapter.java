@@ -52,10 +52,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
     @Override
     public void onBindViewHolder(final UsersViewHolder holder, final int position) {
         User user = users.get(position);
-        holder.userName.setText(user.userName);
+        holder.userName.setText(user.getUserName());
 
         glide.with(context)
-                .load(user.img)
+                .load(user.getImg())
                 //.apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher))
                 .into(holder.imageView);
 

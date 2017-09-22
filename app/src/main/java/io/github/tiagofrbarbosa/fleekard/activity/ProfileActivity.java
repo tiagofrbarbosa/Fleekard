@@ -45,10 +45,11 @@ public class ProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Bundle extras = getIntent().getExtras();
-
-        glide.with(this).load(extras.getString(PROFILE_IMAGE_PATH)).into(profileImage);
-        userName.setText(extras.getString(USER_NAME));
+        if(getIntent().getExtras() != null) {
+            Bundle extras = getIntent().getExtras();
+            glide.with(this).load(extras.getString(PROFILE_IMAGE_PATH)).into(profileImage);
+            userName.setText(extras.getString(USER_NAME));
+        }
     }
 
     @Override

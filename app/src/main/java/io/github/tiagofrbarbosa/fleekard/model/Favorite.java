@@ -14,14 +14,22 @@ import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 
 public class Favorite {
 
-    public String img;
-    public String userName;
+    private User user;
     public String userFavoriteDate;
 
-    public Favorite(String img, String userName, String userFavoriteDate){
-        this.img = img;
-        this.userName = userName;
+    public Favorite(){}
+
+    public Favorite(User user, String userFavoriteDate){
+        this.user = user;
         this.userFavoriteDate = userFavoriteDate;
+    }
+
+    public User getUser(){
+        return this.user;
+    }
+
+    public String getUserFavoriteDate(){
+        return this.userFavoriteDate;
     }
 
     public static List<Favorite> getFavorites(Context context){
@@ -29,8 +37,10 @@ public class Favorite {
         List<Favorite> favorites = new ArrayList<Favorite>();
 
         for(int i=0;i<50;i++) {
-            favorites.add(new Favorite("https://api.adorable.io/avatars/285/" + i + ".png", "teste" + i,
-                    context.getResources().getString(R.string.favorite_user_text) + i));
+            User user = new User();
+            user.setUserName("User " + i + " ");
+            user.setImg("https://api.adorable.io/avatars/285/" + i + ".png");
+            favorites.add(new Favorite(user, context.getResources().getString(R.string.favorite_user_text) + i));
         }
 
         return favorites;
