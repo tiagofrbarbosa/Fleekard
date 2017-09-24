@@ -46,6 +46,8 @@ dependencies {
     compile "com.android.support:preference-v7:${supportLibraryVersion}"
     compile "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}"
     compile "com.android.support:customtabs:${supportLibraryVersion}"
+    compile "com.android.support:support-v4:${supportLibraryVersion}"
+
 
     //ButterKnife
     compile "com.jakewharton:butterknife:${butterKnifeVersion}"
@@ -76,7 +78,13 @@ dependencies {
     //Firebase Auth
     compile "com.google.firebase:firebase-auth:${fireBaseToolsReleaseVersion}"
 
-    //FirebaseUI
+    //FirebaseUI Auth
     compile "com.firebaseui:firebase-ui-auth:${fireBaseUiReleaseVersion}"
+
+    //Firebase Database
+    compile "com.google.firebase:firebase-database:${fireBaseToolsReleaseVersion}"
+
+    //FirebaseUI Database
+    compile "com.firebaseui:firebase-ui-database:${fireBaseUiReleaseVersion}"
 }
 apply plugin: 'com.google.gms.google-services'
