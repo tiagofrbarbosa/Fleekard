@@ -10,9 +10,11 @@ import io.github.tiagofrbarbosa.fleekard.R;
  */
 
 public class User {
+    private String userId;
     private String userName;
     private String userStatus;
     private String img;
+    private String email;
     private int gender;
     private int age;
     private Location location;
@@ -28,12 +30,22 @@ public class User {
         this.img = img;
     }
 
-    public User(String userName, String userStatus, String img, int gender, int age){
+    public User(String userId, String userName, String userStatus, String img, String email, int gender, int age){
+        this.userId = userId;
         this.userName = userName;
         this.userStatus = userStatus;
         this.img = img;
+        this.email = email;
         this.gender = gender;
         this.age = age;
+    }
+
+    public void setUserId(String userId){
+        this.userId = userId;
+    }
+
+    public String getUserId(){
+        return this.userId;
     }
 
     public void setUserName(String userName){
@@ -60,6 +72,14 @@ public class User {
         return this.img;
     }
 
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public String getEmail(){
+        return this.email;
+    }
+
     public void setGender(int gender){
         this.gender = gender;
     }
@@ -78,6 +98,10 @@ public class User {
 
     public void setLocation(Location location){
         this.location = location;
+    }
+
+    public Location getLocation(){
+        return this.location;
     }
 
     public static List<User> getUsers(){

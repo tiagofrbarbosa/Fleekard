@@ -22,6 +22,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
@@ -43,17 +45,10 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppComponent component;
-
-    ViewPagerAdapter viewPagerAdapter;
-
     @BindView(R.id.tabs) TabLayout tabLayout;
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.adView) AdView mAdView;
-
-    FirebaseAnalytics mFirebaseAnalytics;
-    AdRequest adRequest;
 
     @Inject Glide glide;
 
@@ -63,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         MobileAds.initialize(this, getResources().getString(R.string.app_ad_id));
 
-        adRequest = new AdRequest.Builder()
+        AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("ABCDEF012345")
                 .build();
@@ -77,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FleekardApplication app = (FleekardApplication) getApplication();
-        component = app.getComponent();
+        AppComponent component = app.getComponent();
         component.inject(this);
 
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
