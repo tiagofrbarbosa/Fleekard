@@ -27,10 +27,10 @@ ext {
     glideVersion = '4.1.1'
     testLibraryVersion = '4.12'
     constraintLayoutVersion = '1.0.2'
-    fireBaseToolsReleaseVersion = '11.4.0'
-    fireBaseToolsDebugVersion = '9.8.0'
+    fireBaseToolsReleaseVersion = '11.0.4'
+    fireBaseToolsDebugVersion = '9.6.0'
     fireBaseUiReleaseVersion = '2.3.0'
-    fireBaseUiDebugVersion = '1.0.0'
+    fireBaseUiDebugVersion = '0.6.0'
 }
 
 dependencies {
@@ -72,6 +72,9 @@ dependencies {
 
     //Admob
     compile "com.google.firebase:firebase-ads:${fireBaseToolsReleaseVersion}"
+
+    //Firebase Auth
+    compile "com.google.firebase:firebase-auth:${fireBaseToolsReleaseVersion}"
 
     //FirebaseUI
     compile "com.firebaseui:firebase-ui-auth:${fireBaseUiReleaseVersion}"
