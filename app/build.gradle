@@ -28,7 +28,9 @@ ext {
     testLibraryVersion = '4.12'
     constraintLayoutVersion = '1.0.2'
     fireBaseToolsReleaseVersion = '11.4.0'
-    fireBaseToolsDebugVersion = '9.6.0'
+    fireBaseToolsDebugVersion = '9.8.0'
+    fireBaseUiReleaseVersion = '2.3.0'
+    fireBaseUiDebugVersion = '1.0.0'
 }
 
 dependencies {
@@ -43,6 +45,7 @@ dependencies {
     compile "com.android.support:cardview-v7:${supportLibraryVersion}"
     compile "com.android.support:preference-v7:${supportLibraryVersion}"
     compile "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}"
+    compile "com.android.support:customtabs:${supportLibraryVersion}"
 
     //ButterKnife
     compile "com.jakewharton:butterknife:${butterKnifeVersion}"
@@ -65,9 +68,12 @@ dependencies {
     // *** Firebase Tools ***
 
     //Analytics
-    compile "com.google.firebase:firebase-core:${fireBaseToolsDebugVersion}"
+    compile "com.google.firebase:firebase-core:${fireBaseToolsReleaseVersion}"
 
     //Admob
-    compile "com.google.firebase:firebase-ads:${fireBaseToolsDebugVersion}"
+    compile "com.google.firebase:firebase-ads:${fireBaseToolsReleaseVersion}"
+
+    //FirebaseUI
+    compile "com.firebaseui:firebase-ui-auth:${fireBaseUiReleaseVersion}"
 }
 apply plugin: 'com.google.gms.google-services'
