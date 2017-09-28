@@ -16,6 +16,13 @@
     <string name="notification_desc_msg">sent a message</string>
     <string name="notification_desc_like">liked your profile</string>
     <string name="notification_desc_visited">visited your profile</string>
+    <string name="default_status">Hey there! I am using Fleekard.</string>
+    <string name="hint_user_age">Your age</string>
+
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>

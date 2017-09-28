@@ -72,33 +72,54 @@ public class SignIn extends AppCompatActivity {
 
     private void onSignedInInitialize(final FirebaseUser mFirebaseUser){
 
-        final DatabaseReference mUserReference =  mFirebaseDatabase.getReference().child(Database.users.CHILD_USERS);
-        Query query = mUserReference.orderByChild(Database.users.CHILD_USERS).equalTo(mFirebaseUser.getUid());
+        Timber.tag("myLogin");
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        final DatabaseReference mUserReference = mFirebaseDatabase.getReference()
+                .child(Database.users.CHILD_USERS);
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        mUserReference
+                .orderByChild(Database.users.USER_EMAIL)
+                .equalTo(mFirebaseUser.getEmail())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
 
-                    if(dataSnapshot.getValue() == null){
-                        User mUser = new User(mFirebaseUser.getUid()
-                                , mFirebaseUser.getDisplayName()
-                                , "Meu Status"
-                                , "https://s.gravatar.com/avatar/f64ca6225eae950830fe3eab2145735b?s=150"
-                                , mFirebaseUser.getEmail()
-                                , 0
-                                , 27);
-                        mUserReference.child(mFirebaseUser.getUid()).setValue(mUser);
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue() == null){
+
+                            Timber.i("User not exists: " + mFirebaseUser.getEmail());
+
+                            User mUser = new User(mFirebaseUser.getUid()
+                                    , mFirebaseUser.getDisplayName()
+                                    , getResources().getString(R.string.default_status)
+                                    , mFirebaseUser.getEmail());
+
+                            mUserReference
+                                    .child(mFirebaseUser.getUid()).setValue(mUser);
+
+                            Intent intent = new Intent(SignIn.this, ProfileEditActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ProfileEditActivity.USER_ID, mUser.getUserId());
+                            bundle.putString(ProfileEditActivity.USER_NAME, mUser.getUserName());
+                            bundle.putString(ProfileEditActivity.USER_STATUS, mUser.getUserStatus());
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+
+                        }else {
+
+                            for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
+                                User user = userSnap.getValue(User.class);
+                                Timber.i("User exists: " + user.getEmail());
+                                startActivity(new Intent(SignIn.this, MainActivity.class));
+                            }
+
+                        }
                     }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        startActivity(new Intent(this, MainActivity.class));
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Timber.i("error: " + databaseError.getMessage());
+                    }
+                });
     }
 
     private void onSignedOutCleanUp(){

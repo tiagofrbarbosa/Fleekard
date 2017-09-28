@@ -11,5 +11,6 @@ public final class Database {
         public static final String CHILD_USERS = "users";
 
         public static final String USER_ID = "userId";
+        public static final String USER_EMAIL = "email";
     }
 }

@@ -30,6 +30,13 @@ public class User {
         this.img = img;
     }
 
+    public User(String userId, String userName, String userStatus, String email){
+        this.userId = userId;
+        this.userName = userName;
+        this.userStatus = userStatus;
+        this.email = email;
+    }
+
     public User(String userId, String userName, String userStatus, String img, String email, int gender, int age){
         this.userId = userId;
         this.userName = userName;
