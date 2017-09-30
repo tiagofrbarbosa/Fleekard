@@ -113,5 +113,6 @@ public class ProfileEditActivity extends AppCompatActivity{
             mUserReference.child(Database.users.USER_AGE).setValue(user.getAge());
         }
 
+        finish();
     }
 }

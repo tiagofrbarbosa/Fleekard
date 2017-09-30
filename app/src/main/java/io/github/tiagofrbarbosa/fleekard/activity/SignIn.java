@@ -30,9 +30,9 @@ public class SignIn extends AppCompatActivity {
 
     public static final int RC_SIGN_IN = 1;
 
-    private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FleekardApplication app;
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -41,7 +41,7 @@ public class SignIn extends AppCompatActivity {
 
         app = (FleekardApplication) getApplication();
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseAuth = app.getmFirebaseAuth();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener(){
 

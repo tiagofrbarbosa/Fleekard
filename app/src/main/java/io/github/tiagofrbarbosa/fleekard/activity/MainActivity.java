@@ -22,8 +22,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
@@ -37,6 +40,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.ViewPagerAdapter;
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
+import io.github.tiagofrbarbosa.fleekard.database.Database;
 import timber.log.Timber;
 
 /**
@@ -52,13 +56,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject Glide glide;
 
+    private FleekardApplication app;
+    private FirebaseUser mFirebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        app = (FleekardApplication) getApplication();
+        AppComponent component = app.getComponent();
+        component.inject(this);
+
+        FirebaseAnalytics mFirebaseAnalytics = app.getmFirebaseAnalytics();
+        mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
 
         MobileAds.initialize(this, getResources().getString(R.string.app_ad_id));
 
@@ -70,10 +82,6 @@ public class MainActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
         setSupportActionBar(toolbar);
-
-        FleekardApplication app = (FleekardApplication) getApplication();
-        AppComponent component = app.getComponent();
-        component.inject(this);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
@@ -113,7 +121,27 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.profile_settings) {
-            startActivity(new Intent(this, ProfileActivity.class));
+
+            DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
+                    .child(Database.users.CHILD_USERS);
+
+            mUserReference
+                    .orderByChild(Database.users.USER_EMAIL)
+                    .equalTo(mFirebaseUser.getEmail())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+
+                              @Override
+                              public void onDataChange(DataSnapshot dataSnapshot) {
+
+                              }
+
+                              @Override
+                              public void onCancelled(DatabaseError databaseError) {
+
+                              }
+                          });
+
+            startActivity(new Intent(this, ProfileEditActivity.class));
         }
 
         if (id == R.id.action_settings) {
