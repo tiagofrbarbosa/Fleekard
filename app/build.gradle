@@ -86,5 +86,8 @@ dependencies {
 
     //FirebaseUI Database
     compile "com.firebaseui:firebase-ui-database:${fireBaseUiReleaseVersion}"
+
+    //Firebase Storage
+    compile"com.google.firebase:firebase-storage:${fireBaseToolsReleaseVersion}"
 }
 apply plugin: 'com.google.gms.google-services'

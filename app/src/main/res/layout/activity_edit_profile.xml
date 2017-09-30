@@ -49,9 +49,17 @@
                     android:contentDescription="@string/content_desc_user_profile"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/profile_avatar_height"
-                    android:scaleType="centerCrop"
+                    android:scaleType="centerInside"
                     android:layout_alignParentStart="true"
                     android:src="@drawable/user_avatar"/>
+
+                <ImageView
+                    android:id="@+id/profile_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@id/profile_image"
+                    android:src="@drawable/ic_create_black_24dp"/>
 
                 <LinearLayout
                     android:layout_below="@id/profile_image"

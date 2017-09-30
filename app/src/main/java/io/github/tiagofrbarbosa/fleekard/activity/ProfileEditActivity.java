@@ -1,5 +1,7 @@
 package io.github.tiagofrbarbosa.fleekard.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +16,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import javax.inject.Inject;
 
@@ -23,7 +30,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.database.Database;
+import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 
 /**
@@ -34,6 +42,7 @@ public class ProfileEditActivity extends AppCompatActivity{
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.profile_image) ImageView profileImage;
+    @BindView(R.id.profile_edit) ImageView profileEdit;
     @BindView(R.id.user_name) EditText userName;
     @BindView(R.id.user_status) EditText userStatus;
     @BindView(R.id.user_gender) Spinner spinner;
@@ -44,7 +53,10 @@ public class ProfileEditActivity extends AppCompatActivity{
     Glide glide;
 
     private FleekardApplication app;
+    private FirebaseStorage mFirebaseStorage;
     private Bundle extras;
+
+    private static final int RC_PHOTO_PICKER = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -71,6 +83,19 @@ public class ProfileEditActivity extends AppCompatActivity{
             userName.setText(extras.getString(Database.users.USER_NAME));
             userStatus.setText(extras.getString(Database.users.USER_STATUS));
 
+            if(!extras.getString(Database.users.USER_IMAGE).equals("NoImage")){
+
+                glide.with(this)
+                        .load(extras.getString(Database.users.USER_IMAGE))
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(profileImage);
+            }else{
+
+                glide.with(this)
+                        .load(R.drawable.user_avatar)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(profileImage);
+            }
 
             if(extras.getString(Database.users.USER_GENDER) != null) {
                 if (Integer.valueOf(extras.getString(Database.users.USER_GENDER)) == 0) {
@@ -138,7 +163,54 @@ public class ProfileEditActivity extends AppCompatActivity{
                 mUserReference.child(Database.users.USER_STATUS).setValue(user.getUserStatus());
                 mUserReference.child(Database.users.USER_GENDER).setValue(user.getGender());
                 mUserReference.child(Database.users.USER_AGE).setValue(user.getAge());
+
+                Toast.makeText(this, getResources().getString(R.string.toast_user_data_update), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    @OnClick(R.id.profile_edit)
+    public void onClickEdit(){
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/jpeg");
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        startActivityForResult(Intent.createChooser(intent,"Complete action using"), RC_PHOTO_PICKER);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mFirebaseStorage = app.getmFirebaseStorage();
+
+        if(requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK){
+            Uri selectedImageUri = data.getData();
+
+            StorageReference profileImageRef = mFirebaseStorage.getReference()
+                    .child(Storage.users.USER_PROFILE_IMAGE)
+                    .child(selectedImageUri.getLastPathSegment());
+
+            final DatabaseReference mUserReference = app.getmFirebaseDatabase()
+                    .getReference()
+                    .child(Database.users.CHILD_USERS)
+                    .child(extras.getString(Database.users.USER_ID));
+
+            profileImageRef.putFile(selectedImageUri)
+                    .addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            User user = new User();
+                            user.setImg(downloadUrl.toString());
+                            mUserReference.child(Database.users.USER_IMAGE).setValue(user.getImg());
+
+                            glide.with(ProfileEditActivity.this)
+                                    .load(user.getImg())
+                                    .apply(RequestOptions.circleCropTransform())
+                                    .into(profileImage);
+                        }
+                    });
         }
     }
 }

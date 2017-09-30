@@ -1,4 +1,4 @@
-package io.github.tiagofrbarbosa.fleekard.database;
+package io.github.tiagofrbarbosa.fleekard.firebaseConstants;
 
 /**
  * Created by tfbarbosa on 24/09/17.

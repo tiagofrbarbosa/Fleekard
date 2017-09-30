@@ -18,7 +18,7 @@ import java.util.Arrays;
 import io.github.tiagofrbarbosa.fleekard.BuildConfig;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.database.Database;
+import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
@@ -89,7 +89,7 @@ public class SignIn extends AppCompatActivity {
                             User mUser = new User(mFirebaseUser.getUid()
                                     , mFirebaseUser.getDisplayName()
                                     , getResources().getString(R.string.default_status)
-                                    , "No image"
+                                    , "NoImage"
                                     , mFirebaseUser.getEmail()
                                     , 0
                                     , 0);
@@ -102,6 +102,7 @@ public class SignIn extends AppCompatActivity {
                             bundle.putString(Database.users.USER_ID, mUser.getUserId());
                             bundle.putString(Database.users.USER_NAME, mUser.getUserName());
                             bundle.putString(Database.users.USER_STATUS, mUser.getUserStatus());
+                            bundle.putString(Database.users.USER_IMAGE, mUser.getImg());
                             bundle.putString(Database.users.USER_GENDER, String.valueOf(mUser.getGender()));
                             intent.putExtras(bundle);
                             startActivity(intent);

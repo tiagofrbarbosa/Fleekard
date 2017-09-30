@@ -7,6 +7,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import io.github.tiagofrbarbosa.fleekard.component.DaggerAppComponent;
@@ -20,6 +21,7 @@ import timber.log.Timber;
 public class FleekardApplication extends Application {
     private AppComponent component;
     private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseStorage mFirebaseStorage;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -28,8 +30,10 @@ public class FleekardApplication extends Application {
         super.onCreate();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseStorage = FirebaseStorage.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
         if(BuildConfig.DEBUG){
             Timber.plant(new Timber.DebugTree());
@@ -54,5 +58,9 @@ public class FleekardApplication extends Application {
 
     public FirebaseAnalytics getmFirebaseAnalytics(){
         return mFirebaseAnalytics;
+    }
+
+    public FirebaseStorage getmFirebaseStorage(){
+        return mFirebaseStorage;
     }
 }
