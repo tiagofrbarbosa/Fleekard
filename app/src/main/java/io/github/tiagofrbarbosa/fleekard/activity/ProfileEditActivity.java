@@ -7,22 +7,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DatabaseReference;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.database.Database;
+import io.github.tiagofrbarbosa.fleekard.model.User;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -35,14 +36,14 @@ public class ProfileEditActivity extends AppCompatActivity{
     @BindView(R.id.user_name) EditText userName;
     @BindView(R.id.user_status) EditText userStatus;
     @BindView(R.id.user_gender) Spinner spinner;
+    @BindView(R.id.user_age) EditText userAge;
     @BindView(R.id.fab_save) FloatingActionButton floatingActionButton;
 
     @Inject
     Glide glide;
 
-    public static final String USER_ID = "userId";
-    public static final String USER_NAME = "userName";
-    public static final String USER_STATUS = "userStatus";
+    private FleekardApplication app;
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -52,6 +53,8 @@ public class ProfileEditActivity extends AppCompatActivity{
 
         setSupportActionBar(toolbar);
 
+        app = (FleekardApplication) getApplication();
+
         ArrayAdapter<CharSequence> adapter =
                 ArrayAdapter.createFromResource(this, R.array.gender_array,
                         android.R.layout.simple_spinner_item);
@@ -60,10 +63,13 @@ public class ProfileEditActivity extends AppCompatActivity{
 
         spinner.setAdapter(adapter);
 
+        floatingActionButton.setVisibility(View.GONE);
+
         if(getIntent().getExtras() != null) {
-            Bundle extras = getIntent().getExtras();
-            userName.setText(extras.getString(USER_NAME));
-            userStatus.setText(extras.getString(USER_STATUS));
+            extras = getIntent().getExtras();
+            userName.setText(extras.getString(Database.users.USER_NAME));
+            userStatus.setText(extras.getString(Database.users.USER_STATUS));
+            floatingActionButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -87,6 +93,25 @@ public class ProfileEditActivity extends AppCompatActivity{
 
     @OnClick(R.id.fab_save)
     public void onClick(){
-        Toast.makeText(this, spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+
+        if(extras != null) {
+            DatabaseReference mUserReference = app.getmFirebaseDatabase()
+                    .getReference()
+                    .child(Database.users.CHILD_USERS)
+                    .child(extras.getString(Database.users.USER_ID));
+
+
+            int gender = spinner.getSelectedItem().toString().equals("Male") ? User.GENDER_VALUE_MALE : User.GENDER_VALUE_FEMALE;
+            int userAgeInt = Integer.valueOf(userAge.getText().toString());
+
+            User user = new User(userName.getText().toString(), userStatus.getText().toString(),
+                    gender, userAgeInt);
+
+            mUserReference.child(Database.users.USER_NAME).setValue(user.getUserName());
+            mUserReference.child(Database.users.USER_STATUS).setValue(user.getUserStatus());
+            mUserReference.child(Database.users.USER_GENDER).setValue(user.getGender());
+            mUserReference.child(Database.users.USER_AGE).setValue(user.getAge());
+        }
+
     }
 }

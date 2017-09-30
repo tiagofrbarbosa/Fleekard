@@ -1,7 +1,10 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import io.github.tiagofrbarbosa.fleekard.R;
 
@@ -35,6 +38,13 @@ public class User {
         this.userName = userName;
         this.userStatus = userStatus;
         this.email = email;
+    }
+
+    public User(String userName, String userStatus, int gender, int age){
+        this.userName = userName;
+        this.userStatus = userStatus;
+        this.gender = gender;
+        this.age = age;
     }
 
     public User(String userId, String userName, String userStatus, String img, String email, int gender, int age){

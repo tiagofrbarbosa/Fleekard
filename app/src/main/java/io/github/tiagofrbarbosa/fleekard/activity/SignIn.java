@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,13 +11,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
 import io.github.tiagofrbarbosa.fleekard.BuildConfig;
+import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.database.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
@@ -35,15 +32,16 @@ public class SignIn extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private FirebaseDatabase mFirebaseDatabase;
+    private FleekardApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sigin);
 
+        app = (FleekardApplication) getApplication();
+
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener(){
 
@@ -74,7 +72,7 @@ public class SignIn extends AppCompatActivity {
 
         Timber.tag("myLogin");
 
-        final DatabaseReference mUserReference = mFirebaseDatabase.getReference()
+        final DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);
 
         mUserReference
@@ -98,9 +96,9 @@ public class SignIn extends AppCompatActivity {
 
                             Intent intent = new Intent(SignIn.this, ProfileEditActivity.class);
                             Bundle bundle = new Bundle();
-                            bundle.putString(ProfileEditActivity.USER_ID, mUser.getUserId());
-                            bundle.putString(ProfileEditActivity.USER_NAME, mUser.getUserName());
-                            bundle.putString(ProfileEditActivity.USER_STATUS, mUser.getUserStatus());
+                            bundle.putString(Database.users.USER_ID, mUser.getUserId());
+                            bundle.putString(Database.users.USER_NAME, mUser.getUserName());
+                            bundle.putString(Database.users.USER_STATUS, mUser.getUserStatus());
                             intent.putExtras(bundle);
                             startActivity(intent);
 

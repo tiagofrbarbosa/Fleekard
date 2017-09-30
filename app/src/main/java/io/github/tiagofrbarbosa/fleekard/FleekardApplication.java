@@ -3,6 +3,7 @@ package io.github.tiagofrbarbosa.fleekard;
 import android.app.Application;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.FirebaseDatabase;
 
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import io.github.tiagofrbarbosa.fleekard.component.DaggerAppComponent;
@@ -15,10 +16,13 @@ import timber.log.Timber;
 
 public class FleekardApplication extends Application {
     private AppComponent component;
+    private FirebaseDatabase mFirebaseDatabase;
 
     @Override
     public void onCreate(){
         super.onCreate();
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
 
         if(BuildConfig.DEBUG){
             Timber.plant(new Timber.DebugTree());
@@ -31,5 +35,9 @@ public class FleekardApplication extends Application {
 
     public AppComponent getComponent(){
         return component;
+    }
+
+    public FirebaseDatabase getmFirebaseDatabase(){
+        return mFirebaseDatabase;
     }
 }
