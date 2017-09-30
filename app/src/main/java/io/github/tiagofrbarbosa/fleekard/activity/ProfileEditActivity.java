@@ -83,7 +83,7 @@ public class ProfileEditActivity extends AppCompatActivity{
             userName.setText(extras.getString(Database.users.USER_NAME));
             userStatus.setText(extras.getString(Database.users.USER_STATUS));
 
-            if(!extras.getString(Database.users.USER_IMAGE).equals("NoImage")){
+            if(!extras.getString(Database.users.USER_IMAGE).equals(Database.users.USER_IAMGE_AVATAR)){
 
                 glide.with(this)
                         .load(extras.getString(Database.users.USER_IMAGE))
@@ -188,8 +188,9 @@ public class ProfileEditActivity extends AppCompatActivity{
             Uri selectedImageUri = data.getData();
 
             StorageReference profileImageRef = mFirebaseStorage.getReference()
-                    .child(Storage.users.USER_PROFILE_IMAGE)
-                    .child(selectedImageUri.getLastPathSegment());
+                    .child(Storage.users.USER_PROFILE_IMAGE_PATH)
+                    .child(extras.getString(Database.users.USER_ID))
+                    .child(Storage.users.USER_PROFILE_IMAGE);
 
             final DatabaseReference mUserReference = app.getmFirebaseDatabase()
                     .getReference()

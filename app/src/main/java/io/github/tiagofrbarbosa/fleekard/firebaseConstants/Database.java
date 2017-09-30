@@ -17,5 +17,6 @@ public final class Database {
         public static final String USER_EMAIL = "email";
         public static final String USER_GENDER = "gender";
         public static final String USER_AGE = "age";
+        public static final String USER_IAMGE_AVATAR = "NoImage";
     }
 }

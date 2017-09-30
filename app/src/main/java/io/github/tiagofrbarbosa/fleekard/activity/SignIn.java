@@ -89,7 +89,7 @@ public class SignIn extends AppCompatActivity {
                             User mUser = new User(mFirebaseUser.getUid()
                                     , mFirebaseUser.getDisplayName()
                                     , getResources().getString(R.string.default_status)
-                                    , "NoImage"
+                                    , Database.users.USER_IAMGE_AVATAR
                                     , mFirebaseUser.getEmail()
                                     , 0
                                     , 0);

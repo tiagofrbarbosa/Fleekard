@@ -8,6 +8,8 @@ public class Storage {
 
     public static final class users{
 
-        public static final String USER_PROFILE_IMAGE = "profile_images";
+        public static final String USER_PROFILE_IMAGE_PATH = "profile_images";
+
+        public static final String USER_PROFILE_IMAGE = "user_profile_image";
     }
 }
