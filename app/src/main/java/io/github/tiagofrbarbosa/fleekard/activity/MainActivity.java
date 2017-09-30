@@ -2,6 +2,7 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -41,6 +42,7 @@ import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.ViewPagerAdapter;
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import io.github.tiagofrbarbosa.fleekard.database.Database;
+import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
 /**
@@ -132,7 +134,21 @@ public class MainActivity extends AppCompatActivity {
 
                               @Override
                               public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot userSnap : dataSnapshot.getChildren()){
+                                        User user = userSnap.getValue(User.class);
 
+                                        Intent intent = new Intent(MainActivity.this, ProfileEditActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString(Database.users.USER_ID, user.getUserId());
+                                        bundle.putString(Database.users.USER_NAME, user.getUserName());
+                                        bundle.putString(Database.users.USER_STATUS, user.getUserStatus());
+                                        bundle.putString(Database.users.USER_IMAGE, user.getImg());
+                                        bundle.putString(Database.users.USER_EMAIL, user.getEmail());
+                                        bundle.putString(Database.users.USER_GENDER, String.valueOf(user.getGender()));
+                                        bundle.putString(Database.users.USER_AGE, String.valueOf(user.getAge()));
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                    }
                               }
 
                               @Override
@@ -140,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
 
                               }
                           });
-
-            startActivity(new Intent(this, ProfileEditActivity.class));
         }
 
         if (id == R.id.action_settings) {

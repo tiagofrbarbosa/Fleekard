@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
@@ -69,6 +70,19 @@ public class ProfileEditActivity extends AppCompatActivity{
             extras = getIntent().getExtras();
             userName.setText(extras.getString(Database.users.USER_NAME));
             userStatus.setText(extras.getString(Database.users.USER_STATUS));
+
+
+            if(extras.getString(Database.users.USER_GENDER) != null) {
+                if (Integer.valueOf(extras.getString(Database.users.USER_GENDER)) == 0) {
+                    spinner.setSelection(adapter.getPosition("Male"));
+                } else {
+                    spinner.setSelection(adapter.getPosition("Female"));
+                }
+            }
+
+            if(extras.getString(Database.users.USER_AGE) != null)
+                userAge.setText(extras.getString(Database.users.USER_AGE));
+
             floatingActionButton.setVisibility(View.VISIBLE);
         }
     }
@@ -94,25 +108,37 @@ public class ProfileEditActivity extends AppCompatActivity{
     @OnClick(R.id.fab_save)
     public void onClick(){
 
-        if(extras != null) {
-            DatabaseReference mUserReference = app.getmFirebaseDatabase()
-                    .getReference()
-                    .child(Database.users.CHILD_USERS)
-                    .child(extras.getString(Database.users.USER_ID));
-
-
-            int gender = spinner.getSelectedItem().toString().equals("Male") ? User.GENDER_VALUE_MALE : User.GENDER_VALUE_FEMALE;
-            int userAgeInt = Integer.valueOf(userAge.getText().toString());
-
-            User user = new User(userName.getText().toString(), userStatus.getText().toString(),
-                    gender, userAgeInt);
-
-            mUserReference.child(Database.users.USER_NAME).setValue(user.getUserName());
-            mUserReference.child(Database.users.USER_STATUS).setValue(user.getUserStatus());
-            mUserReference.child(Database.users.USER_GENDER).setValue(user.getGender());
-            mUserReference.child(Database.users.USER_AGE).setValue(user.getAge());
+        if(userName.getText().toString().matches("")){
+            userName.requestFocus();
+            Toast.makeText(this, getResources().getString(R.string.toast_edittext_username), Toast.LENGTH_SHORT).show();
         }
+        else if(userStatus.getText().toString().matches("")){
+            userStatus.requestFocus();
+            Toast.makeText(this, getResources().getString(R.string.toast_edittext_userstatus), Toast.LENGTH_SHORT).show();
+        }
+        else if(userAge.getText().toString().matches("")){
+            userAge.requestFocus();
+            Toast.makeText(this, getResources().getString(R.string.toast_edittext_userage), Toast.LENGTH_SHORT).show();
+        }else {
 
-        finish();
+            if (extras.getString(Database.users.USER_ID) != null) {
+                DatabaseReference mUserReference = app.getmFirebaseDatabase()
+                        .getReference()
+                        .child(Database.users.CHILD_USERS)
+                        .child(extras.getString(Database.users.USER_ID));
+
+
+                int gender = spinner.getSelectedItem().toString().equals("Male") ? User.GENDER_VALUE_MALE : User.GENDER_VALUE_FEMALE;
+                int userAgeInt = Integer.valueOf(userAge.getText().toString());
+
+                User user = new User(userName.getText().toString(), userStatus.getText().toString(),
+                        gender, userAgeInt);
+
+                mUserReference.child(Database.users.USER_NAME).setValue(user.getUserName());
+                mUserReference.child(Database.users.USER_STATUS).setValue(user.getUserStatus());
+                mUserReference.child(Database.users.USER_GENDER).setValue(user.getGender());
+                mUserReference.child(Database.users.USER_AGE).setValue(user.getAge());
+            }
+        }
     }
 }

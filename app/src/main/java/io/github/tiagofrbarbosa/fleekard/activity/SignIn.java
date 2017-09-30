@@ -89,7 +89,10 @@ public class SignIn extends AppCompatActivity {
                             User mUser = new User(mFirebaseUser.getUid()
                                     , mFirebaseUser.getDisplayName()
                                     , getResources().getString(R.string.default_status)
-                                    , mFirebaseUser.getEmail());
+                                    , "No image"
+                                    , mFirebaseUser.getEmail()
+                                    , 0
+                                    , 0);
 
                             mUserReference
                                     .child(mFirebaseUser.getUid()).setValue(mUser);
@@ -99,6 +102,7 @@ public class SignIn extends AppCompatActivity {
                             bundle.putString(Database.users.USER_ID, mUser.getUserId());
                             bundle.putString(Database.users.USER_NAME, mUser.getUserName());
                             bundle.putString(Database.users.USER_STATUS, mUser.getUserStatus());
+                            bundle.putString(Database.users.USER_GENDER, String.valueOf(mUser.getGender()));
                             intent.putExtras(bundle);
                             startActivity(intent);
 
