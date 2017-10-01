@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,6 +46,7 @@ public class FragmentUser extends Fragment{
     protected List<User> users;
     private DatabaseReference mFirebaseReference;
     private FleekardApplication app;
+    private FirebaseUser mFirebaseUser;
 
 
     @Nullable
@@ -60,6 +62,7 @@ public class FragmentUser extends Fragment{
         ButterKnife.bind(this, view);
 
         app = (FleekardApplication) getActivity().getApplication();
+        mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
 
         users = User.getUsers();
 
@@ -72,7 +75,7 @@ public class FragmentUser extends Fragment{
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot userSnap : dataSnapshot.getChildren()) {
                             User user = userSnap.getValue(User.class);
-                            users.add(user);
+                            if(!mFirebaseUser.getUid().equals(user.getUserId())) users.add(user);
                         }
                         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                         recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser()));
