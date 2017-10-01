@@ -84,9 +84,6 @@ dependencies {
     //Firebase Database
     compile "com.google.firebase:firebase-database:${fireBaseToolsReleaseVersion}"
 
-    //FirebaseUI Database
-    compile "com.firebaseui:firebase-ui-database:${fireBaseUiReleaseVersion}"
-
     //Firebase Storage
     compile"com.google.firebase:firebase-storage:${fireBaseToolsReleaseVersion}"
 }
