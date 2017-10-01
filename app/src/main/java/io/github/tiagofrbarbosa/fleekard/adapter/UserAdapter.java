@@ -59,6 +59,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
                 //.apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher))
                 .into(holder.imageView);
 
+        holder.userAge.setText(String.valueOf(user.getAge()));
+
+        if(user.getGender() == 0){
+            holder.userGender.setImageResource(R.drawable.ic_male);
+        }else{
+            holder.userGender.setImageResource(R.drawable.ic_female);
+        }
+
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,6 +85,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
     public static class UsersViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.user_name) TextView userName;
         @BindView(R.id.user_image) ImageView imageView;
+        @BindView(R.id.user_age) TextView userAge;
+        @BindView(R.id.user_gender) ImageView userGender;
         private View view;
 
         public UsersViewHolder(View view) {

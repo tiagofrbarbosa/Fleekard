@@ -13,4 +13,5 @@
     <dimen name="gender_icon">20dp</dimen>
     <dimen name="notification_margin">2dp</dimen>
     <dimen name="profile_avatar_height">300dp</dimen>
+    <dimen name="profile_avatar_height_activity_profile">400dp</dimen>
 </resources>

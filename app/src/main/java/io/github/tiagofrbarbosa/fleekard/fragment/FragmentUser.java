@@ -83,8 +83,6 @@ public class FragmentUser extends Fragment{
 
                     }
                 });
-        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        //recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser()));
     }
 
     protected UserAdapter.UserOnclickListener onClickUser(){
@@ -97,8 +95,7 @@ public class FragmentUser extends Fragment{
 
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString(ProfileActivity.PROFILE_IMAGE_PATH,u.getImg());
-                bundle.putString(ProfileActivity.USER_NAME,u.getUserName());
+                bundle.putString(Database.users.USER_ID, u.getUserId());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
