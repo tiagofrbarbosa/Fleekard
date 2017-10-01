@@ -22,6 +22,7 @@
     <string name="toast_edittext_userstatus">User status is required!</string>
     <string name="toast_edittext_userage">User age is required!</string>
     <string name="toast_user_data_update">User data updated!</string>
+    <string name="photo_picker_intent">Complete action using</string>
 
     <string-array name="gender_array">
         <item>Male</item>

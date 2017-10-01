@@ -12,4 +12,9 @@ public class Storage {
 
         public static final String USER_PROFILE_IMAGE = "user_profile_image";
     }
+
+    public static final class messages{
+
+        public static final String MESSAGES_IMAGE_PATH = "chat_images";
+    }
 }

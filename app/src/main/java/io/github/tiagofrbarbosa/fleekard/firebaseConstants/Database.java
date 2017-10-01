@@ -19,4 +19,9 @@ public final class Database {
         public static final String USER_AGE = "age";
         public static final String USER_IAMGE_AVATAR = "NoImage";
     }
+
+    public static final class messages {
+
+        public static final String CHILD_MESSAGES = "messages";
+    }
 }
