@@ -5,10 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,8 +22,11 @@ import android.widget.ProgressBar;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -33,9 +40,12 @@ import butterknife.OnClick;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.adapter.MessageAdapter;
+import io.github.tiagofrbarbosa.fleekard.adapter.MessageChatAdapter;
+import io.github.tiagofrbarbosa.fleekard.adapter.UserAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
+import io.github.tiagofrbarbosa.fleekard.model.User;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -47,18 +57,22 @@ public class ChatActivity extends AppCompatActivity {
     private static final int RC_PHOTO_PICKER = 2;
 
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
-    @BindView(R.id.messageListView) ListView mMessageListView;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.photoPickerButton) ImageButton mPhotoPickerButton;
     @BindView(R.id.messageEditText) EditText mMessageEditText;
     @BindView(R.id.sendButton) Button mSendButton;
 
     private MessageAdapter mMessageAdapter;
+    private MessageChatAdapter mMessageChatAdapter;
+    private List<Message> mMessages;
     private String mUserName;
 
     private FleekardApplication app;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessageDatabaseReference;
+    private DatabaseReference mUserDatabaseReference;
     private ChildEventListener mChildEventListener;
+    private ValueEventListener mValueEventListener;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseStorage mFirebaseStorage;
     private StorageReference mChatPhotosStorageReference;
@@ -78,14 +92,17 @@ public class ChatActivity extends AppCompatActivity {
         mMessageDatabaseReference = mFirebaseDatabase.getReference()
                 .child(Database.messages.CHILD_MESSAGES);
 
+        mUserDatabaseReference = mFirebaseDatabase.getReference()
+                .child(Database.users.CHILD_USERS);
+
         mChatPhotosStorageReference = mFirebaseStorage.getReference()
                 .child(Storage.messages.MESSAGES_IMAGE_PATH);
 
-        mUserName = mFirebaseAuth.getCurrentUser().getDisplayName();
+        attachDatabaseReadListener();
 
-        List<Message> mMessages = new ArrayList<>();
-        mMessageAdapter = new MessageAdapter(this, R.layout.textview_holder_message, mMessages);
-        mMessageListView.setAdapter(mMessageAdapter);
+        mMessages = new ArrayList<>();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(this, mMessages, onClickMessage()));
 
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
 
@@ -123,6 +140,9 @@ public class ChatActivity extends AppCompatActivity {
         Message mMessage = new Message(mMessageEditText.getText().toString(), mUserName, null);
         mMessageDatabaseReference.push().setValue(mMessage);
         mMessageEditText.setText("");
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mMessageEditText.getWindowToken(), 0);
     }
 
     @Override
@@ -145,5 +165,69 @@ public class ChatActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void attachDatabaseReadListener(){
+        if(mChildEventListener == null){
+            mChildEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Message mMessage = dataSnapshot.getValue(Message.class);
+                    mMessages.add(mMessage);
+                    mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(ChatActivity.this, mMessages, onClickMessage()));
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            mMessageDatabaseReference.addChildEventListener(mChildEventListener);
+        }
+
+        if(mValueEventListener == null){
+            mValueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot userSnap : dataSnapshot.getChildren()){
+                        User user = userSnap.getValue(User.class);
+                        mUserName = user.getUserName();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            mUserDatabaseReference
+                    .orderByChild(Database.users.USER_ID)
+                    .equalTo(mFirebaseAuth.getCurrentUser().getUid())
+                    .addListenerForSingleValueEvent(mValueEventListener);
+        }
+    }
+
+    protected MessageChatAdapter.MessageOnclickListener onClickMessage(){
+
+        return new MessageChatAdapter.MessageOnclickListener(){
+            @Override
+            public void onClickUser(MessageChatAdapter.MessagesViewHolder holder, int idx) {
+            }
+        };
     }
 }
