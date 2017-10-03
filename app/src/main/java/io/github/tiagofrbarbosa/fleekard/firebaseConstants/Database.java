@@ -24,4 +24,9 @@ public final class Database {
 
         public static final String CHILD_MESSAGES = "messages";
     }
+
+    public static final class chats {
+
+        public static final String CHILD_CHATS = "chats";
+    }
 }

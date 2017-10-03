@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Chat {
 
-    private User user;
+    private String userId;
     private int userPresence;
     private int msgUnread;
 
@@ -18,18 +18,30 @@ public class Chat {
 
     public Chat(){}
 
-    public Chat(User user, int userPresence, int msgUnread){
-        this.user = user;
+    public Chat(String userId, int userPresence, int msgUnread){
+        this.userId = userId;
         this.userPresence = userPresence;
         this.msgUnread = msgUnread;
     }
 
-    public User getUser(){
-        return this.user;
+    public void setUserId(String userId){
+        this.userId = userId;
+    }
+
+    public String getUserId(){
+        return this.userId;
+    }
+
+    public void setUserPresence(int userPresence){
+        this.userPresence = userPresence;
     }
 
     public int getUserPresence(){
         return this.userPresence;
+    }
+
+    public void setMsgUnread(int msgUnread){
+        this.msgUnread = msgUnread;
     }
 
     public int getMsgUnread(){
@@ -39,14 +51,6 @@ public class Chat {
     public static List<Chat> getChats(){
 
         List<Chat> chats = new ArrayList<Chat>();
-
-        for(int i=0;i<50;i++) {
-            User user = new User();
-            user.setImg("https://api.adorable.io/avatars/285/" + i + ".png");
-            user.setUserName("User " + i + " ");
-            user.setUserStatus("Status " + i + " ");
-            chats.add(new Chat(user, 1, i));
-        }
 
         return chats;
     }

@@ -7,8 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,9 +21,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+import io.github.tiagofrbarbosa.fleekard.model.Chat;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 
 /**
@@ -35,12 +40,17 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.user_status) TextView userStatus;
     @BindView(R.id.user_age) TextView userAge;
     @BindView(R.id.user_gender) ImageView userGender;
+    @BindView(R.id.user_chat) ImageView userChat;
 
     @Inject
     Glide glide;
 
     private FleekardApplication app;
     private DatabaseReference mUserReference;
+    private DatabaseReference mChatReference;
+    private FirebaseUser mFirebaseUser;
+    private Bundle extras;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -54,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(getIntent().getExtras() != null) {
-            Bundle extras = getIntent().getExtras();
+            extras = getIntent().getExtras();
 
             mUserReference = app.getmFirebaseDatabase().getReference()
                     .child(Database.users.CHILD_USERS);
@@ -66,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for(DataSnapshot userSnap : dataSnapshot.getChildren()){
-                                User user = userSnap.getValue(User.class);
+                                user = userSnap.getValue(User.class);
 
                                 userName.setText(user.getUserName());
                                 glide.with(ProfileActivity.this).load(user.getImg()).into(profileImage);
@@ -87,6 +97,20 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    @OnClick(R.id.user_chat)
+    public void onClickUserChat(){
+
+        mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
+
+        mChatReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.chats.CHILD_CHATS)
+                .child(mFirebaseUser.getUid());
+
+        Chat chat = new Chat(user.getUserId(), 1, 10);
+
+        mChatReference.push().setValue(chat);
     }
 
     @Override

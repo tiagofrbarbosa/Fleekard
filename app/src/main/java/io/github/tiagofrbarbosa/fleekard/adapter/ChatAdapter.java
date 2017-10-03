@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -18,7 +23,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
+import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
 /**
@@ -27,9 +34,10 @@ import timber.log.Timber;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolder>{
 
-    private List<Chat> chats;
     private Context context;
+    private List<Chat> chats;
     private final ChatAdapter.ChatOnclickListener onClickListener;
+    private DatabaseReference mUserReference;
 
     @Inject
     Glide glide;
@@ -38,10 +46,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
         public void onClickChat(ChatAdapter.ChatsViewHolder holder, int idx);
     }
 
-    public ChatAdapter(Context context, List<Chat> chats, ChatOnclickListener onClickListener){
+    public ChatAdapter(Context context, List<Chat> chats, ChatOnclickListener onClickListener,
+                       DatabaseReference mUserReference){
+
         this.context = context;
         this.chats = chats;
         this.onClickListener = onClickListener;
+        this.mUserReference = mUserReference;
     }
 
     @Override
@@ -54,9 +65,26 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
     @Override
     public void onBindViewHolder(final ChatsViewHolder holder, final int position) {
         Chat chat = chats.get(position);
-        glide.with(context).load(chat.getUser().getImg()).apply(RequestOptions.circleCropTransform()).into(holder.img);
-        holder.userName.setText(chat.getUser().getUserName());
-        holder.userStatus.setText(chat.getUser().getUserStatus());
+
+        mUserReference
+                .orderByChild(Database.users.USER_ID)
+                .equalTo(chat.getUserId())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot userSnap : dataSnapshot.getChildren()){
+                            User user = userSnap.getValue(User.class);
+                            glide.with(context).load(user.getImg()).apply(RequestOptions.circleCropTransform()).into(holder.img);
+                            holder.userName.setText(user.getUserName());
+                            holder.userStatus.setText(user.getUserStatus());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
         if(chat.getUserPresence() == 1){
             holder.userPresence.setImageResource(R.drawable.ic_connection_on);
