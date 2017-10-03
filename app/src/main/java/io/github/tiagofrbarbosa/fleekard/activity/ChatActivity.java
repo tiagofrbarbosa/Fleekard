@@ -77,6 +77,8 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseStorage mFirebaseStorage;
     private StorageReference mChatPhotosStorageReference;
 
+    private Bundle extras;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,14 +91,18 @@ public class ChatActivity extends AppCompatActivity {
         mFirebaseAuth = app.getmFirebaseAuth();
         mFirebaseStorage = app.getmFirebaseStorage();
 
+        if(getIntent().getExtras() != null) extras = getIntent().getExtras();
+
         mMessageDatabaseReference = mFirebaseDatabase.getReference()
-                .child(Database.messages.CHILD_MESSAGES);
+                .child(Database.messages.CHILD_MESSAGES)
+                .child(extras.getString(Database.chats.CHAT_ID));
 
         mUserDatabaseReference = mFirebaseDatabase.getReference()
                 .child(Database.users.CHILD_USERS);
 
         mChatPhotosStorageReference = mFirebaseStorage.getReference()
-                .child(Storage.messages.MESSAGES_IMAGE_PATH);
+                .child(Storage.messages.MESSAGES_IMAGE_PATH)
+                .child(extras.getString(Database.chats.CHAT_ID));
 
         attachDatabaseReadListener();
 

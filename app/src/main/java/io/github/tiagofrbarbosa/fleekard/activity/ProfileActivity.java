@@ -1,5 +1,6 @@
 package io.github.tiagofrbarbosa.fleekard.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -48,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FleekardApplication app;
     private DatabaseReference mUserReference;
     private DatabaseReference mChatReference;
+    private DatabaseReference mChatValidationReference;
     private FirebaseUser mFirebaseUser;
     private Bundle extras;
     private User user;
@@ -105,12 +107,40 @@ public class ProfileActivity extends AppCompatActivity {
         mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
 
         mChatReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.chats.CHILD_CHATS);
+
+        mChatValidationReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.chats.CHILD_CHATS)
                 .child(mFirebaseUser.getUid());
 
-        Chat chat = new Chat(user.getUserId(), 1, 10);
+        final String chatId = mFirebaseUser.getUid() + user.getUserId();
 
-        mChatReference.push().setValue(chat);
+        mChatValidationReference
+                .orderByChild(Database.users.USER_ID)
+                .equalTo(user.getUserId())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.getValue() == null){
+                                Chat chat = new Chat(chatId, user.getUserId(), 1, 10);
+                                Chat chatCrush = new Chat(chatId, mFirebaseUser.getUid(), 1, 10);
+
+                                mChatReference.child(mFirebaseUser.getUid()).push().setValue(chat);
+                                mChatReference.child(user.getUserId()).push().setValue(chatCrush);
+                            }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+        Intent intent = new Intent(this, ChatActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(Database.chats.CHAT_ID, chatId);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

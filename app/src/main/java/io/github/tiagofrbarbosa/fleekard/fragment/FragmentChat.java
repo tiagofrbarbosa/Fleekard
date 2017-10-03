@@ -95,6 +95,9 @@ public class FragmentChat extends Fragment {
             public void onClickChat(ChatAdapter.ChatsViewHolder holder, int idx) {
                 Chat c = chats.get(idx);
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Database.chats.CHAT_ID, c.getChatId());
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         };

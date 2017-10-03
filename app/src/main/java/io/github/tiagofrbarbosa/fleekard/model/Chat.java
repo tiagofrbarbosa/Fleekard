@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Chat {
 
+    private String chatId;
     private String userId;
     private int userPresence;
     private int msgUnread;
@@ -18,10 +19,19 @@ public class Chat {
 
     public Chat(){}
 
-    public Chat(String userId, int userPresence, int msgUnread){
+    public Chat(String chatId, String userId, int userPresence, int msgUnread){
+        this.chatId = chatId;
         this.userId = userId;
         this.userPresence = userPresence;
         this.msgUnread = msgUnread;
+    }
+
+    public void setChatId(String chatId){
+        this.chatId = chatId;
+    }
+
+    public String getChatId(){
+        return this.chatId;
     }
 
     public void setUserId(String userId){
