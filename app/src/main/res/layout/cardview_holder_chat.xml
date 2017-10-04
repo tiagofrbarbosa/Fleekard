@@ -20,9 +20,8 @@
                     <ImageView
                         android:id="@+id/user_image"
                         android:contentDescription="@string/content_desc_user_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_launcher"
+                        android:layout_width="@dimen/holder_chat_user_image"
+                        android:layout_height="@dimen/holder_chat_user_image"
                         android:layout_alignParentStart="true"/>
 
 
@@ -44,8 +43,7 @@
                         android:contentDescription="@string/content_desc_user_chat_presence"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_connection_off"/>
+                        android:layout_alignParentEnd="true" />
 
                     <ImageView
                         android:id="@+id/chat_icon"
@@ -62,8 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toStartOf="@id/chat_icon"
-                        android:layout_alignTop="@id/chat_icon"
-                        android:text="teste"/>
+                        android:layout_alignTop="@id/chat_icon"/>
 
             </RelativeLayout>
 

@@ -92,6 +92,7 @@ public class SignIn extends AppCompatActivity {
                                     , Database.users.USER_IAMGE_AVATAR
                                     , mFirebaseUser.getEmail()
                                     , 0
+                                    , 0
                                     , 0);
 
                             mUserReference

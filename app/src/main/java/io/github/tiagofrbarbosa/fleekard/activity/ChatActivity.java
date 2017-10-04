@@ -69,6 +69,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private FleekardApplication app;
     private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseDatabasePersistence;
     private DatabaseReference mMessageDatabaseReference;
     private DatabaseReference mUserDatabaseReference;
     private ChildEventListener mChildEventListener;
@@ -88,12 +89,13 @@ public class ChatActivity extends AppCompatActivity {
         app = (FleekardApplication) getApplication();
 
         mFirebaseDatabase = app.getmFirebaseDatabase();
+        mFirebaseDatabasePersistence = app.getmFirebaseDatabasePersistence();
         mFirebaseAuth = app.getmFirebaseAuth();
         mFirebaseStorage = app.getmFirebaseStorage();
 
         if(getIntent().getExtras() != null) extras = getIntent().getExtras();
 
-        mMessageDatabaseReference = mFirebaseDatabase.getReference()
+        mMessageDatabaseReference = mFirebaseDatabasePersistence.getReference()
                 .child(Database.messages.CHILD_MESSAGES)
                 .child(extras.getString(Database.chats.CHAT_ID));
 

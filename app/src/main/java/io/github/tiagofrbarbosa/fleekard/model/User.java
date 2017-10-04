@@ -20,10 +20,14 @@ public class User {
     private String email;
     private int gender;
     private int age;
+    private int userPresence;
     private Location location;
 
     public static final int GENDER_VALUE_MALE = 0;
     public static final int GENDER_VALUE_FEMALE = 1;
+
+    public static final int USER_DISCONNECTED = 0;
+    public static final int USER_CONNECTED = 1;
 
     public User(){};
 
@@ -47,7 +51,7 @@ public class User {
         this.age = age;
     }
 
-    public User(String userId, String userName, String userStatus, String img, String email, int gender, int age){
+    public User(String userId, String userName, String userStatus, String img, String email, int gender, int age, int userPresence){
         this.userId = userId;
         this.userName = userName;
         this.userStatus = userStatus;
@@ -55,6 +59,7 @@ public class User {
         this.email = email;
         this.gender = gender;
         this.age = age;
+        this.userPresence = userPresence;
     }
 
     public void setUserId(String userId){
@@ -111,6 +116,14 @@ public class User {
 
     public int getAge(){
         return this.age;
+    }
+
+    public void setUserPresence(int userPresence){
+        this.userPresence = userPresence;
+    }
+
+    public int getUserPresence(){
+        return this.userPresence;
     }
 
     public void setLocation(Location location){

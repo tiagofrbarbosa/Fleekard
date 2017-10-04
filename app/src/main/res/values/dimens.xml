@@ -14,4 +14,5 @@
     <dimen name="notification_margin">2dp</dimen>
     <dimen name="profile_avatar_height">300dp</dimen>
     <dimen name="profile_avatar_height_activity_profile">400dp</dimen>
+    <dimen name="holder_chat_user_image">80dp</dimen>
 </resources>

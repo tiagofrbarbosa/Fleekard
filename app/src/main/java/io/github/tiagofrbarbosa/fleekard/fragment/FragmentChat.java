@@ -26,6 +26,7 @@ import io.github.tiagofrbarbosa.fleekard.activity.ChatActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.ChatAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
+import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
 /**
@@ -42,6 +43,8 @@ public class FragmentChat extends Fragment {
     protected FirebaseUser mFirebaseUser;
     protected DatabaseReference mUserReference;
     protected DatabaseReference mChatReference;
+    protected DatabaseReference mPresenceReference;
+    protected DatabaseReference mConnectReference;
 
     @Nullable
     @Override
@@ -68,8 +71,32 @@ public class FragmentChat extends Fragment {
                 .child(Database.chats.CHILD_CHATS)
                 .child(mFirebaseUser.getUid());
 
+        mPresenceReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.users.CHILD_USERS)
+                .child(mFirebaseUser.getUid())
+                .child(Database.users.USER_PRESENCE);
+
+        mConnectReference = app.getmFirebaseDatabase().getReference(".info/connected");
+
+        mConnectReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean connected = dataSnapshot.getValue(Boolean.class);
+
+                if(connected){
+                    mPresenceReference.setValue(User.USER_CONNECTED);
+                    mPresenceReference.onDisconnect().setValue(User.USER_DISCONNECTED);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         mChatReference
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot chatSnap : dataSnapshot.getChildren()){

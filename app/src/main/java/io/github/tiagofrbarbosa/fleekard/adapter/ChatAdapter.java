@@ -69,7 +69,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
         mUserReference
                 .orderByChild(Database.users.USER_ID)
                 .equalTo(chat.getUserId())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot userSnap : dataSnapshot.getChildren()){
@@ -77,6 +77,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                             glide.with(context).load(user.getImg()).apply(RequestOptions.circleCropTransform()).into(holder.img);
                             holder.userName.setText(user.getUserName());
                             holder.userStatus.setText(user.getUserStatus());
+
+                            if(user.getUserPresence() == 1){
+                                holder.userPresence.setImageResource(R.drawable.ic_connection_on);
+                            }else{
+                                holder.userPresence.setImageResource(R.drawable.ic_connection_off);
+                            }
                         }
                     }
 
@@ -85,12 +91,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
 
                     }
                 });
-
-        if(chat.getUserPresence() == 1){
-            holder.userPresence.setImageResource(R.drawable.ic_connection_on);
-        }else{
-            holder.userPresence.setImageResource(R.drawable.ic_connection_off);
-        }
 
         holder.chatUnread.setText(String.valueOf(chat.getMsgUnread()));
 

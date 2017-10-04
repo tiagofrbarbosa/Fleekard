@@ -21,6 +21,7 @@ import timber.log.Timber;
 public class FleekardApplication extends Application {
     private AppComponent component;
     private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseDatabasePersistence;
     private FirebaseStorage mFirebaseStorage;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -30,6 +31,8 @@ public class FleekardApplication extends Application {
         super.onCreate();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseDatabasePersistence = FirebaseDatabase.getInstance();
+        mFirebaseDatabasePersistence.setPersistenceEnabled(true);
         mFirebaseStorage = FirebaseStorage.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -50,6 +53,10 @@ public class FleekardApplication extends Application {
 
     public FirebaseDatabase getmFirebaseDatabase(){
         return mFirebaseDatabase;
+    }
+
+    public FirebaseDatabase getmFirebaseDatabasePersistence(){
+        return mFirebaseDatabasePersistence;
     }
 
     public FirebaseAuth getmFirebaseAuth(){
