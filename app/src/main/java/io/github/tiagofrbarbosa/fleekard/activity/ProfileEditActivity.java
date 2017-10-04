@@ -165,6 +165,8 @@ public class ProfileEditActivity extends AppCompatActivity{
                 mUserReference.child(Database.users.USER_AGE).setValue(user.getAge());
 
                 Toast.makeText(this, getResources().getString(R.string.toast_user_data_update), Toast.LENGTH_SHORT).show();
+
+                finish();
             }
         }
     }
