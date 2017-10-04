@@ -42,9 +42,11 @@ public class FragmentChat extends Fragment {
     protected FleekardApplication app;
     protected FirebaseUser mFirebaseUser;
     protected DatabaseReference mUserReference;
+    protected DatabaseReference mUserConnectedReference;
     protected DatabaseReference mChatReference;
     protected DatabaseReference mPresenceReference;
     protected DatabaseReference mConnectReference;
+    protected User userConnected;
 
     @Nullable
     @Override
@@ -67,13 +69,34 @@ public class FragmentChat extends Fragment {
         mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);
 
+        mUserConnectedReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.users.CHILD_USERS);
+
+        mUserConnectedReference
+                .orderByChild(Database.users.USER_ID)
+                .equalTo(mFirebaseUser.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot userSnap : dataSnapshot.getChildren()){
+                            userConnected = userSnap.getValue(User.class);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
         mChatReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.chats.CHILD_CHATS)
-                .child(mFirebaseUser.getUid());
+                .child(userConnected.getUserKey());
 
         mPresenceReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS)
-                .child(mFirebaseUser.getUid())
+                .child(userConnected.getUserKey())
                 .child(Database.users.USER_PRESENCE);
 
         mConnectReference = app.getmFirebaseDatabase().getReference(".info/connected");

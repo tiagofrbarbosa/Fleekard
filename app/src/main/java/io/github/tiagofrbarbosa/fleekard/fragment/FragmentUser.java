@@ -98,7 +98,7 @@ public class FragmentUser extends Fragment{
 
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString(Database.users.USER_ID, u.getUserId());
+                bundle.putString(Database.users.USER_KEY, u.getUserKey());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

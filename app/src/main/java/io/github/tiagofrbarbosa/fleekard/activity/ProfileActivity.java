@@ -48,11 +48,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FleekardApplication app;
     private DatabaseReference mUserReference;
+    private DatabaseReference mUserConnectedReference;
     private DatabaseReference mChatReference;
     private DatabaseReference mChatValidationReference;
     private FirebaseUser mFirebaseUser;
     private Bundle extras;
     private User user;
+    private User userConnected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -61,6 +63,10 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         app = (FleekardApplication) getApplication();
+
+        mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
+
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,8 +78,8 @@ public class ProfileActivity extends AppCompatActivity {
                     .child(Database.users.CHILD_USERS);
 
             mUserReference
-                    .orderByChild(Database.users.USER_ID)
-                    .equalTo(extras.getString(Database.users.USER_ID))
+                    .orderByChild(Database.users.USER_KEY)
+                    .equalTo(extras.getString(Database.users.USER_KEY))
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -99,34 +105,52 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     });
         }
+
+        mUserConnectedReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.users.CHILD_USERS);
+
+        mUserConnectedReference
+                .orderByChild(Database.users.USER_ID)
+                .equalTo(mFirebaseUser.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot userSnap : dataSnapshot.getChildren()){
+                            userConnected = userSnap.getValue(User.class);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     @OnClick(R.id.user_chat)
     public void onClickUserChat(){
-
-        mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
 
         mChatReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.chats.CHILD_CHATS);
 
         mChatValidationReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.chats.CHILD_CHATS)
-                .child(mFirebaseUser.getUid());
+                .child(userConnected.getUserKey());
 
-        final String chatId = mFirebaseUser.getUid() + user.getUserId();
+        final String chatId = userConnected.getUserKey() + user.getUserKey();
 
         mChatValidationReference
-                .orderByChild(Database.users.USER_ID)
-                .equalTo(user.getUserId())
+                .orderByChild(Database.users.USER_KEY)
+                .equalTo(user.getUserKey())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                             if(dataSnapshot.getValue() == null){
-                                Chat chat = new Chat(chatId, user.getUserId(), 1, 10);
-                                Chat chatCrush = new Chat(chatId, mFirebaseUser.getUid(), 1, 10);
+                                Chat chat = new Chat(chatId, user.getUserKey(), 1, 10);
+                                Chat chatCrush = new Chat(chatId, userConnected.getUserKey(), 1, 10);
 
-                                mChatReference.child(mFirebaseUser.getUid()).push().setValue(chat);
-                                mChatReference.child(user.getUserId()).push().setValue(chatCrush);
+                                mChatReference.child(userConnected.getUserKey()).push().setValue(chat);
+                                mChatReference.child(user.getUserKey()).push().setValue(chatCrush);
                             }
                     }
 

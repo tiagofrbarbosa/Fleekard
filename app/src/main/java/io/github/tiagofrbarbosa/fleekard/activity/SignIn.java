@@ -33,6 +33,7 @@ public class SignIn extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FleekardApplication app;
     private FirebaseAuth mFirebaseAuth;
+    DatabaseReference mUserKeyReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -75,6 +76,9 @@ public class SignIn extends AppCompatActivity {
         final DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);
 
+        mUserKeyReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.users.CHILD_USERS);
+
         mUserReference
                 .orderByChild(Database.users.USER_EMAIL)
                 .equalTo(mFirebaseUser.getEmail())
@@ -86,21 +90,25 @@ public class SignIn extends AppCompatActivity {
 
                             Timber.i("User not exists: " + mFirebaseUser.getEmail());
 
+                            String userKey = mUserKeyReference.push().getKey();
+
                             User mUser = new User(mFirebaseUser.getUid()
+                                    , userKey
                                     , mFirebaseUser.getDisplayName()
                                     , getResources().getString(R.string.default_status)
-                                    , Database.users.USER_IAMGE_AVATAR
+                                    , Database.users.USER_IMAGE_AVATAR
                                     , mFirebaseUser.getEmail()
                                     , 0
                                     , 0
                                     , 0);
 
                             mUserReference
-                                    .child(mFirebaseUser.getUid()).setValue(mUser);
+                                    .child(userKey).setValue(mUser);
 
                             Intent intent = new Intent(SignIn.this, ProfileEditActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString(Database.users.USER_ID, mUser.getUserId());
+                            bundle.putString(Database.users.USER_KEY, mUser.getUserKey());
                             bundle.putString(Database.users.USER_NAME, mUser.getUserName());
                             bundle.putString(Database.users.USER_STATUS, mUser.getUserStatus());
                             bundle.putString(Database.users.USER_IMAGE, mUser.getImg());

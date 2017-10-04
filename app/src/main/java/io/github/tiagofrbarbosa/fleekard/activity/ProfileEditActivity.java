@@ -83,7 +83,7 @@ public class ProfileEditActivity extends AppCompatActivity{
             userName.setText(extras.getString(Database.users.USER_NAME));
             userStatus.setText(extras.getString(Database.users.USER_STATUS));
 
-            if(!extras.getString(Database.users.USER_IMAGE).equals(Database.users.USER_IAMGE_AVATAR)){
+            if(!extras.getString(Database.users.USER_IMAGE).equals(Database.users.USER_IMAGE_AVATAR)){
 
                 glide.with(this)
                         .load(extras.getString(Database.users.USER_IMAGE))
@@ -146,11 +146,11 @@ public class ProfileEditActivity extends AppCompatActivity{
             Toast.makeText(this, getResources().getString(R.string.toast_edittext_userage), Toast.LENGTH_SHORT).show();
         }else {
 
-            if (extras.getString(Database.users.USER_ID) != null) {
+            if (extras.getString(Database.users.USER_KEY) != null) {
                 DatabaseReference mUserReference = app.getmFirebaseDatabase()
                         .getReference()
                         .child(Database.users.CHILD_USERS)
-                        .child(extras.getString(Database.users.USER_ID));
+                        .child(extras.getString(Database.users.USER_KEY));
 
 
                 int gender = spinner.getSelectedItem().toString().equals("Male") ? User.GENDER_VALUE_MALE : User.GENDER_VALUE_FEMALE;
@@ -191,13 +191,13 @@ public class ProfileEditActivity extends AppCompatActivity{
 
             StorageReference profileImageRef = mFirebaseStorage.getReference()
                     .child(Storage.users.USER_PROFILE_IMAGE_PATH)
-                    .child(extras.getString(Database.users.USER_ID))
+                    .child(extras.getString(Database.users.USER_KEY))
                     .child(Storage.users.USER_PROFILE_IMAGE);
 
             final DatabaseReference mUserReference = app.getmFirebaseDatabase()
                     .getReference()
                     .child(Database.users.CHILD_USERS)
-                    .child(extras.getString(Database.users.USER_ID));
+                    .child(extras.getString(Database.users.USER_KEY));
 
             profileImageRef.putFile(selectedImageUri)
                     .addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {

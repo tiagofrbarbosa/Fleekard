@@ -67,7 +67,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
         Chat chat = chats.get(position);
 
         mUserReference
-                .orderByChild(Database.users.USER_ID)
+                .orderByChild(Database.users.USER_KEY)
                 .equalTo(chat.getUserId())
                 .addValueEventListener(new ValueEventListener() {
                     @Override

@@ -14,6 +14,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 
 public class User {
     private String userId;
+    private String userKey;
     private String userName;
     private String userStatus;
     private String img;
@@ -51,8 +52,9 @@ public class User {
         this.age = age;
     }
 
-    public User(String userId, String userName, String userStatus, String img, String email, int gender, int age, int userPresence){
+    public User(String userId, String userKey, String userName, String userStatus, String img, String email, int gender, int age, int userPresence){
         this.userId = userId;
+        this.userKey = userKey;
         this.userName = userName;
         this.userStatus = userStatus;
         this.img = img;
@@ -68,6 +70,14 @@ public class User {
 
     public String getUserId(){
         return this.userId;
+    }
+
+    public void setUserKey(String userKey){
+        this.userKey = userKey;
+    }
+
+    public String getUserKey(){
+        return this.userKey;
     }
 
     public void setUserName(String userName){

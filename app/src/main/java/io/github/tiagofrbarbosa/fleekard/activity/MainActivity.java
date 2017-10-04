@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
                     .child(Database.users.CHILD_USERS);
 
             mUserReference
-                    .orderByChild(Database.users.USER_EMAIL)
-                    .equalTo(mFirebaseUser.getEmail())
+                    .orderByChild(Database.users.USER_ID)
+                    .equalTo(mFirebaseUser.getUid())
                     .addListenerForSingleValueEvent(new ValueEventListener() {
 
                               @Override
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                                         Intent intent = new Intent(MainActivity.this, ProfileEditActivity.class);
                                         Bundle bundle = new Bundle();
                                         bundle.putString(Database.users.USER_ID, user.getUserId());
+                                        bundle.putString(Database.users.USER_KEY, user.getUserKey());
                                         bundle.putString(Database.users.USER_NAME, user.getUserName());
                                         bundle.putString(Database.users.USER_STATUS, user.getUserStatus());
                                         bundle.putString(Database.users.USER_IMAGE, user.getImg());
