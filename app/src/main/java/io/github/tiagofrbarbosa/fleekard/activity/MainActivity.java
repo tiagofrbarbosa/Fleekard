@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FleekardApplication app;
     private FirebaseUser mFirebaseUser;
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseAnalytics mFirebaseAnalytics = app.getmFirebaseAnalytics();
         mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
+
+        if(getIntent().getExtras() != null) extras = getIntent().getExtras();
 
         MobileAds.initialize(this, getResources().getString(R.string.app_ad_id));
 
@@ -119,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
                     .child(Database.users.CHILD_USERS);
 
             mUserReference
-                    .orderByChild(Database.users.USER_ID)
-                    .equalTo(mFirebaseUser.getUid())
+                    .orderByChild(Database.users.USER_KEY)
+                    .equalTo(extras.getString(Database.users.USER_KEY))
                     .addListenerForSingleValueEvent(new ValueEventListener() {
 
                               @Override

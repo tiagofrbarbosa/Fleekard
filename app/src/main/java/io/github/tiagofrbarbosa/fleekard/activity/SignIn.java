@@ -118,7 +118,17 @@ public class SignIn extends AppCompatActivity {
                             for(DataSnapshot snapUser : dataSnapshot.getChildren()){
                                 User mSnapUser = snapUser.getValue(User.class);
                                 Timber.i("User exists: " + mSnapUser.getEmail());
-                                startActivity(new Intent(SignIn.this, MainActivity.class));
+
+                                Intent intent = new Intent(SignIn.this, MainActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString(Database.users.USER_ID, mSnapUser.getUserId());
+                                bundle.putString(Database.users.USER_KEY, mSnapUser.getUserKey());
+                                bundle.putString(Database.users.USER_NAME, mSnapUser.getUserName());
+                                bundle.putString(Database.users.USER_STATUS, mSnapUser.getUserStatus());
+                                bundle.putString(Database.users.USER_IMAGE, mSnapUser.getImg());
+                                bundle.putString(Database.users.USER_GENDER, String.valueOf(mSnapUser.getGender()));
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             }
 
                         }
