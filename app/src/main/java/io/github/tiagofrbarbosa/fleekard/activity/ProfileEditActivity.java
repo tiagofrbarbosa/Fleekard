@@ -33,6 +33,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -152,6 +153,7 @@ public class ProfileEditActivity extends AppCompatActivity{
                         .child(Database.users.CHILD_USERS)
                         .child(extras.getString(Database.users.USER_KEY));
 
+                Timber.tag("myLogin").i("ProfileActivity: " + extras.getString(Database.users.USER_KEY));
 
                 int gender = spinner.getSelectedItem().toString().equals("Male") ? User.GENDER_VALUE_MALE : User.GENDER_VALUE_FEMALE;
                 int userAgeInt = Integer.valueOf(userAge.getText().toString());
@@ -166,7 +168,7 @@ public class ProfileEditActivity extends AppCompatActivity{
 
                 Toast.makeText(this, getResources().getString(R.string.toast_user_data_update), Toast.LENGTH_SHORT).show();
 
-                finish();
+                startActivity(new Intent(this, MainActivity.class));
             }
         }
     }

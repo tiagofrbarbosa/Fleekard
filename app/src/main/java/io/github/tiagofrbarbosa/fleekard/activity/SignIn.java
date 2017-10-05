@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
@@ -33,7 +34,6 @@ public class SignIn extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FleekardApplication app;
     private FirebaseAuth mFirebaseAuth;
-    DatabaseReference mUserKeyReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -41,9 +41,7 @@ public class SignIn extends AppCompatActivity {
         setContentView(R.layout.activity_sigin);
 
         app = (FleekardApplication) getApplication();
-
         mFirebaseAuth = app.getmFirebaseAuth();
-
         mAuthStateListener = new FirebaseAuth.AuthStateListener(){
 
             @Override
@@ -76,9 +74,6 @@ public class SignIn extends AppCompatActivity {
         final DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);
 
-        mUserKeyReference = app.getmFirebaseDatabase().getReference()
-                .child(Database.users.CHILD_USERS);
-
         mUserReference
                 .orderByChild(Database.users.USER_EMAIL)
                 .equalTo(mFirebaseUser.getEmail())
@@ -86,11 +81,14 @@ public class SignIn extends AppCompatActivity {
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.getValue() == null){
 
+                        if(dataSnapshot.getValue() == null){
                             Timber.i("User not exists: " + mFirebaseUser.getEmail());
 
-                            String userKey = mUserKeyReference.push().getKey();
+                            DatabaseReference userKeyReference = app.getmFirebaseDatabase().getReference()
+                                    .child(Database.users.CHILD_USERS);
+
+                            String userKey = userKeyReference.push().getKey();
 
                             User mUser = new User(mFirebaseUser.getUid()
                                     , userKey
@@ -115,21 +113,21 @@ public class SignIn extends AppCompatActivity {
                             bundle.putString(Database.users.USER_GENDER, String.valueOf(mUser.getGender()));
                             intent.putExtras(bundle);
                             startActivity(intent);
+                        }else{
 
-                        }else {
-
-                            for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
-                                User user = userSnap.getValue(User.class);
-                                Timber.i("User exists: " + user.getEmail());
+                            for(DataSnapshot snapUser : dataSnapshot.getChildren()){
+                                User mSnapUser = snapUser.getValue(User.class);
+                                Timber.i("User exists: " + mSnapUser.getEmail());
                                 startActivity(new Intent(SignIn.this, MainActivity.class));
                             }
 
                         }
+
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Timber.i("error: " + databaseError.getMessage());
+                        Timber.i("Timber_error: " + databaseError.getMessage());
                     }
                 });
     }
@@ -140,14 +138,14 @@ public class SignIn extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+            mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
     protected void onPause(){
         super.onPause();
         if(mAuthStateListener != null){
-            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+          mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
     }
 }
