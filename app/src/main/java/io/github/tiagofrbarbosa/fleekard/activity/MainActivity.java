@@ -158,6 +158,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.menu_exit) {
+
+            String userKey = app.getmAppUser().getUserKey();
+
+            DatabaseReference mPresenceReference = app.getmFirebaseDatabase().getReference()
+                    .child(Database.users.CHILD_USERS)
+                    .child(userKey)
+                    .child(Database.users.USER_PRESENCE);
+
+            mPresenceReference.setValue(User.USER_DISCONNECTED);
+
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {

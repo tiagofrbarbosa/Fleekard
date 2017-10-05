@@ -90,13 +90,15 @@ public class FragmentChat extends Fragment {
                 });
 
 
+        String userKey = app.getmAppUser().getUserKey();
+
         mChatReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.chats.CHILD_CHATS)
-                .child(userConnected.getUserKey());
+                .child(userKey);
 
         mPresenceReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS)
-                .child(userConnected.getUserKey())
+                .child(userKey)
                 .child(Database.users.USER_PRESENCE);
 
         mConnectReference = app.getmFirebaseDatabase().getReference(".info/connected");

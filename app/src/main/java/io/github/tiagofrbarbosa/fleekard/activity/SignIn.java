@@ -100,6 +100,8 @@ public class SignIn extends AppCompatActivity {
                                     , 0
                                     , 0);
 
+                            app.setmAppUser(mUser);
+
                             mUserReference
                                     .child(userKey).setValue(mUser);
 
@@ -118,6 +120,8 @@ public class SignIn extends AppCompatActivity {
                             for(DataSnapshot snapUser : dataSnapshot.getChildren()){
                                 User mSnapUser = snapUser.getValue(User.class);
                                 Timber.i("User exists: " + mSnapUser.getEmail());
+
+                                app.setmAppUser(mSnapUser);
 
                                 Intent intent = new Intent(SignIn.this, MainActivity.class);
                                 Bundle bundle = new Bundle();
@@ -148,6 +152,7 @@ public class SignIn extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        if(mAuthStateListener != null)
             mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 

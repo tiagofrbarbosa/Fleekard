@@ -11,6 +11,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import io.github.tiagofrbarbosa.fleekard.component.DaggerAppComponent;
+import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.module.AppModule;
 import timber.log.Timber;
 
@@ -25,6 +26,7 @@ public class FleekardApplication extends Application {
     private FirebaseStorage mFirebaseStorage;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private User mAppUser;
 
     @Override
     public void onCreate(){
@@ -69,5 +71,13 @@ public class FleekardApplication extends Application {
 
     public FirebaseStorage getmFirebaseStorage(){
         return mFirebaseStorage;
+    }
+
+    public void setmAppUser(User mAppUser){
+        this.mAppUser = mAppUser;
+    }
+
+    public User getmAppUser(){
+        return this.mAppUser;
     }
 }
