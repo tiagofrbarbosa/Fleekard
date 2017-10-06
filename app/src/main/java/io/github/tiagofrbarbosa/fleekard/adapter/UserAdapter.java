@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
@@ -54,10 +56,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
         User user = users.get(position);
         holder.userName.setText(user.getUserName());
 
-        glide.with(context)
-                .load(user.getImg())
-                //.apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher))
-                .into(holder.imageView);
+            glide.with(context)
+                    .load(user.getImg())
+                    .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
+                    .into(holder.imageView);
 
         holder.userAge.setText(String.valueOf(user.getAge()));
 
