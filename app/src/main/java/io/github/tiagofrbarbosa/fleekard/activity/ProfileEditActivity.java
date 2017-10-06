@@ -168,7 +168,11 @@ public class ProfileEditActivity extends AppCompatActivity{
 
                 Toast.makeText(this, getResources().getString(R.string.toast_user_data_update), Toast.LENGTH_SHORT).show();
 
-                startActivity(new Intent(this, MainActivity.class));
+                Intent intent = new Intent(this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Database.users.USER_KEY, extras.getString(Database.users.USER_KEY));
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         }
     }

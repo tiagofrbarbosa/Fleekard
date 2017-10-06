@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,9 +33,9 @@ public class SignIn extends AppCompatActivity {
 
     public static final int RC_SIGN_IN = 1;
 
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FleekardApplication app;
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -54,7 +56,7 @@ public class SignIn extends AppCompatActivity {
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
-                                    .setIsSmartLockEnabled(!BuildConfig.DEBUG)
+                                    .setIsSmartLockEnabled(false)
                                     .setAvailableProviders(
                                             Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
                                                     new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
@@ -73,6 +75,28 @@ public class SignIn extends AppCompatActivity {
 
         final DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);
+
+        mUserReference
+                .orderByChild(Database.users.USER_EMAIL)
+                .equalTo(mFirebaseUser.getEmail())
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        User user = dataSnapshot.getValue(User.class);
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
 
         mUserReference
                 .orderByChild(Database.users.USER_EMAIL)
@@ -159,8 +183,7 @@ public class SignIn extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        if(mAuthStateListener != null){
+        if(mAuthStateListener != null)
           mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-        }
     }
 }
