@@ -3,9 +3,6 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,9 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.adapter.MessageAdapter;
 import io.github.tiagofrbarbosa.fleekard.adapter.MessageChatAdapter;
-import io.github.tiagofrbarbosa.fleekard.adapter.UserAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
@@ -62,7 +56,6 @@ public class ChatActivity extends AppCompatActivity {
     @BindView(R.id.messageEditText) EditText mMessageEditText;
     @BindView(R.id.sendButton) Button mSendButton;
 
-    private MessageAdapter mMessageAdapter;
     private MessageChatAdapter mMessageChatAdapter;
     private List<Message> mMessages;
     private String mUserName;

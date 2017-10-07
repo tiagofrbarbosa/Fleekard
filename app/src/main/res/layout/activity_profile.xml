@@ -72,6 +72,7 @@
                     android:id="@+id/user_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/profile_user_age"
                     android:layout_below="@id/user_status"/>
 
                 <ImageView
@@ -81,8 +82,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/user_status"
                     android:layout_toEndOf="@id/user_age"
+                    android:layout_alignBottom="@id/user_age"
                     android:adjustViewBounds="true"
-                    android:maxHeight="@dimen/gender_icon"
+                    android:maxHeight="@dimen/profile_gender_icon"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_male"/>
 
@@ -91,23 +93,22 @@
                     android:contentDescription="@string/content_desc_user_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/profile_icon_padding"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@id/user_gender"
-                    android:src="@drawable/ic_favorite_border_black_24dp"/>
+                    android:src="@drawable/ic_favorite_border_black_36dp"/>
 
                 <ImageView
                     android:id="@+id/user_chat"
                     android:contentDescription="@string/content_desc_content_desc_chat_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/profile_icon_padding"
                     android:layout_toStartOf="@id/user_like"
                     android:layout_alignTop="@id/user_like"
-                    android:src="@drawable/ic_textsms_black_24dp"/>
+                    android:src="@drawable/ic_textsms_black_36dp"/>
 
             </RelativeLayout>
-
         </android.support.v7.widget.CardView>
-
     </android.support.v4.widget.NestedScrollView>
-
 </android.support.design.widget.CoordinatorLayout>

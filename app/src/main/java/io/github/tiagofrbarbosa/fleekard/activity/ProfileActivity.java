@@ -2,6 +2,7 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -30,6 +31,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -43,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.user_status) TextView userStatus;
     @BindView(R.id.user_age) TextView userAge;
     @BindView(R.id.user_gender) ImageView userGender;
+    @BindView(R.id.user_like) ImageView userLike;
     @BindView(R.id.user_chat) ImageView userChat;
 
     @Inject
@@ -58,6 +61,9 @@ public class ProfileActivity extends AppCompatActivity {
     private User user;
     private User userConnected;
     private String chatId;
+
+    private static final String USER_LIKE_UNCHECKED = "0";
+    private static final String USER_LIKE_CHECKED = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -131,6 +137,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                 });
+
+        userLike.setImageResource(R.drawable.ic_favorite_border_black_36dp);
+        userLike.setTag(USER_LIKE_UNCHECKED);
     }
 
     @OnClick(R.id.user_chat)
@@ -186,6 +195,19 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    @OnClick(R.id.user_like)
+    public void onClickUserLike(){
+
+        if(userLike.getTag().equals(USER_LIKE_UNCHECKED)){
+            userLike.setImageResource(R.drawable.ic_favorite_black_36dp);
+            userLike.setTag(USER_LIKE_CHECKED);
+        }else{
+            userLike.setImageResource(R.drawable.ic_favorite_border_black_36dp);
+            userLike.setTag(USER_LIKE_UNCHECKED);
+        }
+
     }
 
     @Override
