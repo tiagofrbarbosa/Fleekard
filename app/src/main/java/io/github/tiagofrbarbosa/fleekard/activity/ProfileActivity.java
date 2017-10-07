@@ -57,6 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Bundle extras;
     private User user;
     private User userConnected;
+    private String chatId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -142,7 +143,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .child(Database.chats.CHILD_CHATS)
                 .child(userConnected.getUserKey());
 
-        final String chatId = userConnected.getUserKey() + user.getUserKey();
         String userKey = user.getUserKey();
 
         mChatValidationReference
@@ -152,11 +152,32 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                             if(dataSnapshot.getValue() == null){
+
+                                chatId = userConnected.getUserKey() + user.getUserKey();
                                 Chat chat = new Chat(chatId, user.getUserKey(), 1, 10);
                                 Chat chatCrush = new Chat(chatId, userConnected.getUserKey(), 1, 10);
 
                                 mChatReference.child(userConnected.getUserKey()).push().setValue(chat);
                                 mChatReference.child(user.getUserKey()).push().setValue(chatCrush);
+
+                                Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString(Database.chats.CHAT_ID, chatId);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+
+                            }else{
+                                for(DataSnapshot chatSnap : dataSnapshot.getChildren()) {
+                                    Chat mChat = chatSnap.getValue(Chat.class);
+                                    chatId = mChat.getChatId();
+                                }
+
+                                Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString(Database.chats.CHAT_ID, chatId);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                                
                             }
                     }
 
@@ -165,12 +186,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                 });
-
-        Intent intent = new Intent(this, ChatActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(Database.chats.CHAT_ID, chatId);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
     @Override
