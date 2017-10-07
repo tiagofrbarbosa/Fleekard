@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -66,8 +67,6 @@ public class ProfileActivity extends AppCompatActivity {
         app = (FleekardApplication) getApplication();
 
         mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
-
-
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -144,10 +143,11 @@ public class ProfileActivity extends AppCompatActivity {
                 .child(userConnected.getUserKey());
 
         final String chatId = userConnected.getUserKey() + user.getUserKey();
+        String userKey = user.getUserKey();
 
         mChatValidationReference
-                .orderByChild(Database.users.USER_KEY)
-                .equalTo(user.getUserKey())
+                .orderByChild(Database.users.USER_ID)
+                .equalTo(userKey)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

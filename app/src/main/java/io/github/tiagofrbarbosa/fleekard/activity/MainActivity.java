@@ -116,6 +116,14 @@ public class MainActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
+        String userProfileKey;
+
+        if(getIntent().getExtras() != null){
+            userProfileKey = getIntent().getExtras().getString(Database.users.USER_KEY);
+        }else{
+            userProfileKey = app.getmAppUser().getUserKey();
+        }
+
         if (id == R.id.profile_settings) {
 
             DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
@@ -123,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
             mUserReference
                     .orderByChild(Database.users.USER_KEY)
-                    .equalTo(extras.getString(Database.users.USER_KEY))
+                    .equalTo(userProfileKey)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
 
                               @Override
