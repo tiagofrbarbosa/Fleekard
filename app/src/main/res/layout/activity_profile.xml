@@ -95,8 +95,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/profile_icon_padding"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignTop="@id/user_gender"
-                    android:src="@drawable/ic_favorite_border_black_36dp"/>
+                    android:layout_alignTop="@id/user_gender"/>
 
                 <ImageView
                     android:id="@+id/user_chat"

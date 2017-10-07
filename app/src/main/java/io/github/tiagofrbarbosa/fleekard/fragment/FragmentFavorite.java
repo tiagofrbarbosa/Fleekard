@@ -1,5 +1,6 @@
 package io.github.tiagofrbarbosa.fleekard.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,12 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.FavoriteAdapter;
+import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Favorite;
 import timber.log.Timber;
 
@@ -28,6 +38,8 @@ public class FragmentFavorite extends Fragment {
 
     protected FavoriteAdapter adapter;
     protected List<Favorite> favorites;
+    protected FleekardApplication app;
+    protected DatabaseReference mFavoriteReference;
 
     @Nullable
     @Override
@@ -41,10 +53,35 @@ public class FragmentFavorite extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        favorites = Favorite.getFavorites(getActivity());
+        app = (FleekardApplication) getActivity().getApplication();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite()));
+        mFavoriteReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.favorite.CHILD_FAVORITES)
+                .child(app.getmAppUser().getUserKey());
+
+        favorites = Favorite.getFavorites();
+
+        mFavoriteReference
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(favorites != null) favorites.clear();
+
+                        for(DataSnapshot favSnap : dataSnapshot.getChildren()){
+                            Favorite favorite = favSnap.getValue(Favorite.class);
+                            favorites.add(favorite);
+                        }
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite()));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     protected FavoriteAdapter.FavoriteOnclickListener onClickFavorite(){
@@ -53,7 +90,10 @@ public class FragmentFavorite extends Fragment {
 
             @Override
             public void onClickFavorite(FavoriteAdapter.FavoritesViewHolder holder, int idx) {
-                Favorite f = favorites.get(idx);
+                Favorite favorite = favorites.get(idx);
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                intent.putExtra(Database.users.USER_KEY, favorite.getUserKey());
+                startActivity(intent);
             }
         };
     }

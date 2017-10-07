@@ -33,4 +33,9 @@ public final class Database {
 
         public static final String CHAT_ID = "chatId";
     }
+
+    public static final class favorite {
+
+        public static final String CHILD_FAVORITES = "favorites";
+    }
 }

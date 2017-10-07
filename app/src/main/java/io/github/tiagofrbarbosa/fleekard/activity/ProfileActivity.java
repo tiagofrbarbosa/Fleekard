@@ -30,6 +30,7 @@ import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
+import io.github.tiagofrbarbosa.fleekard.model.Favorite;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
@@ -56,6 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference mUserConnectedReference;
     private DatabaseReference mChatReference;
     private DatabaseReference mChatValidationReference;
+    private DatabaseReference mFavoriteReference;
     private FirebaseUser mFirebaseUser;
     private Bundle extras;
     private User user;
@@ -76,7 +78,6 @@ public class ProfileActivity extends AppCompatActivity {
         mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(getIntent().getExtras() != null) {
             extras = getIntent().getExtras();
@@ -129,6 +130,12 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot userSnap : dataSnapshot.getChildren()){
                             userConnected = userSnap.getValue(User.class);
+
+                            mFavoriteReference = app.getmFirebaseDatabase().getReference()
+                                    .child(Database.favorite.CHILD_FAVORITES)
+                                    .child(userConnected.getUserKey());
+
+                            userLikeVerify();
                         }
                     }
 
@@ -137,9 +144,29 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                 });
+    }
 
-        userLike.setImageResource(R.drawable.ic_favorite_border_black_36dp);
-        userLike.setTag(USER_LIKE_UNCHECKED);
+    public void userLikeVerify(){
+        mFavoriteReference
+                .orderByChild(Database.users.USER_KEY)
+                .equalTo(user.getUserKey())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue() != null){
+                            userLike.setImageResource(R.drawable.ic_favorite_black_36dp);
+                            userLike.setTag(USER_LIKE_CHECKED);
+                        }else{
+                            userLike.setImageResource(R.drawable.ic_favorite_border_black_36dp);
+                            userLike.setTag(USER_LIKE_UNCHECKED);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     @OnClick(R.id.user_chat)
@@ -201,11 +228,32 @@ public class ProfileActivity extends AppCompatActivity {
     public void onClickUserLike(){
 
         if(userLike.getTag().equals(USER_LIKE_UNCHECKED)){
+
+            Favorite favorite = new Favorite(user.getUserKey(), "My fav");
             userLike.setImageResource(R.drawable.ic_favorite_black_36dp);
             userLike.setTag(USER_LIKE_CHECKED);
+            mFavoriteReference.push().setValue(favorite);
+
         }else{
             userLike.setImageResource(R.drawable.ic_favorite_border_black_36dp);
             userLike.setTag(USER_LIKE_UNCHECKED);
+
+            mFavoriteReference
+                    .orderByChild(Database.users.USER_KEY)
+                    .equalTo(user.getUserKey())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot favSnap : dataSnapshot.getChildren()){
+                                favSnap.getRef().removeValue();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
         }
 
     }
