@@ -73,8 +73,11 @@ public class FragmentFavorite extends Fragment {
                             favorites.add(favorite);
                         }
 
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite()));
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                        layoutManager.setReverseLayout(true);
+                        layoutManager.setStackFromEnd(true);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite(), app));
                     }
 
                     @Override

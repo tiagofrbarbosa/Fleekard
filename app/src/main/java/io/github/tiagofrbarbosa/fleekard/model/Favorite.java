@@ -2,7 +2,11 @@ package io.github.tiagofrbarbosa.fleekard.model;
 
 import android.content.Context;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.ServerValue;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.github.tiagofrbarbosa.fleekard.R;
@@ -15,13 +19,15 @@ import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 public class Favorite {
 
     private String userKey;
-    private String userFavoriteDate;
+    private HashMap<String, Object> mTimeStamp;
 
     public Favorite(){}
 
-    public Favorite(String userKey, String userFavoriteDate){
+    public Favorite(String userKey){
         this.userKey = userKey;
-        this.userFavoriteDate = userFavoriteDate;
+        HashMap<String, Object> stampHash = new HashMap<>();
+        stampHash.put("timestamp", ServerValue.TIMESTAMP);
+        this.mTimeStamp = stampHash;
     }
 
     public void setUserKey(String userKey){
@@ -32,12 +38,13 @@ public class Favorite {
         return this.userKey;
     }
 
-    public void setUserFavoriteDate(String userFavoriteDate){
-        this.userFavoriteDate = userFavoriteDate;
+    public HashMap<String, Object> getmTimeStamp(){
+        return this.mTimeStamp;
     }
 
-    public String getUserFavoriteDate(){
-        return this.userFavoriteDate;
+    @Exclude
+    public long getTimeStampLong(){
+        return (long) mTimeStamp.get("timestamp");
     }
 
     public static List<Favorite> getFavorites(){

@@ -157,6 +157,7 @@ public class SignIn extends AppCompatActivity {
                                 bundle.putString(Database.users.USER_GENDER, String.valueOf(mSnapUser.getGender()));
                                 intent.putExtras(bundle);
                                 startActivity(intent);
+                                finish();
                             }
 
                         }

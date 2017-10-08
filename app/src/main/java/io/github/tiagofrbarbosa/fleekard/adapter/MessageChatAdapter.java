@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -68,7 +70,12 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
             holder.messageTextView.setText(message.getText());
         }
 
-        holder.authorTextView.setText(message.getName());
+        long mSystemTime = message.getTimeStampLong();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date(mSystemTime);
+        String mTime = simpleDateFormat.format(date);
+
+        holder.authorTextView.setText(mTime + " " + message.getName());
 
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {

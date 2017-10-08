@@ -128,7 +128,11 @@ public class FragmentChat extends Fragment {
                             Chat chat = chatSnap.getValue(Chat.class);
                             chats.add(chat);
                         }
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                        layoutManager.setReverseLayout(true);
+                        layoutManager.setStackFromEnd(true);
+                        recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), mUserReference));
                     }
 

@@ -229,7 +229,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if(userLike.getTag().equals(USER_LIKE_UNCHECKED)){
 
-            Favorite favorite = new Favorite(user.getUserKey(), "My fav");
+            Favorite favorite = new Favorite(user.getUserKey());
             userLike.setImageResource(R.drawable.ic_favorite_black_36dp);
             userLike.setTag(USER_LIKE_CHECKED);
             mFavoriteReference.push().setValue(favorite);

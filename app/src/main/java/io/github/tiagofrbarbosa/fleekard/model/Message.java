@@ -1,5 +1,11 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.ServerValue;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by tfbarbosa on 17/09/17.
  */
@@ -9,6 +15,7 @@ public class Message {
     private String text;
     private String name;
     private String photoUrl;
+    private HashMap<String, Object> mTimeStamp;
 
     public Message() {
     }
@@ -17,6 +24,9 @@ public class Message {
         this.text = text;
         this.name = name;
         this.photoUrl = photoUrl;
+        HashMap<String, Object> stampHash = new HashMap<>();
+        stampHash.put("timestamp", ServerValue.TIMESTAMP);
+        this.mTimeStamp = stampHash;
     }
 
     public String getText() {
@@ -41,5 +51,14 @@ public class Message {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public HashMap<String, Object> getmTimeStamp(){
+        return this.mTimeStamp;
+    }
+
+    @Exclude
+    public long getTimeStampLong(){
+        return (long) mTimeStamp.get("timestamp");
     }
 }

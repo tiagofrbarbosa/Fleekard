@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,6 +41,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     private final FavoriteAdapter.FavoriteOnclickListener onClickListener;
     private FleekardApplication app;
     private Favorite favorite;
+    private String mTime;
 
     @Inject
     Glide glide;
@@ -47,11 +50,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         public void onClickFavorite(FavoriteAdapter.FavoritesViewHolder holder, int idx);
     }
 
-    public FavoriteAdapter(Context context, List<Favorite> favorites, FavoriteOnclickListener onClickListener){
+    public FavoriteAdapter(Context context, List<Favorite> favorites, FavoriteOnclickListener onClickListener, FleekardApplication app){
         this.context = context;
         this.favorites = favorites;
         this.onClickListener = onClickListener;
-        this.app = (FleekardApplication) context.getApplicationContext();
+        this.app = app;
     }
 
     @Override
@@ -64,6 +67,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     @Override
     public void onBindViewHolder(final FavoritesViewHolder holder, final int position) {
         favorite = favorites.get(position);
+
+        long mSystemTime = favorite.getTimeStampLong();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy");
+        Date date = new Date(mSystemTime);
+        mTime = simpleDateFormat.format(date);
 
         DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);
@@ -78,7 +86,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                             User user = userSnap.getValue(User.class);
                             glide.with(context).load(user.getImg()).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
                             holder.userName.setText(user.getUserName());
-                            holder.userFavoriteData.setText(favorite.getUserFavoriteDate());
+                            holder.userFavoriteData.setText(mTime);
                         }
                     }
 
