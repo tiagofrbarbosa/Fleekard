@@ -33,6 +33,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
 import io.github.tiagofrbarbosa.fleekard.model.Favorite;
+import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
@@ -241,6 +242,13 @@ public class ProfileActivity extends AppCompatActivity {
             userLike.setImageResource(R.drawable.ic_favorite_black_36dp);
             userLike.setTag(USER_LIKE_CHECKED);
             mFavoriteReference.push().setValue(favorite);
+
+            DatabaseReference mNotificationReference = app.getmFirebaseDatabase().getReference()
+                    .child(Database.notification.CHILD_NOTIFICATION)
+                    .child(user.getUserKey());
+
+            Notification notification = new Notification(userConnected.getUserKey(), user.getUserKey(), Notification.INTERACTION_CODE_LIKE);
+            mNotificationReference.push().setValue(notification);
 
         }else{
             userLike.setImageResource(R.drawable.ic_favorite_border_black_36dp);

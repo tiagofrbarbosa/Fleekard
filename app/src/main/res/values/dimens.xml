@@ -14,10 +14,12 @@
     <dimen name="gender_icon">20dp</dimen>
     <dimen name="profile_gender_icon">28dp</dimen>
     <dimen name="notification_margin">2dp</dimen>
+    <dimen name="favorite_margin">2dp</dimen>
     <dimen name="profile_avatar_height">300dp</dimen>
     <dimen name="profile_avatar_height_activity_profile">400dp</dimen>
     <dimen name="holder_chat_user_image">80dp</dimen>
     <dimen name="holder_favorite_user_image">80dp</dimen>
+    <dimen name="holder_notification_user_image">80dp</dimen>
     <dimen name="profile_user_age">36sp</dimen>
     <dimen name="toolbar_expanded_height">250dp</dimen>
     <dimen name="toolbar_padding_horizontal">16dp</dimen>

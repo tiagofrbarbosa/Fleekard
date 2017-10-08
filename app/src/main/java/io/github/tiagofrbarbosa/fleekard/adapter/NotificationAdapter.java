@@ -10,15 +10,24 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
+import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
 /**
@@ -30,6 +39,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private List<Notification> notifications;
     private Context context;
     private final NotificationAdapter.NotificationOnclickListener onClickListener;
+    private FleekardApplication app;
+    private String descNotification;
+    private Notification notification;
+    private String mTime;
 
     @Inject Glide glide;
 
@@ -37,10 +50,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx);
     }
 
-    public NotificationAdapter(Context context, List<Notification> notifications, NotificationOnclickListener onClickListener){
+    public NotificationAdapter(Context context, List<Notification> notifications, NotificationOnclickListener onClickListener, FleekardApplication app){
         this.context = context;
         this.notifications = notifications;
         this.onClickListener = onClickListener;
+        this.app = app;
     }
 
     @Override
@@ -52,20 +66,49 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(final NotificationsViewHolder holder, final int position) {
-        Notification notification = notifications.get(position);
-        glide.with(context).load(notification.getUser().getImg()).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
+        notification = notifications.get(position);
 
-        String descNotification = null;
+        long mSystemTime = notification.getTimeStampLong();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy");
+        Date date = new Date(mSystemTime);
+        mTime = simpleDateFormat.format(date);
 
-        if(notification.getNotification() == 1){
-            descNotification = context.getResources().getString(R.string.notification_desc_msg);
-        }else if(notification.getNotification() == 2){
-            descNotification = context.getResources().getString(R.string.notification_desc_like);
-        }else if(notification.getNotification() == 3){
-            descNotification = context.getResources().getString(R.string.notification_desc_visited);
-        }
+        holder.notification_date.setText(mTime);
 
-        holder.notifications.setText(notification.getUser().getUserName() + " " + descNotification);
+        DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.users.CHILD_USERS);
+
+        mUserReference
+                .orderByChild(Database.users.USER_KEY)
+                .equalTo(notification.getUserKey())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot userSnap : dataSnapshot.getChildren()){
+                            User user = userSnap.getValue(User.class);
+
+                            glide.with(context)
+                                    .load(user.getImg())
+                                    .apply(RequestOptions.circleCropTransform())
+                                    .into(holder.imageView);
+
+                            if(notification.getNotification() == Notification.INTERACTION_CODE_MSG){
+                                descNotification = context.getResources().getString(R.string.notification_desc_msg);
+                            }else if(notification.getNotification() == Notification.INTERACTION_CODE_LIKE){
+                                descNotification = context.getResources().getString(R.string.notification_desc_like);
+                            }else if(notification.getNotification() == Notification.INTERACTION_CODE_VISIT){
+                                descNotification = context.getResources().getString(R.string.notification_desc_visited);
+                            }
+
+                            holder.notifications.setText(user.getUserName() + " " + descNotification);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -83,10 +126,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public static class NotificationsViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.user_notification)
-        TextView notifications;
-        @BindView(R.id.user_image)
-        ImageView imageView;
+        @BindView(R.id.user_notification) TextView notifications;
+        @BindView(R.id.user_image) ImageView imageView;
+        @BindView(R.id.user_notification_date) TextView notification_date;
         private View view;
 
         public NotificationsViewHolder(View view) {

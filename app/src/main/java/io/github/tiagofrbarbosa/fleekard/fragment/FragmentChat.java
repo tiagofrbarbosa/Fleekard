@@ -125,6 +125,9 @@ public class FragmentChat extends Fragment {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(chats != null) chats.clear();
+
                         for(DataSnapshot chatSnap : dataSnapshot.getChildren()){
                             Chat chat = chatSnap.getValue(Chat.class);
                             chats.add(chat);

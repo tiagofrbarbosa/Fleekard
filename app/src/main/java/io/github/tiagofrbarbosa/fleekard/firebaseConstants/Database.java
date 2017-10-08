@@ -9,7 +9,6 @@ public final class Database {
     public static final class users {
 
         public static final String CHILD_USERS = "users";
-
         public static final String USER_ID = "userId";
         public static final String USER_KEY = "userKey";
         public static final String USER_NAME = "userName";
@@ -30,12 +29,17 @@ public final class Database {
     public static final class chats {
 
         public static final String CHILD_CHATS = "chats";
-
         public static final String CHAT_ID = "chatId";
     }
 
     public static final class favorite {
 
         public static final String CHILD_FAVORITES = "favorites";
+    }
+
+    public static final class notification {
+
+        public static final String CHILD_NOTIFICATION = "notifications";
+        public static final String USER_KEY_NOTIFICATE = "userKeyNotificate";
     }
 }
