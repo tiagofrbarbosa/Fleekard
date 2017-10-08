@@ -2,11 +2,13 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,8 @@ import io.github.tiagofrbarbosa.fleekard.model.Favorite;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
+import static io.github.tiagofrbarbosa.fleekard.R.id.profile_image;
+
 /**
  * Created by tfbarbosa on 17/09/17.
  */
@@ -42,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.user_name) TextView userName;
-    @BindView(R.id.profile_image) ImageView profileImage;
+    @BindView(profile_image) ImageView profileImage;
     @BindView(R.id.user_status) TextView userStatus;
     @BindView(R.id.user_age) TextView userAge;
     @BindView(R.id.user_gender) ImageView userGender;

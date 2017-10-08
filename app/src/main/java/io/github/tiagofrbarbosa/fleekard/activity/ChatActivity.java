@@ -63,7 +63,7 @@ public class ChatActivity extends AppCompatActivity {
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
     private static final int RC_PHOTO_PICKER = 2;
 
-    @BindView(R.id.header) ImageView mHeader;
+    @BindView(R.id.profile_image) ImageView mHeader;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.photoPickerButton) ImageButton mPhotoPickerButton;
