@@ -47,6 +47,7 @@ public class FragmentChat extends Fragment {
     protected DatabaseReference mPresenceReference;
     protected DatabaseReference mConnectReference;
     protected User userConnected;
+    protected Chat c;
 
     @Nullable
     @Override
@@ -149,12 +150,31 @@ public class FragmentChat extends Fragment {
 
             @Override
             public void onClickChat(ChatAdapter.ChatsViewHolder holder, int idx) {
-                Chat c = chats.get(idx);
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString(Database.chats.CHAT_ID, c.getChatId());
-                intent.putExtras(bundle);
-                startActivity(intent);
+                c = chats.get(idx);
+
+                mUserReference
+                        .orderByChild(Database.users.USER_KEY)
+                        .equalTo(c.getUserId())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for(DataSnapshot userSnap : dataSnapshot.getChildren()){
+                                    User user = userSnap.getValue(User.class);
+                                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(Database.chats.CHAT_ID, c.getChatId());
+                                    bundle.putString(Database.users.USER_NAME, user.getUserName());
+                                    bundle.putString(Database.users.USER_IMAGE, user.getImg());
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
             }
         };
     }

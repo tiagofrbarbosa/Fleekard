@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         AppComponent component = app.getComponent();
         component.inject(this);
 
-        FirebaseAnalytics mFirebaseAnalytics = app.getmFirebaseAnalytics();
         mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
 
         if(getIntent().getExtras() != null) extras = getIntent().getExtras();

@@ -3,9 +3,11 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -14,8 +16,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -35,6 +39,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,11 +63,16 @@ public class ChatActivity extends AppCompatActivity {
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
     private static final int RC_PHOTO_PICKER = 2;
 
+    @BindView(R.id.header) ImageView mHeader;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.photoPickerButton) ImageButton mPhotoPickerButton;
     @BindView(R.id.messageEditText) EditText mMessageEditText;
     @BindView(R.id.sendButton) Button mSendButton;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
+
+    @Inject Glide glide;
 
     private MessageChatAdapter mMessageChatAdapter;
     private List<Message> mMessages;
@@ -83,8 +94,10 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chat_paralax);
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
 
         app = (FleekardApplication) getApplication();
 
@@ -93,7 +106,15 @@ public class ChatActivity extends AppCompatActivity {
         mFirebaseAuth = app.getmFirebaseAuth();
         mFirebaseStorage = app.getmFirebaseStorage();
 
-        if(getIntent().getExtras() != null) extras = getIntent().getExtras();
+        if(getIntent().getExtras() != null){
+            extras = getIntent().getExtras();
+
+            glide.with(this)
+                    .load(extras.getString(Database.users.USER_IMAGE))
+                    .into(mHeader);
+
+            collapsingToolbarLayout.setTitle(extras.getString(Database.users.USER_NAME));
+        }
 
         mMessageDatabaseReference = mFirebaseDatabasePersistence.getReference()
                 .child(Database.messages.CHILD_MESSAGES)

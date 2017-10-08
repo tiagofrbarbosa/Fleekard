@@ -37,7 +37,7 @@ public class FleekardApplication extends Application {
         mFirebaseDatabasePersistence.setPersistenceEnabled(true);
         mFirebaseStorage = FirebaseStorage.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
         if(BuildConfig.DEBUG){
@@ -63,10 +63,6 @@ public class FleekardApplication extends Application {
 
     public FirebaseAuth getmFirebaseAuth(){
         return mFirebaseAuth;
-    }
-
-    public FirebaseAnalytics getmFirebaseAnalytics(){
-        return mFirebaseAnalytics;
     }
 
     public FirebaseStorage getmFirebaseStorage(){
