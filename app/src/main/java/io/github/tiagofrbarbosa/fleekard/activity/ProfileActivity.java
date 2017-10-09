@@ -189,6 +189,36 @@ public class ProfileActivity extends AppCompatActivity {
         mChatValidationReference
                 .orderByChild(Database.users.USER_ID)
                 .equalTo(userKey)
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Chat chat = dataSnapshot.getValue(Chat.class);
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+        mChatValidationReference
+                .orderByChild(Database.users.USER_ID)
+                .equalTo(userKey)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
