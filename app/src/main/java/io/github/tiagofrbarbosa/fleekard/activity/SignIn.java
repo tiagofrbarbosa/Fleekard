@@ -69,6 +69,15 @@ public class SignIn extends AppCompatActivity {
         };
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_CANCELED){
+            finish();
+        }
+    }
+
     private void onSignedInInitialize(final FirebaseUser mFirebaseUser){
 
         Timber.tag("myLogin");
@@ -139,6 +148,7 @@ public class SignIn extends AppCompatActivity {
                             bundle.putString(Database.users.USER_GENDER, String.valueOf(mUser.getGender()));
                             intent.putExtras(bundle);
                             startActivity(intent);
+                            finish();
                         }else{
 
                             for(DataSnapshot snapUser : dataSnapshot.getChildren()){

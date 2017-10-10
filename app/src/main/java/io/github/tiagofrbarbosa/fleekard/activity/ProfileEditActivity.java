@@ -173,6 +173,7 @@ public class ProfileEditActivity extends AppCompatActivity{
                 bundle.putString(Database.users.USER_KEY, extras.getString(Database.users.USER_KEY));
                 intent.putExtras(bundle);
                 startActivity(intent);
+                finish();
             }
         }
     }

@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                                         bundle.putString(Database.users.USER_AGE, String.valueOf(user.getAge()));
                                         intent.putExtras(bundle);
                                         startActivity(intent);
+                                        finish();
                                     }
                               }
 
