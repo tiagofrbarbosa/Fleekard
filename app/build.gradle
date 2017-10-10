@@ -28,9 +28,8 @@ ext {
     testLibraryVersion = '4.12'
     constraintLayoutVersion = '1.0.2'
     fireBaseToolsReleaseVersion = '11.0.4'
-    fireBaseToolsDebugVersion = '9.6.0'
+    googlePlayServicesVersion = '11.0.4'
     fireBaseUiReleaseVersion = '2.3.0'
-    fireBaseUiDebugVersion = '0.6.0'
 }
 
 dependencies {
@@ -48,43 +47,25 @@ dependencies {
     compile "com.android.support:customtabs:${supportLibraryVersion}"
     compile "com.android.support:support-v4:${supportLibraryVersion}"
 
+    //Google play services & Firebase
+    compile "com.google.firebase:firebase-core:${fireBaseToolsReleaseVersion}"
+    compile "com.google.firebase:firebase-ads:${fireBaseToolsReleaseVersion}"
+    compile "com.google.firebase:firebase-auth:${fireBaseToolsReleaseVersion}"
+    compile "com.firebaseui:firebase-ui-auth:${fireBaseUiReleaseVersion}"
+    compile "com.google.firebase:firebase-database:${fireBaseToolsReleaseVersion}"
+    compile"com.google.firebase:firebase-storage:${fireBaseToolsReleaseVersion}"
+    compile "com.google.android.gms:play-services-location:${googlePlayServicesVersion}"
 
-    //ButterKnife
+    //Third party library
     compile "com.jakewharton:butterknife:${butterKnifeVersion}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
-
-    //Timber
     compile "com.jakewharton.timber:timber:${timberVersion}"
-
-    //Dagger
     compile "com.google.dagger:dagger:${daggerVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
-
-    //Glide
     compile "com.github.bumptech.glide:glide:${glideVersion}"
     annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
 
     //Test
     testCompile "junit:junit:${testLibraryVersion}"
-
-    // *** Firebase Tools ***
-
-    //Analytics
-    compile "com.google.firebase:firebase-core:${fireBaseToolsReleaseVersion}"
-
-    //Admob
-    compile "com.google.firebase:firebase-ads:${fireBaseToolsReleaseVersion}"
-
-    //Firebase Auth
-    compile "com.google.firebase:firebase-auth:${fireBaseToolsReleaseVersion}"
-
-    //FirebaseUI Auth
-    compile "com.firebaseui:firebase-ui-auth:${fireBaseUiReleaseVersion}"
-
-    //Firebase Database
-    compile "com.google.firebase:firebase-database:${fireBaseToolsReleaseVersion}"
-
-    //Firebase Storage
-    compile"com.google.firebase:firebase-storage:${fireBaseToolsReleaseVersion}"
 }
 apply plugin: 'com.google.gms.google-services'
