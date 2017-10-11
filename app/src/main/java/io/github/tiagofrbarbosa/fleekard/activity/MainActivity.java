@@ -163,9 +163,9 @@ public class MainActivity extends AppCompatActivity {
                                         bundle.putString(Database.users.USER_EMAIL, user.getEmail());
                                         bundle.putString(Database.users.USER_GENDER, String.valueOf(user.getGender()));
                                         bundle.putString(Database.users.USER_AGE, String.valueOf(user.getAge()));
+                                        bundle.putInt(ProfileEditActivity.ACTIVITY_SOURCE_EXTRA, ProfileEditActivity.ACTIVITY_SOURCE_MAIN_ACTIVITY);
                                         intent.putExtras(bundle);
                                         startActivity(intent);
-                                        finish();
                                     }
                               }
 

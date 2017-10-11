@@ -59,6 +59,10 @@ public class ProfileEditActivity extends AppCompatActivity{
 
     private static final int RC_PHOTO_PICKER = 2;
 
+    public static final String ACTIVITY_SOURCE_EXTRA = "activity_source_extra";
+    public static final int ACTIVITY_SOURCE_SIGIN = 0;
+    public static final int ACTIVITY_SOURCE_MAIN_ACTIVITY = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -168,12 +172,16 @@ public class ProfileEditActivity extends AppCompatActivity{
 
                 Toast.makeText(this, getResources().getString(R.string.toast_user_data_update), Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(this, MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString(Database.users.USER_KEY, extras.getString(Database.users.USER_KEY));
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
+                if(extras.getInt(ACTIVITY_SOURCE_EXTRA) == ACTIVITY_SOURCE_SIGIN) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Database.users.USER_KEY, extras.getString(Database.users.USER_KEY));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    finish();
+                }
             }
         }
     }

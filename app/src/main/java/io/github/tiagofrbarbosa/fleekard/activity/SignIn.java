@@ -146,6 +146,7 @@ public class SignIn extends AppCompatActivity {
                             bundle.putString(Database.users.USER_STATUS, mUser.getUserStatus());
                             bundle.putString(Database.users.USER_IMAGE, mUser.getImg());
                             bundle.putString(Database.users.USER_GENDER, String.valueOf(mUser.getGender()));
+                            bundle.putInt(ProfileEditActivity.ACTIVITY_SOURCE_EXTRA, ProfileEditActivity.ACTIVITY_SOURCE_SIGIN);
                             intent.putExtras(bundle);
                             startActivity(intent);
                             finish();
@@ -165,6 +166,7 @@ public class SignIn extends AppCompatActivity {
                                 bundle.putString(Database.users.USER_STATUS, mSnapUser.getUserStatus());
                                 bundle.putString(Database.users.USER_IMAGE, mSnapUser.getImg());
                                 bundle.putString(Database.users.USER_GENDER, String.valueOf(mSnapUser.getGender()));
+                                bundle.putInt(ProfileEditActivity.ACTIVITY_SOURCE_EXTRA, ProfileEditActivity.ACTIVITY_SOURCE_SIGIN);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                                 finish();
