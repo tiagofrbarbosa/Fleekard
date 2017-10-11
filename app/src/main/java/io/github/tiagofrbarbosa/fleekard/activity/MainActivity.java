@@ -263,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements
         }else{
             createRequestLocation();
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         }
     }
 
@@ -275,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements
                             == PackageManager.PERMISSION_GRANTED) {
                             createRequestLocation();
                             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+                            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                     }
                 }else{
                     Toast.makeText(this, "Negada!", Toast.LENGTH_LONG).show();
@@ -296,10 +298,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-            mLastLocation = location;
 
-            if(mLastLocation != null)
-            Timber.tag("myLocation").e("locationUpdate: " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
+            if(mLastLocation != null) {
+                Timber.tag("myLocation").e("locationUpdate: " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
+            }else{
+                Timber.tag("myLocation").e("No Location data");
+            }
     }
 
     protected void createRequestLocation(){
