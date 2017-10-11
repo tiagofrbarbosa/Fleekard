@@ -245,7 +245,6 @@ public class MainActivity extends AppCompatActivity implements
 
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
-
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
                 Snackbar.make(mLayout, getResources().getString(R.string.snackbar_request_permission_rationale), Snackbar.LENGTH_INDEFINITE)
                         .setAction("OK", new View.OnClickListener(){
@@ -255,44 +254,29 @@ public class MainActivity extends AppCompatActivity implements
                                 ActivityCompat.requestPermissions(MainActivity.this,
                                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                                         MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-                            }
-                        }).show();
+                            }}).show();
             }else {
-
                 ActivityCompat.requestPermissions(this,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-
             }
         }else{
-
-                mLocationRequest = LocationRequest.create();
-                mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                mLocationRequest.setInterval(LOCATION_REQUEST_INTERVAL);
-                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                Timber.tag("myLocation").e("lastLocation: " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
+            createRequestLocation();
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
-        switch (requestCode) {
+        switch(requestCode){
             case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-
-                        mLocationRequest = LocationRequest.create();
-                        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                        mLocationRequest.setInterval(LOCATION_REQUEST_INTERVAL);
-                        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-                        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                        Timber.tag("myLocation").e("lastLocation: " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
+                            createRequestLocation();
+                            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
                     }
-
-                } else {
+                }else{
                     Toast.makeText(this, "Negada!", Toast.LENGTH_LONG).show();
                 }
                 return;
@@ -312,6 +296,15 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-        Timber.tag("myLocation").e("locationUpdate: " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
+            mLastLocation = location;
+
+            if(mLastLocation != null)
+            Timber.tag("myLocation").e("locationUpdate: " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
+    }
+
+    protected void createRequestLocation(){
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(LOCATION_REQUEST_INTERVAL);
     }
 }
