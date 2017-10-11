@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -49,6 +50,7 @@ public class ProfileEditActivity extends AppCompatActivity{
     @BindView(R.id.user_gender) Spinner spinner;
     @BindView(R.id.user_age) EditText userAge;
     @BindView(R.id.fab_save) FloatingActionButton floatingActionButton;
+    @BindView(R.id.main_layout) View mLayout;
 
     @Inject
     Glide glide;
@@ -114,6 +116,10 @@ public class ProfileEditActivity extends AppCompatActivity{
                 userAge.setText(extras.getString(Database.users.USER_AGE));
 
             floatingActionButton.setVisibility(View.VISIBLE);
+        }
+
+        if(extras.getInt(ACTIVITY_SOURCE_EXTRA) == ACTIVITY_SOURCE_SIGIN){
+            Snackbar.make(mLayout, getResources().getString(R.string.snackbar_welcome), Snackbar.LENGTH_LONG).show();
         }
     }
 

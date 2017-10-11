@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -51,12 +53,14 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.adView) AdView mAdView;
+    @BindView(R.id.main_layout) View mLayout;
 
     @Inject Glide glide;
 
     private FleekardApplication app;
     private FirebaseUser mFirebaseUser;
     private Bundle extras;
+
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;
 
     @Override
@@ -90,13 +94,27 @@ public class MainActivity extends AppCompatActivity {
 
         setupTabIcons();
 
-        if(ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
 
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
+                Snackbar.make(mLayout, getResources().getString(R.string.snackbar_request_permission_rationale), Snackbar.LENGTH_INDEFINITE)
+                        .setAction("OK", new View.OnClickListener(){
+
+                            @Override
+                            public void onClick(View view){
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+                            }
+                        }).show();
+            }else {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+
+            }
         }
     }
 
