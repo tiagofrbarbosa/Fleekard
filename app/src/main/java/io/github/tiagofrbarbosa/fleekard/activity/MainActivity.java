@@ -76,10 +76,10 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;
     private static final int LOCATION_REQUEST_INTERVAL = 3600000;
+    private static final int LOCATION_REQUEST_FAST_INTERVAL = 1800000;
 
     protected GoogleApiClient mGoogleApiClient;
     protected LocationRequest mLocationRequest;
-    protected Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -263,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements
         }else{
             createRequestLocation();
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         }
     }
 
@@ -276,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements
                             == PackageManager.PERMISSION_GRANTED) {
                             createRequestLocation();
                             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-                            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                     }
                 }else{
                     Toast.makeText(this, "Negada!", Toast.LENGTH_LONG).show();
@@ -299,8 +297,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLocationChanged(Location location) {
 
-            if(mLastLocation != null) {
-                Timber.tag("myLocation").e("locationUpdate: " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
+            if(location != null) {
+                Timber.tag("myLocation").e("locationUpdate: " + location.getLatitude() + " " + location.getLongitude());
             }else{
                 Timber.tag("myLocation").e("No Location data");
             }
@@ -310,5 +308,6 @@ public class MainActivity extends AppCompatActivity implements
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(LOCATION_REQUEST_INTERVAL);
+        mLocationRequest.setFastestInterval(LOCATION_REQUEST_FAST_INTERVAL);
     }
 }
