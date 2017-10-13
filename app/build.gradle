@@ -25,6 +25,7 @@ ext {
     timberVersion = '4.5.1'
     daggerVersion = '2.11'
     glideVersion = '4.1.1'
+    retrofitVersion = '2.3.0'
     testLibraryVersion = '4.12'
     constraintLayoutVersion = '1.0.2'
     fireBaseToolsReleaseVersion = '11.0.4'
@@ -64,6 +65,8 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
     compile "com.github.bumptech.glide:glide:${glideVersion}"
     annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
+    compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
 
     //Test
     testCompile "junit:junit:${testLibraryVersion}"
