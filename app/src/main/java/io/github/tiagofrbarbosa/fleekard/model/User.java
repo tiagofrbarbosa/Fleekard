@@ -1,12 +1,7 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import io.github.tiagofrbarbosa.fleekard.R;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -22,7 +17,7 @@ public class User {
     private int gender;
     private int age;
     private int userPresence;
-    private Location location;
+    private UserLocation userLocation;
 
     public static final int GENDER_VALUE_MALE = 0;
     public static final int GENDER_VALUE_FEMALE = 1;
@@ -136,12 +131,12 @@ public class User {
         return this.userPresence;
     }
 
-    public void setLocation(Location location){
-        this.location = location;
+    public void setUserLocation(UserLocation userLocation){
+        this.userLocation = userLocation;
     }
 
-    public Location getLocation(){
-        return this.location;
+    public UserLocation getUserLocation(){
+        return this.userLocation;
     }
 
     public static List<User> getUsers(){

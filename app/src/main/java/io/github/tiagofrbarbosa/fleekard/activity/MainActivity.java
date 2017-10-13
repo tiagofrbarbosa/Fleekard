@@ -55,6 +55,7 @@ import io.github.tiagofrbarbosa.fleekard.adapter.ViewPagerAdapter;
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import io.github.tiagofrbarbosa.fleekard.model.UserLocation;
 import timber.log.Timber;
 
 import android.location.Location;
@@ -287,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements
                             createRequestLocation();
                     }
                 }else{
-                    Toast.makeText(this, "Negada!", Toast.LENGTH_LONG).show();
+                    setDefaultLocation();
                 }
                 return;
             }
@@ -308,9 +309,20 @@ public class MainActivity extends AppCompatActivity implements
     public void onLocationChanged(Location location) {
 
             if(location != null) {
+
+                UserLocation mUserLocation = new UserLocation(location.getLatitude(), location.getLongitude());
+
+                DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
+                        .child(Database.users.CHILD_USERS);
+
+                mUserReference
+                        .child(app.getmAppUser().getUserKey())
+                        .child(Database.users.USER_LOCATION)
+                        .setValue(mUserLocation);
+
                 Timber.tag("myLocation").e("locationUpdate: " + location.getLatitude() + " " + location.getLongitude());
             }else{
-                Timber.tag("myLocation").e("No Location data");
+                Timber.tag("myLocation").e("No UserLocation data");
             }
     }
 
@@ -343,11 +355,11 @@ public class MainActivity extends AppCompatActivity implements
                             ResolvableApiException resolvable = (ResolvableApiException) e;
                             resolvable.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
                         }catch (IntentSender.SendIntentException sendEx){
-                            Timber.tag("myLocation").e("pending intent unable");
+                            setDefaultLocation();
                         }
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            Timber.tag("myLocation").e("change unavaiable");
+                            setDefaultLocation();
                         break;
                 }
             }
@@ -363,6 +375,7 @@ public class MainActivity extends AppCompatActivity implements
                         getLocationUpdate();
                         break;
                     case Activity.RESULT_CANCELED:
+                        setDefaultLocation();
                         break;
                 }
                 break;
@@ -374,5 +387,18 @@ public class MainActivity extends AppCompatActivity implements
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
+    }
+
+    public void setDefaultLocation(){
+
+        UserLocation mUserLocation = new UserLocation(-23.551964, -46.652250);
+
+        DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.users.CHILD_USERS);
+
+        mUserReference
+                .child(app.getmAppUser().getUserKey())
+                .child(Database.users.USER_LOCATION)
+                .setValue(mUserLocation);
     }
 }

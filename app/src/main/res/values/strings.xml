@@ -24,7 +24,7 @@
     <string name="toast_user_data_update">User data updated!</string>
     <string name="photo_picker_intent">Complete action using</string>
     <string name="snackbar_welcome">Welcome! complete your profile</string>
-    <string name="snackbar_request_permission_rationale">the location is required to see other users!</string>
+    <string name="snackbar_request_permission_rationale">the userLocation is required to see other users!</string>
 
     <string-array name="gender_array">
         <item>Male</item>
