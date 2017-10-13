@@ -47,7 +47,7 @@ public class User {
         this.age = age;
     }
 
-    public User(String userId, String userKey, String userName, String userStatus, String img, String email, int gender, int age, int userPresence){
+    public User(String userId, String userKey, String userName, String userStatus, String img, String email, int gender, int age, int userPresence, UserLocation userLocation){
         this.userId = userId;
         this.userKey = userKey;
         this.userName = userName;
@@ -57,6 +57,7 @@ public class User {
         this.gender = gender;
         this.age = age;
         this.userPresence = userPresence;
+        this.userLocation = userLocation;
     }
 
     public void setUserId(String userId){

@@ -17,6 +17,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
@@ -31,6 +32,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
     private List<User> users;
     private Context context;
     private final UserOnclickListener onClickListener;
+    private FleekardApplication app;
 
     @Inject Glide glide;
 
@@ -38,10 +40,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
         public void onClickUser(UsersViewHolder holder, int idx);
     }
 
-    public UserAdapter(Context context, List<User> users, UserOnclickListener onClickListener){
+    public UserAdapter(Context context, List<User> users, UserOnclickListener onClickListener, FleekardApplication app){
         this.context = context;
         this.users = users;
         this.onClickListener = onClickListener;
+        this.app = app;
     }
 
     @Override

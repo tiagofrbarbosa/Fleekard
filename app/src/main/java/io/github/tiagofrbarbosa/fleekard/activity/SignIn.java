@@ -23,6 +23,7 @@ import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import io.github.tiagofrbarbosa.fleekard.model.UserLocation;
 import timber.log.Timber;
 
 /**
@@ -123,6 +124,8 @@ public class SignIn extends AppCompatActivity {
 
                             String userKey = userKeyReference.push().getKey();
 
+                            UserLocation mUserLocation = new UserLocation(-23.551964, -46.652250);
+
                             User mUser = new User(mFirebaseUser.getUid()
                                     , userKey
                                     , mFirebaseUser.getDisplayName()
@@ -131,7 +134,8 @@ public class SignIn extends AppCompatActivity {
                                     , mFirebaseUser.getEmail()
                                     , 0
                                     , 0
-                                    , 0);
+                                    , 0
+                                    , mUserLocation);
 
                             app.setmAppUser(mUser);
 

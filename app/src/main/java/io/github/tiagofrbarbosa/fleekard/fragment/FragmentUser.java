@@ -78,7 +78,7 @@ public class FragmentUser extends Fragment{
                             if(!mFirebaseUser.getUid().equals(user.getUserId())) users.add(user);
                         }
                         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-                        recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser()));
+                        recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
                     }
 
                     @Override

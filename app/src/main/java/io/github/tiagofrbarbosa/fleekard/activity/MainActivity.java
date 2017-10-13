@@ -322,6 +322,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 Timber.tag("myLocation").e("locationUpdate: " + location.getLatitude() + " " + location.getLongitude());
             }else{
+                setDefaultLocation();
                 Timber.tag("myLocation").e("No UserLocation data");
             }
     }
