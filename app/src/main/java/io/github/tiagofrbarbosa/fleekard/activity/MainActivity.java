@@ -128,7 +128,10 @@ public class MainActivity extends AppCompatActivity implements
 
         buildGoogleApiClient();
 
-        new DistanceAsyncTask().execute("teste","teste2");
+        String origin = "-23.543198,-46.810218";
+        String destination = "-23.703864,-46.691675";
+
+        new DistanceAsyncTask().execute(origin,destination);
     }
 
     protected synchronized void buildGoogleApiClient(){
