@@ -52,6 +52,7 @@ import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.ViewPagerAdapter;
+import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
@@ -126,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements
         setupTabIcons();
 
         buildGoogleApiClient();
+
+        new DistanceAsyncTask().execute("teste","teste2");
     }
 
     protected synchronized void buildGoogleApiClient(){
