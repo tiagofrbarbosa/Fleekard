@@ -56,6 +56,7 @@ dependencies {
     compile "com.firebaseui:firebase-ui-auth:${fireBaseUiReleaseVersion}"
     compile "com.google.firebase:firebase-database:${fireBaseToolsReleaseVersion}"
     compile "com.google.firebase:firebase-storage:${fireBaseToolsReleaseVersion}"
+    compile "com.google.firebase:firebase-messaging:${fireBaseToolsReleaseVersion}"
     compile "com.google.android.gms:play-services-location:${googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-maps:${googlePlayServicesVersion}"
     compile "com.google.maps.android:android-maps-utils:${androidMapUtilsVersion}"
