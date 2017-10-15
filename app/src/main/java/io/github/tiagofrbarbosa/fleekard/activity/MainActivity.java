@@ -127,11 +127,6 @@ public class MainActivity extends AppCompatActivity implements
         setupTabIcons();
 
         buildGoogleApiClient();
-
-        String origin = "-23.543198,-46.810218";
-        String destination = "-23.703864,-46.691675";
-
-        new DistanceAsyncTask().execute(origin,destination);
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -316,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements
 
             if(location != null) {
 
-                UserLocation mUserLocation = new UserLocation(location.getLatitude(), location.getLongitude());
+                UserLocation mUserLocation = new UserLocation(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
 
                 DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                         .child(Database.users.CHILD_USERS);
@@ -398,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void setDefaultLocation(){
 
-        UserLocation mUserLocation = new UserLocation(-23.551964, -46.652250);
+        UserLocation mUserLocation = new UserLocation("-23.551964", "-46.652250");
 
         DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);

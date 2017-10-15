@@ -39,7 +39,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
-                            android:text="3km"/>
+                            android:background="@color/distanceBackgroud"/>
                 </RelativeLayout>
 
                 <LinearLayout

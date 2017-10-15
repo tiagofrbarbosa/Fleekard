@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FFD600</color>
     <color name="toolBarTextColor">#FFFFFF</color>
+    <color name="distanceBackgroud">#FFFFFF</color>
 </resources>

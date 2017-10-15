@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
@@ -19,8 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import io.github.tiagofrbarbosa.fleekard.retrofit.RetrofitClient;
 import timber.log.Timber;
 
 /**
@@ -59,6 +62,22 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
         User user = users.get(position);
         holder.userName.setText(user.getUserName());
 
+        Timber.tag("mAsyncTask").e("user connected: " + app.getmAppUser().getUserLocation().getLatLong());
+        Timber.tag("mAsyncTask").e("user holder: " + user.getUserLocation().getLatLong());
+
+        new DistanceAsyncTask().execute(app.getmAppUser().getUserLocation().getLatLong()
+                , user.getUserLocation().getLatLong());
+
+        DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask();
+        distanceAsyncTask.execute(app.getmAppUser().getUserLocation().getLatLong()
+                , user.getUserLocation().getLatLong());
+        try {
+            holder.userDistance.setText(distanceAsyncTask.get());
+        }catch (InterruptedException | ExecutionException e){
+            e.printStackTrace();
+        }
+
+
             glide.with(context)
                     .load(user.getImg())
                     .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
@@ -90,6 +109,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
     public static class UsersViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.user_name) TextView userName;
         @BindView(R.id.user_image) ImageView imageView;
+        @BindView(R.id.user_distance) TextView userDistance;
         @BindView(R.id.user_age) TextView userAge;
         @BindView(R.id.user_gender) ImageView userGender;
         private View view;

@@ -124,7 +124,7 @@ public class SignIn extends AppCompatActivity {
 
                             String userKey = userKeyReference.push().getKey();
 
-                            UserLocation mUserLocation = new UserLocation(-23.551964, -46.652250);
+                            UserLocation mUserLocation = new UserLocation("-23.551964", "-46.652250");
 
                             User mUser = new User(mFirebaseUser.getUid()
                                     , userKey

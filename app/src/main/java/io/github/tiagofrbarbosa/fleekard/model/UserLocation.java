@@ -1,34 +1,41 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
+import com.google.firebase.database.Exclude;
+
 /**
  * Created by tfbarbosa on 21/09/17.
  */
 
 public class UserLocation {
 
-    private double latitude;
-    private double longitude;
+    private String latitude;
+    private String longitude;
 
     public UserLocation(){}
 
-    public UserLocation(double latitude, double longitude){
+    public UserLocation(String latitude, String longitude){
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public void setLatitude(double latitude){
+    public void setLatitude(String latitude){
         this.latitude = latitude;
     }
 
-    public double getLatitude(){
+    public String getLatitude(){
         return this.latitude;
     }
 
-    public void setLongitude(double longitude){
+    public void setLongitude(String longitude){
         this.longitude = longitude;
     }
 
-    public double getLongitude(){
+    public String getLongitude(){
         return this.longitude;
+    }
+
+    @Exclude
+    public String getLatLong(){
+        return this.latitude + "," + this.longitude;
     }
 }
