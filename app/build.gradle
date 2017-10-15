@@ -31,6 +31,7 @@ ext {
     fireBaseToolsReleaseVersion = '11.0.4'
     googlePlayServicesVersion = '11.0.4'
     fireBaseUiReleaseVersion = '2.3.0'
+    androidMapUtilsVersion = '0.4'
 }
 
 dependencies {
@@ -54,10 +55,10 @@ dependencies {
     compile "com.google.firebase:firebase-auth:${fireBaseToolsReleaseVersion}"
     compile "com.firebaseui:firebase-ui-auth:${fireBaseUiReleaseVersion}"
     compile "com.google.firebase:firebase-database:${fireBaseToolsReleaseVersion}"
-    compile"com.google.firebase:firebase-storage:${fireBaseToolsReleaseVersion}"
+    compile "com.google.firebase:firebase-storage:${fireBaseToolsReleaseVersion}"
     compile "com.google.android.gms:play-services-location:${googlePlayServicesVersion}"
-    compile 'com.google.maps.android:android-maps-utils:0.4+'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
+    compile "com.google.android.gms:play-services-maps:${googlePlayServicesVersion}"
+    compile "com.google.maps.android:android-maps-utils:${androidMapUtilsVersion}"
 
     //Third party library
     compile "com.jakewharton:butterknife:${butterKnifeVersion}"
