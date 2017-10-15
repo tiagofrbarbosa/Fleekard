@@ -62,22 +62,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
         User user = users.get(position);
         holder.userName.setText(user.getUserName());
 
-        Timber.tag("mAsyncTask").e("user connected: " + app.getmAppUser().getUserLocation().getLatLong());
-        Timber.tag("mAsyncTask").e("user holder: " + user.getUserLocation().getLatLong());
-
-        new DistanceAsyncTask().execute(app.getmAppUser().getUserLocation().getLatLong()
-                , user.getUserLocation().getLatLong());
+        Timber.tag("mAsyncTask").i("user connected: " + app.getmAppUser().getUserLocation().getLatLong());
+        Timber.tag("mAsyncTask").i("user holder: " + user.getUserLocation().getLatLong());
 
         DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask();
-        distanceAsyncTask.execute(app.getmAppUser().getUserLocation().getLatLong()
-                , user.getUserLocation().getLatLong());
+        distanceAsyncTask.execute(
+                  app.getmAppUser().getUserLocation().getLatLong()
+                , user.getUserLocation().getLatLong()
+                , app.getmAppUser().getUserLocation().getLatitude()
+                , app.getmAppUser().getUserLocation().getLongitude()
+                , user.getUserLocation().getLatitude()
+                , user.getUserLocation().getLongitude());
+
         try {
             holder.userDistance.setText(distanceAsyncTask.get());
         }catch (InterruptedException | ExecutionException e){
             e.printStackTrace();
         }
-
-
             glide.with(context)
                     .load(user.getImg())
                     .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))

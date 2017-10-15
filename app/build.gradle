@@ -56,6 +56,8 @@ dependencies {
     compile "com.google.firebase:firebase-database:${fireBaseToolsReleaseVersion}"
     compile"com.google.firebase:firebase-storage:${fireBaseToolsReleaseVersion}"
     compile "com.google.android.gms:play-services-location:${googlePlayServicesVersion}"
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
 
     //Third party library
     compile "com.jakewharton:butterknife:${butterKnifeVersion}"

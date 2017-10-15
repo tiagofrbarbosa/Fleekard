@@ -13,6 +13,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
+import static com.google.maps.android.SphericalUtil.computeDistanceBetween;
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by tfbarbosa on 14/10/17.
  */
@@ -40,7 +43,22 @@ public class DistanceAsyncTask extends AsyncTask<String, Void, String> {
         if(response.body().status.equals("OK") && response.body().rows.get(0).elements.get(0).status.equals("OK")){
             mDistance = response.body().rows.get(0).elements.get(0).distance.text;
         }else{
-            mDistance = "?";
+
+            double latitude_origin = Double.valueOf(params[2]);
+            double longitude_origin = Double.valueOf(params[3]);
+            double latitude_destination = Double.valueOf(params[4]);
+            double longitude_destination = Double.valueOf(params[5]);
+
+            double computeDistanceBetween = computeDistanceBetween(new LatLng(latitude_origin,longitude_origin)
+                    , new LatLng(latitude_destination,longitude_destination));
+
+            if(computeDistanceBetween > 1000) {
+                mDistance = String.valueOf(String.format("%.0f",computeDistanceBetween / 1000));
+                mDistance = mDistance.concat(" km");
+            }else{
+                mDistance = String.valueOf(String.format("%.0f",computeDistanceBetween));
+                mDistance = mDistance.concat(" m");
+            }
         }
 
         return mDistance;
