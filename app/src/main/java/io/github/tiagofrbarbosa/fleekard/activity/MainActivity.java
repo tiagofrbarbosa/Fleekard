@@ -2,9 +2,12 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -65,6 +68,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 /**
  * Created by tfbarbosa on 15/09/17.
@@ -127,6 +131,10 @@ public class MainActivity extends AppCompatActivity implements
         setupTabIcons();
 
         buildGoogleApiClient();
+
+        createChannel();
+
+        getMessagingToken();
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -402,5 +410,19 @@ public class MainActivity extends AppCompatActivity implements
                 .child(app.getmAppUser().getUserKey())
                 .child(Database.users.USER_LOCATION)
                 .setValue(mUserLocation);
+    }
+
+    public void createChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId  = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+    }
+
+    public void getMessagingToken(){
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Timber.tag("myTokenService").e("MainActivity: " + token);
     }
 }

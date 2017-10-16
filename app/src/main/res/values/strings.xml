@@ -2,9 +2,11 @@
 
     <!-- no translatable -->
     <string name="app_name" translatable="false">Fleekard</string>
-    <string name="check_push_settings">PREF_CHECK_PUSH</string>
-    <string name="tos_link">https://tiagofrbarbosa.github.io/tos_pp/fleekard/tos.html</string>
-    <string name="privacy_policy_link">https://tiagofrbarbosa.github.io/tos_pp/fleekard/mobile-privacy-policy-geolocated-apps.html</string>
+    <string name="check_push_settings" translatable="false">PREF_CHECK_PUSH</string>
+    <string name="tos_link" translatable="false">https://tiagofrbarbosa.github.io/tos_pp/fleekard/tos.html</string>
+    <string name="privacy_policy_link" translatable="false">https://tiagofrbarbosa.github.io/tos_pp/fleekard/mobile-privacy-policy-geolocated-apps.html</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_name" translatable="true">News</string>
 
     <!-- translatable -->
     <string name="action_settings">Settings</string>
