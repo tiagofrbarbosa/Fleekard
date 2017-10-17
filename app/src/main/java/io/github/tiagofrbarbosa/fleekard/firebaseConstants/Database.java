@@ -21,6 +21,7 @@ public final class Database {
         public static final String USER_PRESENCE = "userPresence";
         public static final String USER_IMAGE_AVATAR = "NoImage";
         public static final String USER_NOTIFICATION_TOKEN = "notificationToken";
+        public static final String USER_NOTIFICATION_VALUE = "token";
     }
 
     public static final class messages {

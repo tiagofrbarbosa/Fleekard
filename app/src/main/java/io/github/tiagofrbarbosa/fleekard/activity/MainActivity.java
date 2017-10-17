@@ -58,6 +58,7 @@ import io.github.tiagofrbarbosa.fleekard.adapter.ViewPagerAdapter;
 import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+import io.github.tiagofrbarbosa.fleekard.model.NotificationToken;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.model.UserLocation;
 import timber.log.Timber;
@@ -429,9 +430,11 @@ public class MainActivity extends AppCompatActivity implements
         DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);
 
+        NotificationToken notificationToken = new NotificationToken(token);
+
         mUserReference
                 .child(app.getmAppUser().getUserKey())
                 .child(Database.users.USER_NOTIFICATION_TOKEN)
-                .setValue(token);
+                .setValue(notificationToken);
     }
 }
