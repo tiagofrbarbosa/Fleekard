@@ -173,6 +173,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Notification mNotificationMessage = new Notification(app.getmAppUser().getUserKey()
                                                                 , extras.getString(Database.users.USER_KEY)
+                                                                , app.getmAppUser().getUserId()
                                                                 , Notification.INTERACTION_CODE_MSG);
 
         DatabaseReference mNotificationReference = app.getmFirebaseDatabase().getReference()

@@ -17,6 +17,7 @@ public class Notification {
     private String userKeyNotificate;
     private int notification;
     private HashMap<String, Object> mTimeStamp;
+    private String userSenderId;
 
     public static final int INTERACTION_CODE_MSG = 1;
     public static final int INTERACTION_CODE_LIKE = 2;
@@ -28,6 +29,16 @@ public class Notification {
         this.userKey = userKey;
         this.userKeyNotificate = userKeyNotificate;
         this.notification = notification;
+        HashMap<String, Object> stampHash = new HashMap<>();
+        stampHash.put("timestamp", ServerValue.TIMESTAMP);
+        this.mTimeStamp = stampHash;
+    }
+
+    public Notification(String userKey, String userKeyNotificate, String userSenderId, int notification){
+        this.userKey = userKey;
+        this.userKeyNotificate = userKeyNotificate;
+        this.notification = notification;
+        this.userSenderId = userSenderId;
         HashMap<String, Object> stampHash = new HashMap<>();
         stampHash.put("timestamp", ServerValue.TIMESTAMP);
         this.mTimeStamp = stampHash;
@@ -55,6 +66,14 @@ public class Notification {
 
     public int getNotification(){
         return this.notification;
+    }
+
+    public void setUserSenderId(String userSenderId){
+        this.userSenderId = userSenderId;
+    }
+
+    public String getUserSenderId(){
+        return this.userSenderId;
     }
 
     public HashMap<String, Object> getmTimeStamp(){

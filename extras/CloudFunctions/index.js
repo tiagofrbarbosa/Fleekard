@@ -8,20 +8,20 @@ admin.initializeApp(functions.config().firebase);
 exports.sendMessageNotification = functions.database.ref('/notification_message/{userRecipient}/{userSender}').onWrite(event => {
   const userRecipient = event.params.userRecipient;
   const userSender = event.params.userSender;
+  const userSenderUid = event.data.current.child('userSenderId').val();
 
   if (!event.data.val()) {
     return console.log('User ', userSender, ' did not send ', userRecipient);
   }
-  console.log('We have a new message UID:', userSender, 'for user:', userRecipient);
+  
+  console.log('userSenderUid: ',userSenderUid);
 
 
-  const getDeviceTokensPromise = admin.database().ref(`/users/${userRecipient}/notificationToken/token`).once('value');
+  const getDeviceTokensPromise = admin.database().ref(`/users/${userRecipient}/notificationToken`).once('value');
 
-  const getUserSenderUid = admin.database().ref(`/users/${userSender}/userId`).once('value');
+  const getSenderProfilePromise = admin.auth().getUser(userSenderUid);
 
-  const getSenderProfilePromise = admin.auth().getUser(getUserSenderUid);
-
-  return Promise.all([getDeviceTokensPromise, getFollowerProfilePromise]).then(results => {
+  return Promise.all([getDeviceTokensPromise, getSenderProfilePromise]).then(results => {
     const tokensSnapshot = results[0];
     const sender = results[1];
 
@@ -34,8 +34,7 @@ exports.sendMessageNotification = functions.database.ref('/notification_message/
     const payload = {
       notification: {
         title: 'You have a new message!',
-        body: `${sender.displayName} sent a message.`,
-        icon: sender.photoURL
+        body: `${sender.displayName} sent a message.`
       }
     };
 
