@@ -44,4 +44,9 @@ public final class Database {
         public static final String CHILD_NOTIFICATION = "notifications";
         public static final String USER_KEY_NOTIFICATE = "userKeyNotificate";
     }
+
+    public static final class notification_message {
+
+        public static final String CHILD_NOTIFICATION_MESSAGE = "notification_message";
+    }
 }

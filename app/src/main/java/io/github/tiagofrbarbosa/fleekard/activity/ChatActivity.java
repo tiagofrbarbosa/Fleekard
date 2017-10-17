@@ -51,6 +51,7 @@ import io.github.tiagofrbarbosa.fleekard.adapter.MessageChatAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
+import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
 
@@ -169,6 +170,17 @@ public class ChatActivity extends AppCompatActivity {
         Message mMessage = new Message(mMessageEditText.getText().toString(), mUserName, null);
         mMessageDatabaseReference.push().setValue(mMessage);
         mMessageEditText.setText("");
+
+        Notification mNotificationMessage = new Notification(app.getmAppUser().getUserKey()
+                                                                , extras.getString(Database.users.USER_KEY)
+                                                                , Notification.INTERACTION_CODE_MSG);
+
+        DatabaseReference mNotificationReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.notification_message.CHILD_NOTIFICATION_MESSAGE)
+                .child(extras.getString(Database.users.USER_KEY))
+                .child(app.getmAppUser().getUserKey());
+
+        mNotificationReference.setValue(mNotificationMessage);
 
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mMessageEditText.getWindowToken(), 0);
