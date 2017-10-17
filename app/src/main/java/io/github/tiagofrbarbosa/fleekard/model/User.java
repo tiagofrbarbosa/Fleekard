@@ -18,6 +18,7 @@ public class User {
     private int age;
     private int userPresence;
     private UserLocation userLocation;
+    private String notificationToken;
 
     public static final int GENDER_VALUE_MALE = 0;
     public static final int GENDER_VALUE_FEMALE = 1;
@@ -138,6 +139,14 @@ public class User {
 
     public UserLocation getUserLocation(){
         return this.userLocation;
+    }
+
+    public void setNotificationToken(String notificationToken){
+        this.notificationToken = notificationToken;
+    }
+
+    public String getNotificationToken(){
+        return this.notificationToken;
     }
 
     public static List<User> getUsers(){

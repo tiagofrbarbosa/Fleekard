@@ -75,6 +75,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.notification_date.setText(mTime);
 
+        if(notification.getNotification() == Notification.INTERACTION_CODE_MSG){
+            descNotification = context.getResources().getString(R.string.notification_desc_msg);
+        }
+        if(notification.getNotification() == Notification.INTERACTION_CODE_LIKE){
+            descNotification = context.getResources().getString(R.string.notification_desc_like);
+        }
+        if(notification.getNotification() == Notification.INTERACTION_CODE_VISIT){
+            descNotification = context.getResources().getString(R.string.notification_desc_visited);
+        }
+
+        holder.notifications.setText(descNotification);
+
         DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);
 
@@ -92,15 +104,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                     .apply(RequestOptions.circleCropTransform())
                                     .into(holder.imageView);
 
-                            if(notification.getNotification() == Notification.INTERACTION_CODE_MSG){
-                                descNotification = context.getResources().getString(R.string.notification_desc_msg);
-                            }else if(notification.getNotification() == Notification.INTERACTION_CODE_LIKE){
-                                descNotification = context.getResources().getString(R.string.notification_desc_like);
-                            }else if(notification.getNotification() == Notification.INTERACTION_CODE_VISIT){
-                                descNotification = context.getResources().getString(R.string.notification_desc_visited);
-                            }
-
-                            holder.notifications.setText(user.getUserName() + " " + descNotification);
+                            holder.userName.setText(user.getUserName());
                         }
                     }
 
@@ -126,6 +130,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public static class NotificationsViewHolder extends RecyclerView.ViewHolder{
+        @BindView(R.id.user_name) TextView userName;
         @BindView(R.id.user_notification) TextView notifications;
         @BindView(R.id.user_image) ImageView imageView;
         @BindView(R.id.user_notification_date) TextView notification_date;

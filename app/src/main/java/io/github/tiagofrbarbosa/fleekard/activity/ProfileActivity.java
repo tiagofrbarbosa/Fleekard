@@ -122,6 +122,16 @@ public class ProfileActivity extends AppCompatActivity {
 
                         }
                     });
+
+            DatabaseReference mNotificationReference = app.getmFirebaseDatabase().getReference()
+                    .child(Database.notification.CHILD_NOTIFICATION)
+                    .child(extras.getString(Database.users.USER_KEY));
+
+            Notification notification = new Notification(app.getmAppUser().getUserKey()
+                    , extras.getString(Database.users.USER_KEY)
+                    , Notification.INTERACTION_CODE_VISIT);
+
+            mNotificationReference.push().setValue(notification);
         }
 
         mUserConnectedReference = app.getmFirebaseDatabase().getReference()

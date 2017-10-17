@@ -422,7 +422,16 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void getMessagingToken(){
+
         String token = FirebaseInstanceId.getInstance().getToken();
         Timber.tag("myTokenService").e("MainActivity: " + token);
+
+        DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.users.CHILD_USERS);
+
+        mUserReference
+                .child(app.getmAppUser().getUserKey())
+                .child(Database.users.USER_NOTIFICATION_TOKEN)
+                .setValue(token);
     }
 }
