@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -171,18 +172,20 @@ public class ChatActivity extends AppCompatActivity {
         mMessageDatabaseReference.push().setValue(mMessage);
         mMessageEditText.setText("");
 
-        Notification mNotificationMessage = new Notification(app.getmAppUser().getUserKey()
-                                                                , extras.getString(Database.users.USER_KEY)
-                                                                , extras.getString(Database.users.USER_NOTIFICATION_TOKEN)
-                                                                , app.getmAppUser().getUserId()
-                                                                , Notification.INTERACTION_CODE_MSG);
+        if(extras.getInt(Database.users.USER_PRESENCE) == User.USER_DISCONNECTED) {
+            Notification mNotificationMessage = new Notification(app.getmAppUser().getUserKey()
+                    , extras.getString(Database.users.USER_KEY)
+                    , extras.getString(Database.users.USER_NOTIFICATION_TOKEN)
+                    , app.getmAppUser().getUserId()
+                    , Notification.INTERACTION_CODE_MSG);
 
-        DatabaseReference mNotificationReference = app.getmFirebaseDatabase().getReference()
-                .child(Database.notification_message.CHILD_NOTIFICATION_MESSAGE)
-                .child(extras.getString(Database.users.USER_KEY))
-                .child(app.getmAppUser().getUserKey());
+            DatabaseReference mNotificationReference = app.getmFirebaseDatabase().getReference()
+                    .child(Database.notification_message.CHILD_NOTIFICATION_MESSAGE)
+                    .child(extras.getString(Database.users.USER_KEY))
+                    .child(app.getmAppUser().getUserKey());
 
-        mNotificationReference.setValue(mNotificationMessage);
+            mNotificationReference.setValue(mNotificationMessage);
+        }
 
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mMessageEditText.getWindowToken(), 0);
