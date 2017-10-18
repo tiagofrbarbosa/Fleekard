@@ -137,6 +137,14 @@ public class User {
         this.userLocation = userLocation;
     }
 
+    public NotificationToken getNotificationToken(){
+        return this.notificationToken;
+    }
+
+    public void setNotificationToken(NotificationToken notificationToken){
+        this.notificationToken = notificationToken;
+    }
+
     public UserLocation getUserLocation(){
         return this.userLocation;
     }

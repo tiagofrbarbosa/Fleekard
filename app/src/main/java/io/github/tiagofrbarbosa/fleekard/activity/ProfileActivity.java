@@ -247,6 +247,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 bundle.putString(Database.users.USER_KEY, user.getUserKey());
                                 bundle.putString(Database.users.USER_NAME, user.getUserName());
                                 bundle.putString(Database.users.USER_IMAGE, user.getImg());
+                                bundle.putString(Database.users.USER_NOTIFICATION_TOKEN, user.getNotificationToken().getToken());
                                 intent.putExtras(bundle);
                                 startActivity(intent);
 
@@ -262,6 +263,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 bundle.putString(Database.users.USER_KEY, user.getUserKey());
                                 bundle.putString(Database.users.USER_NAME, user.getUserName());
                                 bundle.putString(Database.users.USER_IMAGE, user.getImg());
+                                bundle.putString(Database.users.USER_NOTIFICATION_TOKEN, user.getNotificationToken().getToken());
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                                 

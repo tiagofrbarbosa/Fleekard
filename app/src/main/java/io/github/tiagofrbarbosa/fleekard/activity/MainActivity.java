@@ -130,12 +130,10 @@ public class MainActivity extends AppCompatActivity implements
         tabLayout.setupWithViewPager(viewPager);
 
         setupTabIcons();
-
         buildGoogleApiClient();
-
         createChannel();
-
         getMessagingToken();
+        setUserPresence();
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -436,5 +434,34 @@ public class MainActivity extends AppCompatActivity implements
                 .child(app.getmAppUser().getUserKey())
                 .child(Database.users.USER_NOTIFICATION_TOKEN)
                 .setValue(notificationToken);
+    }
+
+    public void setUserPresence(){
+
+        String userKey = app.getmAppUser().getUserKey();
+
+        final DatabaseReference mPresenceReference = app.getmFirebaseDatabase().getReference()
+                .child(Database.users.CHILD_USERS)
+                .child(userKey)
+                .child(Database.users.USER_PRESENCE);
+
+        DatabaseReference mConnectReference = app.getmFirebaseDatabase().getReference(".info/connected");
+
+        mConnectReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean connected = dataSnapshot.getValue(Boolean.class);
+
+                if(connected){
+                    mPresenceReference.setValue(User.USER_CONNECTED);
+                    mPresenceReference.onDisconnect().setValue(User.USER_DISCONNECTED);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

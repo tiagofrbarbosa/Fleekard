@@ -173,6 +173,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Notification mNotificationMessage = new Notification(app.getmAppUser().getUserKey()
                                                                 , extras.getString(Database.users.USER_KEY)
+                                                                , extras.getString(Database.users.USER_NOTIFICATION_TOKEN)
                                                                 , app.getmAppUser().getUserId()
                                                                 , Notification.INTERACTION_CODE_MSG);
 

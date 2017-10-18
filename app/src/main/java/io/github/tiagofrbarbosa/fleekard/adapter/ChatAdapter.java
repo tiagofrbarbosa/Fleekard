@@ -66,42 +66,42 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
     public void onBindViewHolder(final ChatsViewHolder holder, final int position) {
         Chat chat = chats.get(position);
 
-        mUserReference
-                .orderByChild(Database.users.USER_KEY)
-                .equalTo(chat.getUserId())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot userSnap : dataSnapshot.getChildren()){
-                            User user = userSnap.getValue(User.class);
-                            glide.with(context).load(user.getImg()).apply(RequestOptions.circleCropTransform()).into(holder.img);
-                            holder.userName.setText(user.getUserName());
-                            holder.userStatus.setText(user.getUserStatus());
+            mUserReference
+                    .orderByChild(Database.users.USER_KEY)
+                    .equalTo(chat.getUserId())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
+                                User user = userSnap.getValue(User.class);
+                                glide.with(context).load(user.getImg()).apply(RequestOptions.circleCropTransform()).into(holder.img);
+                                holder.userName.setText(user.getUserName());
+                                holder.userStatus.setText(user.getUserStatus());
 
-                            if(user.getUserPresence() == 1){
-                                holder.userPresence.setImageResource(R.drawable.ic_connection_on);
-                            }else{
-                                holder.userPresence.setImageResource(R.drawable.ic_connection_off);
+                                if (user.getUserPresence() == 1) {
+                                    holder.userPresence.setImageResource(R.drawable.ic_connection_on);
+                                } else {
+                                    holder.userPresence.setImageResource(R.drawable.ic_connection_off);
+                                }
                             }
                         }
-                    }
 
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+            holder.chatUnread.setText(String.valueOf(chat.getMsgUnread()));
+
+            if (onClickListener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
+                    public void onClick(View v) {
+                        onClickListener.onClickChat(holder, position);
                     }
                 });
-
-        holder.chatUnread.setText(String.valueOf(chat.getMsgUnread()));
-
-        if (onClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickListener.onClickChat(holder, position);
-                }
-            });
-        }
+            }
     }
 
     @Override
