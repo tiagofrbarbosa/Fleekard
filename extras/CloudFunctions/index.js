@@ -6,41 +6,33 @@ admin.initializeApp(functions.config().firebase);
 
 
 exports.sendMessageNotification = functions.database.ref('/notification_message/{userRecipient}/{userSender}').onWrite(event => {
-  const userRecipient = event.params.userRecipient;
-  const userSender = event.params.userSender;
-  const userSenderUid = event.data.current.child('userSenderId').val();
+  const userSenderUid = event.data.current.child('userUid').val();
+  const userToken = event.data.current.child('userToken').val();
 
   if (!event.data.val()) {
-    return console.log('User ', userSender, ' did not send ', userRecipient);
+    return console.log('no event data value!');
   }
   
   console.log('userSenderUid: ',userSenderUid);
-
-
-  const getDeviceTokensPromise = admin.database().ref(`/users/${userRecipient}/notificationToken`).once('value');
+  console.log('userToken: ',userToken);
 
   const getSenderProfilePromise = admin.auth().getUser(userSenderUid);
 
-  return Promise.all([getDeviceTokensPromise, getSenderProfilePromise]).then(results => {
-    const tokensSnapshot = results[0];
-    const sender = results[1];
+  return Promise.all([getSenderProfilePromise]).then(results => {
+    const sender = results[0];
 
-    if (!tokensSnapshot.hasChildren()) {
-      return console.log('There are no notification tokens to send to.');
-    }
-    console.log('There are', tokensSnapshot.numChildren(), 'tokens to send notifications to.');
     console.log('Fetched sender profile', sender);
 
     const payload = {
       notification: {
         title: 'You have a new message!',
-        body: `${sender.displayName} sent a message.`
+        body: `${sender.displayName} sent a message.`,
+        sound: `default`,
+        badge: `1`
       }
     };
 
-    const tokens = Object.keys(tokensSnapshot.val());
-
-    return admin.messaging().sendToDevice(tokens, payload).then(response => {
+    return admin.messaging().sendToDevice(userToken, payload).then(response => {
 
       const tokensToRemove = [];
       response.results.forEach((result, index) => {
