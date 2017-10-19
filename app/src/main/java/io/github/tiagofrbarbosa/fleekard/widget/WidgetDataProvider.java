@@ -1,5 +1,7 @@
 package io.github.tiagofrbarbosa.fleekard.widget;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
+import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
@@ -45,9 +48,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     }
 
     @Override
-    public void onDataSetChanged() {
-        initData();
-    }
+    public void onDataSetChanged() {}
 
     private void initData(){
 
@@ -96,6 +97,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                             mCollections.add(String.valueOf(notification.getTimeStampLong()));
                             Timber.tag("widgetFirebase").e(String.valueOf(notification.getTimeStampLong()));
                         }
+                        update(mContext);
                     }
 
                     @Override
@@ -106,9 +108,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     }
 
     @Override
-    public void onDestroy() {
-
-    }
+    public void onDestroy() {}
 
     @Override
     public int getCount() {
@@ -150,4 +150,14 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     public boolean hasStableIds() {
         return true;
     }
+
+    public static void update(Context context) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        if (appWidgetManager != null) {
+                ComponentName name = new ComponentName(context, FleekardAppWidget.class);
+                int[] appWidgetIds = appWidgetManager.getAppWidgetIds(name);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widgetCollectionList);
+        }
+    }
+
 }
