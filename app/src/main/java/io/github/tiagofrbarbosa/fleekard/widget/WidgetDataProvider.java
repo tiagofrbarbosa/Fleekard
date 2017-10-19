@@ -53,29 +53,35 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     private void initData(){
 
         FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        Timber.tag("widgetFirebase").e(mFirebaseUser.getDisplayName());
 
-        DatabaseReference mUserReference = FirebaseDatabase.getInstance().getReference()
-                .child(Database.users.CHILD_USERS);
+        if(mFirebaseUser != null) {
+            Timber.tag("widgetFirebase").e(mFirebaseUser.getDisplayName());
 
-        mUserReference
-                .orderByChild(Database.users.USER_ID)
-                .equalTo(mFirebaseUser.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot userSnap : dataSnapshot.getChildren()){
-                            User mUser = userSnap.getValue(User.class);
-                            Timber.tag("widgetFirebase").e(mUser.getUserKey());
-                            setWidgetNotifications(mUser.getUserKey());
+            DatabaseReference mUserReference = FirebaseDatabase.getInstance().getReference()
+                    .child(Database.users.CHILD_USERS);
+
+            mUserReference
+                    .orderByChild(Database.users.USER_ID)
+                    .equalTo(mFirebaseUser.getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
+                                User mUser = userSnap.getValue(User.class);
+                                Timber.tag("widgetFirebase").e(mUser.getUserKey());
+                                setWidgetNotifications(mUser.getUserKey());
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+        }else{
+            if(mCollections != null) mCollections.clear();
+            mCollections.add(mContext.getApplicationContext().getResources().getString(R.string.widget_no_user));
+        }
     }
 
     public void setWidgetNotifications(String userKey){

@@ -25,8 +25,12 @@
     <string name="toast_edittext_userage">User age is required!</string>
     <string name="toast_user_data_update">User data updated!</string>
     <string name="photo_picker_intent">Complete action using</string>
+    <string name="paralax">user photo</string>
     <string name="snackbar_welcome">Welcome! complete your profile</string>
     <string name="snackbar_request_permission_rationale">the userLocation is required to see other users!</string>
+    <string name="widget_no_user">no user logged in!</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
     <string-array name="gender_array">
         <item>Male</item>
@@ -54,7 +58,4 @@
     <!-- AdMob -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="app_ad_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="paralax">user photo</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
 </resources>
