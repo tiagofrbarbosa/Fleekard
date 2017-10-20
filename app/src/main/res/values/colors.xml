@@ -5,4 +5,8 @@
     <color name="colorAccent">#FFD600</color>
     <color name="toolBarTextColor">#FFFFFF</color>
     <color name="distanceBackgroud">#FFFFFF</color>
+    <color name="widget_background">#bbDEDFDE</color>
+    <color name="widget_background_linear_layout">#aaDEDFDE</color>
+    <color name="widget_textview_color">#4B4B4D</color>
+    <color name="widget_line_color">#aaa</color>
 </resources>

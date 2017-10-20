@@ -4,11 +4,17 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.AppWidgetTarget;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
@@ -35,8 +43,10 @@ import timber.log.Timber;
 @SuppressWarnings("NewApi")
 public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
-    List mCollections = new ArrayList();
-    Context mContext = null;
+    private List<Notification> mCollections = new ArrayList<Notification>();
+    private Context mContext = null;
+
+    private static final String TAG = "widgetFirebase";
 
     public WidgetDataProvider(Context context, Intent intent){
         mContext = context;
@@ -55,7 +65,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if(mFirebaseUser != null) {
-            Timber.tag("widgetFirebase").e(mFirebaseUser.getDisplayName());
+            Timber.tag(TAG).e(mFirebaseUser.getDisplayName());
 
             DatabaseReference mUserReference = FirebaseDatabase.getInstance().getReference()
                     .child(Database.users.CHILD_USERS);
@@ -68,7 +78,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
                                 User mUser = userSnap.getValue(User.class);
-                                Timber.tag("widgetFirebase").e(mUser.getUserKey());
+                                Timber.tag(TAG).e(mUser.getUserKey());
                                 setWidgetNotifications(mUser.getUserKey());
                             }
                         }
@@ -80,7 +90,9 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                     });
         }else{
             if(mCollections != null) mCollections.clear();
-            mCollections.add(mContext.getApplicationContext().getResources().getString(R.string.widget_no_user));
+            Notification noUser = new Notification();
+            noUser.setUserName(mContext.getResources().getString(R.string.widget_no_user));
+            mCollections.add(noUser);
         }
     }
 
@@ -100,8 +112,8 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
                         for(DataSnapshot notificationSnap : dataSnapshot.getChildren()){
                             Notification notification = notificationSnap.getValue(Notification.class);
-                            mCollections.add(String.valueOf(notification.getTimeStampLong()));
-                            Timber.tag("widgetFirebase").e(String.valueOf(notification.getTimeStampLong()));
+                            mCollections.add(notification);
+                            Timber.tag(TAG).e(notification.getUserName() + " " + String.valueOf(notification.getNotification()));
                         }
                         update(mContext);
                     }
@@ -123,16 +135,58 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public RemoteViews getViewAt(int i) {
-        RemoteViews mView = new RemoteViews(mContext.getPackageName(), android.R.layout.simple_list_item_1);
-        mView.setTextViewText(android.R.id.text1, mCollections.get(i).toString());
-        mView.setTextColor(android.R.id.text1, Color.BLACK);
+
+        RemoteViews mView = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
+
+        if(!mCollections.get(i).getUserName()
+                .equals(mContext.getResources().getString(R.string.widget_no_user))) {
+
+            try {
+
+                Bitmap b = Glide.with(mContext)
+                        .asBitmap()
+                        .load(mCollections.get(i).getUserPhoto())
+                        .apply(RequestOptions.circleCropTransform())
+                        .submit()
+                        .get();
+
+                mView.setImageViewBitmap(R.id.user_image, b);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String descNotification = "null";
+
+            int idNotification = mCollections.get(i).getNotification();
+
+            if (idNotification == 1) {
+                descNotification = mContext.getResources().getString(R.string.notification_desc_msg);
+            } else if (idNotification == 2) {
+                descNotification = mContext.getResources().getString(R.string.notification_desc_like);
+            } else if (idNotification == 3) {
+                descNotification = mContext.getResources().getString(R.string.notification_desc_visited);
+            }
+
+            long mSystemTime = mCollections.get(i).getTimeStampLong();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
+            Date date = new Date(mSystemTime);
+            String mTime = simpleDateFormat.format(date);
+
+
+            mView.setTextViewText(R.id.notification, descNotification);
+            mView.setTextViewText(R.id.notification_timestamp, mTime);
+        }
+
+        mView.setTextViewText(R.id.user_name, mCollections.get(i).getUserName());
+        mView.setTextColor(R.id.user_name, Color.BLACK);
 
         final Intent fillIntent = new Intent();
         fillIntent.setAction(FleekardAppWidget.ACTION_TOAST);
         final Bundle bundle = new Bundle();
-        bundle.putString(FleekardAppWidget.EXTRA_STRING, mCollections.get(i).toString());
+        bundle.putString(FleekardAppWidget.EXTRA_STRING, mCollections.get(i).getUserName());
         fillIntent.putExtras(bundle);
-        mView.setOnClickFillInIntent(android.R.id.text1, fillIntent);
+        mView.setOnClickFillInIntent(R.id.notification, fillIntent);
 
         return mView;
     }
@@ -161,7 +215,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         if (appWidgetManager != null) {
                 ComponentName name = new ComponentName(context, FleekardAppWidget.class);
-                int[] appWidgetIds = appWidgetManager.getAppWidgetIds(name);
+                int [] appWidgetIds = appWidgetManager.getAppWidgetIds(name);
                 appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widgetCollectionList);
         }
     }

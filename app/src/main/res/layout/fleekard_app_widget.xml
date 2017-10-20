@@ -6,41 +6,41 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#bbDEDFDE"
+            android:background="@color/widget_background"
             android:orientation="vertical">
             
                 <LinearLayout
                     android:id="@+id/widgetLayoutMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#aaDEDFDE"
+                    android:background="@color/widget_background_linear_layout"
                     android:orientation="horizontal"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp">
+                    android:paddingStart="@dimen/widget_padding"
+                    android:paddingEnd="@dimen/widget_padding">
                     
                         <ImageView
                             android:id="@+id/widgetImgLauncher"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="@dimen/widget_icon"
+                            android:layout_height="@dimen/widget_icon"
                             android:layout_gravity="center_vertical"
                             android:src="@mipmap/ic_launcher_round"/>
                     
                         <LinearLayout
                             android:id="@+id/widgetTopBar"
-                            android:layout_width="0dp"
+                            android:layout_width="@dimen/widget_top_bar"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical"
-                            android:paddingBottom="4dp"
-                            android:paddingStart="8dp"
-                            android:paddingTop="4dp">
+                            android:paddingBottom="@dimen/widget_padding_bottom"
+                            android:paddingStart="@dimen/widget_padding_start"
+                            android:paddingTop="@dimen/widget_padding_top">
 
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="@string/app_name"
                                     android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:textColor="#4B4B4D"
+                                    android:textColor="@color/widget_textview_color"
                                     android:textStyle="bold"/>
 
                                 <TextView
@@ -49,7 +49,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Notifications"
                                     android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:textColor="#4B4B4D"/>
+                                    android:textColor="@color/widget_textview_color"/>
 
                         </LinearLayout>
                     
@@ -57,8 +57,8 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#aaa"/>
+                    android:layout_height="@dimen/widget_line"
+                    android:background="@color/widget_line_color"/>
 
                 <ListView
                     android:id="@+id/widgetCollectionList"

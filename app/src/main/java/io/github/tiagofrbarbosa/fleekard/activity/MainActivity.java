@@ -61,6 +61,7 @@ import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.NotificationToken;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.model.UserLocation;
+import io.github.tiagofrbarbosa.fleekard.widget.WidgetDataProvider;
 import timber.log.Timber;
 
 import android.location.Location;
