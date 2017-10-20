@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
@@ -15,6 +17,7 @@ import android.widget.RemoteViewsService;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.AppWidgetTarget;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -45,11 +49,31 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     private List<Notification> mCollections = new ArrayList<Notification>();
     private Context mContext = null;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private static final String TAG = "widgetFirebase";
 
     public WidgetDataProvider(Context context, Intent intent){
         mContext = context;
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mAuthStateListener = new FirebaseAuth.AuthStateListener(){
+
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+                if(mFirebaseUser != null){
+                    Timber.tag(TAG).e("Logado!");
+                    initData();
+                }else{
+                    Timber.tag(TAG).e("Deslogado!");
+                    initData();
+                }
+            }
+        };
+
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
@@ -89,6 +113,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                         }
                     });
         }else{
+
             if(mCollections != null) mCollections.clear();
             Notification noUser = new Notification();
             noUser.setUserName(mContext.getResources().getString(R.string.widget_no_user));
@@ -150,6 +175,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                         .submit()
                         .get();
 
+                mView.setViewVisibility(R.id.user_image, View.VISIBLE);
                 mView.setImageViewBitmap(R.id.user_image, b);
 
             } catch (Exception e) {
@@ -176,6 +202,12 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
             mView.setTextViewText(R.id.notification, descNotification);
             mView.setTextViewText(R.id.notification_timestamp, mTime);
+
+        }else{
+
+            mView.setViewVisibility(R.id.user_image, View.INVISIBLE);
+            mView.setTextViewText(R.id.notification, "");
+            mView.setTextViewText(R.id.notification_timestamp, "");
         }
 
         mView.setTextViewText(R.id.user_name, mCollections.get(i).getUserName());
