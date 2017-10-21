@@ -79,9 +79,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                                 holder.userStatus.setText(user.getUserStatus());
 
                                 if (user.getUserPresence() == 1) {
-                                    holder.userPresence.setImageResource(R.drawable.ic_connection_on);
+                                    holder.userPresence.setImageResource(android.R.drawable.presence_online);
                                 } else {
-                                    holder.userPresence.setImageResource(R.drawable.ic_connection_off);
+                                    holder.userPresence.setImageResource(android.R.drawable.presence_offline);
                                 }
                             }
                         }

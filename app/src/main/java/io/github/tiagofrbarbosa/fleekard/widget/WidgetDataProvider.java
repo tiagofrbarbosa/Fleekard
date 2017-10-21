@@ -48,7 +48,7 @@ import timber.log.Timber;
 public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
     private List<Notification> mCollections = new ArrayList<Notification>();
-    private Context mContext = null;
+    public static Context mContext = null;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
