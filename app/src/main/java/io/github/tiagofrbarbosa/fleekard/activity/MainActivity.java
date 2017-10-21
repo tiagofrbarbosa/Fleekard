@@ -330,6 +330,8 @@ public class MainActivity extends AppCompatActivity implements
                         .setValue(mUserLocation);
 
                 Timber.tag("myLocation").e("locationUpdate: " + location.getLatitude() + " " + location.getLongitude());
+
+                stopLocationUpdate();
             }else{
                 setDefaultLocation();
                 Timber.tag("myLocation").e("No UserLocation data");
@@ -397,6 +399,10 @@ public class MainActivity extends AppCompatActivity implements
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
+    }
+
+    public void stopLocationUpdate(){
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
     public void setDefaultLocation(){
