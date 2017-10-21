@@ -64,7 +64,10 @@ public class FragmentUser extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        final int ageRange = Integer.valueOf(SettingsActivity.getAgeRange(getActivity()));
+        final int ageRangePref = Integer.valueOf(SettingsActivity.getAgeRange(getActivity()));
+
+        final boolean checkMalePref = SettingsActivity.isCheckMale(getActivity());
+        final boolean checkFemalePref = SettingsActivity.isCheckFemale(getActivity());
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -82,7 +85,30 @@ public class FragmentUser extends Fragment{
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot userSnap : dataSnapshot.getChildren()) {
                             User user = userSnap.getValue(User.class);
-                            if(!mFirebaseUser.getUid().equals(user.getUserId()) && user.getAge() <= ageRange) users.add(user);
+
+                            if(checkMalePref && checkFemalePref){
+
+                                if(!mFirebaseUser.getUid().equals(user.getUserId())
+                                        && user.getAge() <= ageRangePref) users.add(user);
+                            }
+                            else if(!checkMalePref && checkFemalePref){
+
+                                if(!mFirebaseUser.getUid().equals(user.getUserId())
+                                        && user.getAge() <= ageRangePref
+                                        && user.getGender() == User.GENDER_VALUE_FEMALE) users.add(user);
+                            }
+                            else if(checkMalePref && !checkFemalePref){
+
+                                if(!mFirebaseUser.getUid().equals(user.getUserId())
+                                        && user.getAge() <= ageRangePref
+                                        && user.getGender() == User.GENDER_VALUE_MALE) users.add(user);
+                            }
+                            else if(!checkMalePref && !checkFemalePref){
+
+                                if(!mFirebaseUser.getUid().equals(user.getUserId())
+                                        && user.getAge() <= ageRangePref) users.add(user);
+                            }
+
                         }
                         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                         recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
