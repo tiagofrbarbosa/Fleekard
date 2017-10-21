@@ -40,9 +40,9 @@
     <string name="female_summary_check">shows female users</string>
     <string name="female_title_check">Female</string>
     <string name="distance_title_settings">Distance</string>
-    <string name="distance_summary_settings">shows user by defined distance</string>
+    <string name="distance_summary_settings">shows users by distance defined in KM</string>
     <string name="age_range_title_settings">Age range</string>
-    <string name="age_range_summary_settings">shows users by age</string>
+    <string name="age_range_summary_settings">shows users up to the maximum age set</string>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>
