@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/settings_title">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/settings_title_category_gender">
+
         <CheckBoxPreference
-            android:key="@string/check_push_settings"
-            android:summary="Checkbox preference test"
-            android:title="Check title" />
+            android:key="@string/check_push_settings_male"
+            android:summary="@string/male_summary_check"
+            android:title="@string/male_title_check"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference
+            android:key="@string/check_push_settings_female"
+            android:summary="@string/female_summary_check"
+            android:title="@string/female_title_check"
+            android:defaultValue="true"/>
+
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_title_category_distance_and_age">
+
+        <EditTextPreference
+            android:title="@string/distance_title_settings"
+            android:summary="@string/distance_summary_settings"
+            android:key="@string/distance_key_settings"
+            android:defaultValue="1000"
+            android:dialogIcon="@mipmap/ic_launcher_round"
+            android:inputType="numberDecimal"/>
+
+        <EditTextPreference
+            android:title="@string/age_range_title_settings"
+            android:summary="@string/age_range_summary_settings"
+            android:key="@string/age_range_key_settings"
+            android:defaultValue="100"
+            android:dialogIcon="@mipmap/ic_launcher_round"
+            android:inputType="numberDecimal"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

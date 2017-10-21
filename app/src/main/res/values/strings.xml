@@ -2,11 +2,14 @@
 
     <!-- no translatable -->
     <string name="app_name" translatable="false">Fleekard</string>
-    <string name="check_push_settings" translatable="false">PREF_CHECK_PUSH</string>
+    <string name="check_push_settings_male" translatable="false">PREF_CHECK_PUSH_MALE</string>
+    <string name="check_push_settings_female" translatable="false">PREF_CHECK_PUSH_FEMALE</string>
     <string name="tos_link" translatable="false">https://tiagofrbarbosa.github.io/tos_pp/fleekard/tos.html</string>
     <string name="privacy_policy_link" translatable="false">https://tiagofrbarbosa.github.io/tos_pp/fleekard/mobile-privacy-policy-geolocated-apps.html</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="default_notification_channel_name" translatable="true">News</string>
+    <string name="distance_key_settings">PREF_DISTANCE_KEY</string>
+    <string name="age_range_key_settings">PREF_AGE_KEY</string>
 
     <!-- translatable -->
     <string name="action_settings">Settings</string>
@@ -14,7 +17,8 @@
     <string name="menu_exit">Exit</string>
     <string name="favorite_user_text">you liked this user on this day: </string>
     <string name="send_button_label">Send</string>
-    <string name="settings_title">Settings</string>
+    <string name="settings_title_category_gender">Gender</string>
+    <string name="settings_title_category_distance_and_age">Distance and Age</string>
     <string name="notification_desc_msg">sent a message</string>
     <string name="notification_desc_like">liked your profile</string>
     <string name="notification_desc_visited">visited your profile</string>
@@ -31,6 +35,14 @@
     <string name="widget_no_user">no user logged in!</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="male_summary_check">shows male users</string>
+    <string name="male_title_check">Male</string>
+    <string name="female_summary_check">shows female users</string>
+    <string name="female_title_check">Female</string>
+    <string name="distance_title_settings">Distance</string>
+    <string name="distance_summary_settings">shows user by defined distance</string>
+    <string name="age_range_title_settings">Age range</string>
+    <string name="age_range_summary_settings">shows users by age</string>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>

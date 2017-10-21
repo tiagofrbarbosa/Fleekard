@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
+import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.UserAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
@@ -63,6 +64,8 @@ public class FragmentUser extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        final int ageRange = Integer.valueOf(SettingsActivity.getAgeRange(getActivity()));
+
         progressBar.setVisibility(View.VISIBLE);
 
         app = (FleekardApplication) getActivity().getApplication();
@@ -79,7 +82,7 @@ public class FragmentUser extends Fragment{
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot userSnap : dataSnapshot.getChildren()) {
                             User user = userSnap.getValue(User.class);
-                            if(!mFirebaseUser.getUid().equals(user.getUserId())) users.add(user);
+                            if(!mFirebaseUser.getUid().equals(user.getUserId()) && user.getAge() <= ageRange) users.add(user);
                         }
                         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                         recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));

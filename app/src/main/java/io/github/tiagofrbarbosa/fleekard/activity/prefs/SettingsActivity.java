@@ -43,8 +43,23 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    public static boolean isCheckPushOn(Context context){
+    public static boolean isCheckMale(Context context){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(context.getResources().getString(R.string.check_push_settings), false);
+        return sp.getBoolean(context.getResources().getString(R.string.check_push_settings_male), true);
+    }
+
+    public static boolean isCheckFemale(Context context){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getResources().getString(R.string.check_push_settings_female), true);
+    }
+
+    public static String getEditDistance(Context context){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(context.getResources().getString(R.string.distance_key_settings), "1000");
+    }
+
+    public static String getAgeRange(Context context){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(context.getResources().getString(R.string.age_range_key_settings), "100");
     }
 }

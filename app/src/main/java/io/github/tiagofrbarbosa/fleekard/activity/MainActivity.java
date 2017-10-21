@@ -135,6 +135,11 @@ public class MainActivity extends AppCompatActivity implements
         createChannel();
         getMessagingToken();
         setUserPresence();
+
+        Timber.tag("mySettings").e("Male: " + String.valueOf(SettingsActivity.isCheckMale(this)));
+        Timber.tag("mySettings").e("Female: " + String.valueOf(SettingsActivity.isCheckFemale(this)));
+        Timber.tag("mySettings").e("Distance: " + SettingsActivity.getEditDistance(this));
+        Timber.tag("mySettings").e("Age Range: " + SettingsActivity.getAgeRange(this));
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -335,6 +340,8 @@ public class MainActivity extends AppCompatActivity implements
             }else{
                 setDefaultLocation();
                 Timber.tag("myLocation").e("No UserLocation data");
+
+                stopLocationUpdate();
             }
     }
 
