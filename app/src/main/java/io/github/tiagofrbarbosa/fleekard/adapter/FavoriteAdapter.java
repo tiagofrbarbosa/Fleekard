@@ -1,6 +1,8 @@
 package io.github.tiagofrbarbosa.fleekard.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +86,19 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot userSnap : dataSnapshot.getChildren()){
                             User user = userSnap.getValue(User.class);
-                            glide.with(context).load(user.getImg()).apply(RequestOptions.circleCropTransform()).into(holder.imageView);
+
+                            if(!user.getImg().equals(Database.users.USER_IMAGE_AVATAR)) {
+
+                                glide.with(context).load(user.getImg())
+                                        .apply(RequestOptions.circleCropTransform()).into(holder.imageView);
+                            }else{
+
+                                glide.with(context)
+                                        .load(Database.users.USER_AVATAR_IMG)
+                                        .apply(RequestOptions.circleCropTransform())
+                                        .into(holder.imageView);
+                            }
+
                             holder.userName.setText(user.getUserName());
                             holder.userFavoriteData.setText(mTime);
                         }

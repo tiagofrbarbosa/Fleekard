@@ -48,7 +48,7 @@ import timber.log.Timber;
 public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
     private List<Notification> mCollections = new ArrayList<Notification>();
-    public static Context mContext = null;
+    private Context mContext = null;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -179,7 +179,9 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                 mView.setImageViewBitmap(R.id.user_image, b);
 
             } catch (Exception e) {
-                e.printStackTrace();
+
+                mView.setViewVisibility(R.id.user_image, View.VISIBLE);
+                mView.setImageViewResource(R.id.user_image, R.drawable.user_avatar);
             }
 
             String descNotification = "null";

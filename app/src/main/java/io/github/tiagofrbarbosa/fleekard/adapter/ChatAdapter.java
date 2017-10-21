@@ -74,7 +74,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
                                 User user = userSnap.getValue(User.class);
-                                glide.with(context).load(user.getImg()).apply(RequestOptions.circleCropTransform()).into(holder.img);
+
+                                if(!user.getImg().equals(Database.users.USER_IMAGE_AVATAR)) {
+
+                                    glide.with(context).load(user.getImg())
+                                            .apply(RequestOptions.circleCropTransform()).into(holder.img);
+                                }else{
+
+                                    glide.with(context)
+                                            .load(Database.users.USER_AVATAR_IMG)
+                                            .apply(RequestOptions.circleCropTransform())
+                                            .into(holder.img);
+                                }
+
                                 holder.userName.setText(user.getUserName());
                                 holder.userStatus.setText(user.getUserStatus());
 

@@ -99,10 +99,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         for(DataSnapshot userSnap : dataSnapshot.getChildren()){
                             User user = userSnap.getValue(User.class);
 
-                            glide.with(context)
-                                    .load(user.getImg())
-                                    .apply(RequestOptions.circleCropTransform())
-                                    .into(holder.imageView);
+                            if(!user.getImg().equals(Database.users.USER_IMAGE_AVATAR)) {
+
+                                glide.with(context).load(user.getImg())
+                                        .apply(RequestOptions.circleCropTransform()).into(holder.imageView);
+                            }else{
+
+                                glide.with(context)
+                                        .load(Database.users.USER_AVATAR_IMG)
+                                        .apply(RequestOptions.circleCropTransform())
+                                        .into(holder.imageView);
+                            }
 
                             holder.userName.setText(user.getUserName());
                         }

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -41,6 +42,7 @@ import timber.log.Timber;
 public class FragmentUser extends Fragment{
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.myProgressBar) ProgressBar progressBar;
 
     protected UserAdapter adapter;
     protected List<User> users;
@@ -52,7 +54,7 @@ public class FragmentUser extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_user, container, false);
         return rootView;
     }
 
@@ -60,6 +62,8 @@ public class FragmentUser extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         app = (FleekardApplication) getActivity().getApplication();
         mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
@@ -79,6 +83,7 @@ public class FragmentUser extends Fragment{
                         }
                         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                         recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
