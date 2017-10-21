@@ -102,9 +102,9 @@ public class ProfileActivity extends AppCompatActivity {
                                 userName.setText(user.getUserName());
 
                                 glide.with(ProfileActivity.this)
-                                        .load(user.getImg())
-                                        .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
-                                        .into(profileImage);
+                                            .load(user.getImg())
+                                            .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
+                                            .into(profileImage);
 
                                 userStatus.setText(user.getUserStatus());
                                 userAge.setText(String.valueOf(user.getAge()));

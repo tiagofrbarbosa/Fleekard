@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -62,7 +64,7 @@ import timber.log.Timber;
 
 public class ChatActivity extends AppCompatActivity {
 
-    public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
+    public static final int DEFAULT_MSG_LENGTH_LIMIT = 500;
     private static final int RC_PHOTO_PICKER = 2;
 
     @BindView(R.id.profile_image) ImageView mHeader;
@@ -93,6 +95,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private Bundle extras;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,9 +116,13 @@ public class ChatActivity extends AppCompatActivity {
 
             glide.with(this)
                     .load(extras.getString(Database.users.USER_IMAGE))
+                    .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
                     .into(mHeader);
 
             collapsingToolbarLayout.setTitle(extras.getString(Database.users.USER_NAME));
+
+            if(extras.getString(Database.users.USER_IMAGE).equals(Database.users.USER_IMAGE_AVATAR))
+            collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.black));
         }
 
         mMessageDatabaseReference = mFirebaseDatabasePersistence.getReference()

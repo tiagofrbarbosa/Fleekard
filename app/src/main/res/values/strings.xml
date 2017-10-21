@@ -32,11 +32,6 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
-    <string-array name="gender_array">
-        <item>Male</item>
-        <item>Female</item>
-    </string-array>
-
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>
     <string name="content_desc_tab_user">find users tab</string>
