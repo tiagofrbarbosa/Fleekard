@@ -115,6 +115,7 @@ public class Notification {
         return (long) mTimeStamp.get("timestamp");
     }
 
+    @Exclude
     public static List<Notification> getNotifications(){
         List<Notification> notifications = new ArrayList<Notification>();
         return notifications;

@@ -1,5 +1,7 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,10 +60,9 @@ public class Chat {
         return this.msgUnread;
     }
 
+    @Exclude
     public static List<Chat> getChats(){
-
         List<Chat> chats = new ArrayList<Chat>();
-
         return chats;
     }
 }

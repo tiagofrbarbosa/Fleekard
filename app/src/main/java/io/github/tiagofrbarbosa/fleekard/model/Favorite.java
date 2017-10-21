@@ -47,6 +47,7 @@ public class Favorite {
         return (long) mTimeStamp.get("timestamp");
     }
 
+    @Exclude
     public static List<Favorite> getFavorites(){
         List<Favorite> favorites = new ArrayList<Favorite>();
         return favorites;

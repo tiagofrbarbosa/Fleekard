@@ -63,28 +63,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
             User user = users.get(position);
             holder.userName.setText(user.getUserName());
 
-            Timber.tag("mAsyncTask").i("user connected: " + app.getmAppUser().getUserLocation().getLatLong());
-            Timber.tag("mAsyncTask").i("user holder: " + user.getUserLocation().getLatLong());
-
-            DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask();
-            distanceAsyncTask.execute(
-                    app.getmAppUser().getUserLocation().getLatLong()
-                    , user.getUserLocation().getLatLong()
-                    , app.getmAppUser().getUserLocation().getLatitude()
-                    , app.getmAppUser().getUserLocation().getLongitude()
-                    , user.getUserLocation().getLatitude()
-                    , user.getUserLocation().getLongitude());
-
-            try {
-                holder.userDistance.setText(distanceAsyncTask.get());
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
             glide.with(context)
                     .load(user.getImg())
                     .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
                     .into(holder.imageView);
 
+            holder.userDistance.setText(user.getDistance());
             holder.userAge.setText(String.valueOf(user.getAge()));
 
             if (user.getGender() == 0) {

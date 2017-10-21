@@ -1,5 +1,7 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class User {
     private int userPresence;
     private UserLocation userLocation;
     private NotificationToken notificationToken;
+    private String distance;
 
     public static final int GENDER_VALUE_MALE = 0;
     public static final int GENDER_VALUE_FEMALE = 1;
@@ -149,6 +152,17 @@ public class User {
         return this.userLocation;
     }
 
+    @Exclude
+    public void setDistance(String distance){
+        this.distance = distance;
+    }
+
+    @Exclude
+    public String getDistance(){
+        return this.distance;
+    }
+
+    @Exclude
     public static List<User> getUsers(){
         List<User> users = new ArrayList<User>();
         return users;

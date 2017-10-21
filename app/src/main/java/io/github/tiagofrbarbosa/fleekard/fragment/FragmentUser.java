@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.UserAdapter;
+import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
@@ -60,7 +62,7 @@ public class FragmentUser extends Fragment{
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+    public void onViewCreated(View view, @Nullable final Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
@@ -68,6 +70,8 @@ public class FragmentUser extends Fragment{
 
         final boolean checkMalePref = SettingsActivity.isCheckMale(getActivity());
         final boolean checkFemalePref = SettingsActivity.isCheckFemale(getActivity());
+
+        final int distancePref = Integer.valueOf(SettingsActivity.getEditDistance(getActivity()));
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -86,27 +90,49 @@ public class FragmentUser extends Fragment{
                         for(DataSnapshot userSnap : dataSnapshot.getChildren()) {
                             User user = userSnap.getValue(User.class);
 
-                            if(checkMalePref && checkFemalePref){
+                            DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask();
+                            distanceAsyncTask.execute(
+                                    app.getmAppUser().getUserLocation().getLatLong()
+                                    , user.getUserLocation().getLatLong()
+                                    , app.getmAppUser().getUserLocation().getLatitude()
+                                    , app.getmAppUser().getUserLocation().getLongitude()
+                                    , user.getUserLocation().getLatitude()
+                                    , user.getUserLocation().getLongitude());
 
-                                if(!mFirebaseUser.getUid().equals(user.getUserId())
-                                        && user.getAge() <= ageRangePref) users.add(user);
+                            try {
+                                user.setDistance(distanceAsyncTask.get());
+                            } catch (InterruptedException | ExecutionException e) {
+                                e.printStackTrace();
                             }
-                            else if(!checkMalePref && checkFemalePref){
 
-                                if(!mFirebaseUser.getUid().equals(user.getUserId())
-                                        && user.getAge() <= ageRangePref
-                                        && user.getGender() == User.GENDER_VALUE_FEMALE) users.add(user);
-                            }
-                            else if(checkMalePref && !checkFemalePref){
+                            String mDistance = user.getDistance();
+                            String mDistanceReplaceKM = mDistance.replace(" km","");
+                            String mDistanceReplaceM = mDistanceReplaceKM.replace(" m","");
+                            String mDistanceNumberFormat = mDistanceReplaceM.replace("0.","");
 
-                                if(!mFirebaseUser.getUid().equals(user.getUserId())
-                                        && user.getAge() <= ageRangePref
-                                        && user.getGender() == User.GENDER_VALUE_MALE) users.add(user);
-                            }
-                            else if(!checkMalePref && !checkFemalePref){
+                            if(Integer.valueOf(mDistanceNumberFormat) <= distancePref) {
+                                if (checkMalePref && checkFemalePref) {
 
-                                if(!mFirebaseUser.getUid().equals(user.getUserId())
-                                        && user.getAge() <= ageRangePref) users.add(user);
+                                    if (!mFirebaseUser.getUid().equals(user.getUserId())
+                                            && user.getAge() <= ageRangePref) users.add(user);
+
+                                } else if (!checkMalePref && checkFemalePref) {
+
+                                    if (!mFirebaseUser.getUid().equals(user.getUserId())
+                                            && user.getAge() <= ageRangePref
+                                            && user.getGender() == User.GENDER_VALUE_FEMALE) users.add(user);
+
+                                } else if (checkMalePref && !checkFemalePref) {
+
+                                    if (!mFirebaseUser.getUid().equals(user.getUserId())
+                                            && user.getAge() <= ageRangePref
+                                            && user.getGender() == User.GENDER_VALUE_MALE) users.add(user);
+
+                                } else if (!checkMalePref && !checkFemalePref) {
+
+                                    if (!mFirebaseUser.getUid().equals(user.getUserId())
+                                            && user.getAge() <= ageRangePref) users.add(user);
+                                }
                             }
 
                         }
