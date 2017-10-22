@@ -12,6 +12,7 @@ import java.util.HashMap;
 public class Message {
 
     private String text;
+    private String userId;
     private String name;
     private String photoUrl;
     private HashMap<String, Object> mTimeStamp;
@@ -19,8 +20,9 @@ public class Message {
     public Message() {
     }
 
-    public Message(String text, String name, String photoUrl) {
+    public Message(String text, String userId, String name, String photoUrl) {
         this.text = text;
+        this.userId = userId;
         this.name = name;
         this.photoUrl = photoUrl;
         HashMap<String, Object> stampHash = new HashMap<>();
@@ -34,6 +36,14 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getUserId(){
+        return this.userId;
+    }
+
+    public void setUserId(String userId){
+        this.userId = userId;
     }
 
     public String getName() {

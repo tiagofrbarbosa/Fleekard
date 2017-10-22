@@ -68,6 +68,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private MessageChatAdapter mMessageChatAdapter;
     private List<Message> mMessages;
+    private String mUserId;
     private String mUserName;
 
     private FleekardApplication app;
@@ -118,7 +119,7 @@ public class ChatActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(this, mMessages, onClickMessage()));
+        mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(this, mMessages, onClickMessage(), app));
 
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
 
@@ -171,7 +172,7 @@ public class ChatActivity extends AppCompatActivity {
     @OnClick(R.id.sendButton)
     public void onClickSendButton(){
 
-        Message mMessage = new Message(mMessageEditText.getText().toString(), mUserName, null);
+        Message mMessage = new Message(mMessageEditText.getText().toString(), mUserId, mUserName, null);
         mMessageDatabaseReference.push().setValue(mMessage);
         mMessageEditText.setText("");
 
@@ -209,7 +210,7 @@ public class ChatActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
-                            Message mMessage = new Message(null, mUserName, downloadUrl.toString());
+                            Message mMessage = new Message(null, mUserId, mUserName, downloadUrl.toString());
                             mMessageDatabaseReference.push().setValue(mMessage);
                         }
                     });
@@ -223,7 +224,7 @@ public class ChatActivity extends AppCompatActivity {
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Message mMessage = dataSnapshot.getValue(Message.class);
                     mMessages.add(mMessage);
-                    mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(ChatActivity.this, mMessages, onClickMessage()));
+                    mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(ChatActivity.this, mMessages, onClickMessage(), app));
                 }
 
                 @Override
@@ -255,6 +256,7 @@ public class ChatActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot userSnap : dataSnapshot.getChildren()){
                         User user = userSnap.getValue(User.class);
+                        mUserId = user.getUserId();
                         mUserName = user.getUserName();
                     }
                 }

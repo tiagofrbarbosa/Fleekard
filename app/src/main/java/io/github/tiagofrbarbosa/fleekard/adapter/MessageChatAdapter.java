@@ -1,7 +1,9 @@
 package io.github.tiagofrbarbosa.fleekard.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +20,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 01/10/17.
@@ -30,6 +34,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
     private List<Message> messages;
     private Context context;
     private final MessageOnclickListener onClickListener;
+    private FleekardApplication app;
 
     @Inject Glide glide;
 
@@ -37,10 +42,11 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
         public void onClickUser(MessagesViewHolder holder, int idx);
     }
 
-    public MessageChatAdapter(Context context, List<Message> messages, MessageOnclickListener onClickListener){
+    public MessageChatAdapter(Context context, List<Message> messages, MessageOnclickListener onClickListener, FleekardApplication app){
         this.context = context;
         this.messages = messages;
         this.onClickListener = onClickListener;
+        this.app = app;
     }
 
     @Override
@@ -56,24 +62,60 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
 
         boolean isPhoto = message.getPhotoUrl() != null;
 
-        if(isPhoto){
-            holder.messageTextView.setVisibility(View.GONE);
-            holder.photoImageView.setVisibility(View.VISIBLE);
-            glide.with(context)
-                    .load(message.getPhotoUrl())
-                    .into(holder.photoImageView);
-        }else{
-            holder.messageTextView.setVisibility(View.VISIBLE);
-            holder.photoImageView.setVisibility(View.GONE);
-            holder.messageTextView.setText(message.getText());
-        }
-
         long mSystemTime = message.getTimeStampLong();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         Date date = new Date(mSystemTime);
         String mTime = simpleDateFormat.format(date);
 
-        holder.authorTextView.setText(mTime + " " + message.getName());
+        if(message.getUserId().equals(app.getmAppUser().getUserId())){
+
+            holder.messageTextView.setVisibility(View.GONE);
+            holder.authorTextView.setVisibility(View.GONE);
+            holder.photoImageView.setVisibility(View.GONE);
+
+            holder.messageTextViewConnectedUser.setVisibility(View.VISIBLE);
+            holder.authorTextViewConnectedUser.setVisibility(View.VISIBLE);
+            holder.photoImageViewConnectedUser.setVisibility(View.VISIBLE);
+
+            if(isPhoto){
+                holder.messageTextViewConnectedUser.setVisibility(View.GONE);
+                holder.photoImageViewConnectedUser.setVisibility(View.VISIBLE);
+                glide.with(context)
+                        .load(message.getPhotoUrl())
+                        .into(holder.photoImageViewConnectedUser);
+            }else{
+                holder.messageTextViewConnectedUser.setVisibility(View.VISIBLE);
+                holder.photoImageViewConnectedUser.setVisibility(View.GONE);
+                holder.messageTextViewConnectedUser.setText(message.getText());
+            }
+            holder.messageTextViewConnectedUser.setBackgroundColor(Color.CYAN);
+            holder.authorTextViewConnectedUser.setText(mTime);
+
+        }else{
+
+            holder.messageTextViewConnectedUser.setVisibility(View.GONE);
+            holder.authorTextViewConnectedUser.setVisibility(View.GONE);
+            holder.photoImageViewConnectedUser.setVisibility(View.GONE);
+
+            holder.messageTextView.setVisibility(View.VISIBLE);
+            holder.authorTextView.setVisibility(View.VISIBLE);
+            holder.photoImageView.setVisibility(View.VISIBLE);
+
+            if(isPhoto){
+                holder.messageTextView.setVisibility(View.GONE);
+                holder.photoImageView.setVisibility(View.VISIBLE);
+                glide.with(context)
+                        .load(message.getPhotoUrl())
+                        .into(holder.photoImageView);
+            }else{
+                holder.messageTextView.setVisibility(View.VISIBLE);
+                holder.photoImageView.setVisibility(View.GONE);
+                holder.messageTextView.setText(message.getText());
+            }
+            holder.messageTextView.setBackgroundColor(Color.WHITE);
+            holder.authorTextView.setText(mTime);
+
+        }
 
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +134,11 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
 
     public static class MessagesViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.photoImageView) ImageView photoImageView;
+        @BindView(R.id.photoImageViewConnectedUser) ImageView photoImageViewConnectedUser;
         @BindView(R.id.messageTextView) TextView messageTextView;
         @BindView(R.id.nameTextView) TextView authorTextView;
+        @BindView(R.id.messageTextViewConnectedUser) TextView messageTextViewConnectedUser;
+        @BindView(R.id.nameTextViewConnectedUser) TextView authorTextViewConnectedUser;
 
         private View view;
 
