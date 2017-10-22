@@ -2,18 +2,18 @@ package io.github.tiagofrbarbosa.fleekard.asynctask;
 
 import android.os.AsyncTask;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.IOException;
 
 import io.github.tiagofrbarbosa.fleekard.model.ResultDistanceMatrix;
 import io.github.tiagofrbarbosa.fleekard.retrofit.RetrofitClient;
 import io.github.tiagofrbarbosa.fleekard.retrofit.RetrofitInterface;
 import retrofit2.Call;
-
 import retrofit2.Response;
 import timber.log.Timber;
 
 import static com.google.maps.android.SphericalUtil.computeDistanceBetween;
-import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by tfbarbosa on 14/10/17.

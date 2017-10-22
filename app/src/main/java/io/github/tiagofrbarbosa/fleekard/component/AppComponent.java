@@ -1,9 +1,9 @@
 package io.github.tiagofrbarbosa.fleekard.component;
 
 import dagger.Component;
+import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.module.AppModule;
-import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 
 /**
  * Created by tfbarbosa on 16/09/17.

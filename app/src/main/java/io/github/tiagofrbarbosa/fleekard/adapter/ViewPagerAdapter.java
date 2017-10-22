@@ -5,9 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import io.github.tiagofrbarbosa.fleekard.fragment.FragmentChat;
-import io.github.tiagofrbarbosa.fleekard.fragment.FragmentUser;
-import io.github.tiagofrbarbosa.fleekard.fragment.FragmentNotification;
 import io.github.tiagofrbarbosa.fleekard.fragment.FragmentFavorite;
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentNotification;
+import io.github.tiagofrbarbosa.fleekard.fragment.FragmentUser;
 
 /**
  * Created by tfbarbosa on 16/09/17.
