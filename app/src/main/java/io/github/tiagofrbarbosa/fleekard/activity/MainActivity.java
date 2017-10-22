@@ -61,6 +61,7 @@ import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.NotificationToken;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.model.UserLocation;
+import io.github.tiagofrbarbosa.fleekard.viewpager.CustomViewPager;
 import io.github.tiagofrbarbosa.fleekard.widget.WidgetDataProvider;
 import timber.log.Timber;
 
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements
                                                         LocationListener{
 
     @BindView(R.id.tabs) TabLayout tabLayout;
-    @BindView(R.id.viewPager) ViewPager viewPager;
+    @BindView(R.id.viewPager) CustomViewPager viewPager;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.adView) AdView mAdView;
     @BindView(R.id.main_layout) View mLayout;
@@ -92,11 +93,15 @@ public class MainActivity extends AppCompatActivity implements
     private FleekardApplication app;
     private FirebaseUser mFirebaseUser;
     private Bundle extras;
+    private ViewPagerAdapter viewPagerAdapter;
 
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;
     private static final int REQUEST_CHECK_SETTINGS = 2;
     private static final int LOCATION_REQUEST_INTERVAL = 3600000;
     private static final int LOCATION_REQUEST_FAST_INTERVAL = 1800000;
+
+    private static final String SELECTED_TAB_POSITION = "selected_tab_position";
+    private static final String TAG = "mySettingsPref";
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -126,20 +131,17 @@ public class MainActivity extends AppCompatActivity implements
 
         setSupportActionBar(toolbar);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-
+        setupViewPager();
         setupTabIcons();
         buildGoogleApiClient();
         createChannel();
         getMessagingToken();
         setUserPresence();
 
-        Timber.tag("mySettings").e("Male: " + String.valueOf(SettingsActivity.isCheckMale(this)));
-        Timber.tag("mySettings").e("Female: " + String.valueOf(SettingsActivity.isCheckFemale(this)));
-        Timber.tag("mySettings").e("Distance: " + SettingsActivity.getEditDistance(this));
-        Timber.tag("mySettings").e("Age Range: " + SettingsActivity.getAgeRange(this));
+        Timber.tag(TAG).e("Male: " + String.valueOf(SettingsActivity.isCheckMale(this)));
+        Timber.tag(TAG).e("Female: " + String.valueOf(SettingsActivity.isCheckFemale(this)));
+        Timber.tag(TAG).e("Distance: " + SettingsActivity.getEditDistance(this));
+        Timber.tag(TAG).e("Age Range: " + SettingsActivity.getAgeRange(this));
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -167,6 +169,14 @@ public class MainActivity extends AppCompatActivity implements
             tabLayout.getTabAt(ViewPagerAdapter.TAB_FAVORITE)
                     .setIcon(R.drawable.ic_favorite_white_24dp)
                     .setContentDescription(getResources().getString(R.string.content_desc_tab_favorite));
+    }
+
+    public void setupViewPager(){
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(ViewPagerAdapter.TABS);
+        viewPager.setSwipe(true);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -226,6 +236,16 @@ public class MainActivity extends AppCompatActivity implements
                           });
         }
 
+        if (id == R.id.action_filter){
+
+            int mTabPosition = tabLayout.getSelectedTabPosition();
+
+            setupViewPager();
+            setupTabIcons();
+
+            viewPager.setCurrentItem(mTabPosition);
+        }
+
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         }
@@ -265,6 +285,18 @@ public class MainActivity extends AppCompatActivity implements
     protected void onStop(){
         super.onStop();
         if(mGoogleApiClient.isConnected()) mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(SELECTED_TAB_POSITION, tabLayout.getSelectedTabPosition());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        viewPager.setCurrentItem(savedInstanceState.getInt(SELECTED_TAB_POSITION));
     }
 
     @Override

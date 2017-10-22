@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +37,7 @@ import timber.log.Timber;
 public class FragmentChat extends Fragment {
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.myProgressBar) ProgressBar progressBar;
 
     protected ChatAdapter adapter;
     protected List<Chat> chats;
@@ -52,7 +54,7 @@ public class FragmentChat extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_chat, container, false);
         return rootView;
     }
 
@@ -60,6 +62,8 @@ public class FragmentChat extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         app = (FleekardApplication) getActivity().getApplication();
 
@@ -138,6 +142,7 @@ public class FragmentChat extends Fragment {
                         layoutManager.setStackFromEnd(true);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), mUserReference));
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
