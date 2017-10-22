@@ -55,43 +55,43 @@ public class FragmentNotification extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
 
-        app = (FleekardApplication) getActivity().getApplication();
+            app = (FleekardApplication) getActivity().getApplication();
 
-        mNotificationReference = app.getmFirebaseDatabase().getReference()
-                .child(Database.notification.CHILD_NOTIFICATION)
-                .child(app.getmAppUser().getUserKey());
+            mNotificationReference = app.getmFirebaseDatabase().getReference()
+                    .child(Database.notification.CHILD_NOTIFICATION)
+                    .child(app.getmAppUser().getUserKey());
 
-        notifications = Notification.getNotifications();
+            notifications = Notification.getNotifications();
 
-        mNotificationReference
-                .orderByChild(Database.notification.USER_KEY_NOTIFICATE)
-                .equalTo(app.getmAppUser().getUserKey())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+            mNotificationReference
+                    .orderByChild(Database.notification.USER_KEY_NOTIFICATE)
+                    .equalTo(app.getmAppUser().getUserKey())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        if(notifications != null) notifications.clear();
+                            if (notifications != null) notifications.clear();
 
-                        for(DataSnapshot notificationSnap : dataSnapshot.getChildren()){
-                            Notification notification = notificationSnap.getValue(Notification.class);
-                            notifications.add(notification);
+                            for (DataSnapshot notificationSnap : dataSnapshot.getChildren()) {
+                                Notification notification = notificationSnap.getValue(Notification.class);
+                                notifications.add(notification);
+                            }
+
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                            layoutManager.setReverseLayout(true);
+                            layoutManager.setStackFromEnd(true);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
 
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                        layoutManager.setReverseLayout(true);
-                        layoutManager.setStackFromEnd(true);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
-                        progressBar.setVisibility(View.INVISIBLE);
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                        }
+                    });
 
         setRetainInstance(true);
     }
