@@ -2,6 +2,7 @@ package io.github.tiagofrbarbosa.fleekard.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,6 +44,9 @@ public class FragmentFavorite extends Fragment {
     protected FleekardApplication app;
     protected DatabaseReference mFavoriteReference;
 
+    private Parcelable parcelable;
+    private static final String RECYCLER_LIST_SATE = "recycler_list_state";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -51,7 +55,7 @@ public class FragmentFavorite extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+    public void onViewCreated(View view, @Nullable final Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
@@ -83,6 +87,11 @@ public class FragmentFavorite extends Fragment {
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite(), app));
                         progressBar.setVisibility(View.INVISIBLE);
+
+                        if(savedInstanceState != null){
+                            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
+                            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
+                        }
                     }
 
                     @Override
@@ -90,6 +99,13 @@ public class FragmentFavorite extends Fragment {
 
                     }
                 });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
+        savedInstanceState.putParcelable(RECYCLER_LIST_SATE, parcelable);
     }
 
     protected FavoriteAdapter.FavoriteOnclickListener onClickFavorite(){

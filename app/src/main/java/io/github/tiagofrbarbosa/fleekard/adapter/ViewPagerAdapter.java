@@ -8,6 +8,7 @@ import io.github.tiagofrbarbosa.fleekard.fragment.FragmentChat;
 import io.github.tiagofrbarbosa.fleekard.fragment.FragmentUser;
 import io.github.tiagofrbarbosa.fleekard.fragment.FragmentNotification;
 import io.github.tiagofrbarbosa.fleekard.fragment.FragmentFavorite;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -20,6 +21,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public static final int TAB_CHAT = 2;
     public static final int TAB_FAVORITE = 3;
     public static final int TABS = 4;
+
+    private int rotate = 0;
 
     public ViewPagerAdapter(FragmentManager fm){
         super(fm);
@@ -39,7 +42,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             fragment = new FragmentChat();
 
         } else if(position == TAB_FAVORITE){
-        fragment = new FragmentFavorite();
+            fragment = new FragmentFavorite();
         }
         return fragment;
     }
@@ -52,5 +55,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position){
        return null;
+    }
+
+    public void setRotate(int rotate){
+        this.rotate = rotate;
     }
 }

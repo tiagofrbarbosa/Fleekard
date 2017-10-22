@@ -2,6 +2,7 @@ package io.github.tiagofrbarbosa.fleekard.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -53,6 +54,8 @@ public class FragmentUser extends Fragment{
     private FleekardApplication app;
     private FirebaseUser mFirebaseUser;
 
+    private Parcelable parcelable;
+    private static final String RECYCLER_LIST_SATE = "recycler_list_state";
 
     @Nullable
     @Override
@@ -139,6 +142,11 @@ public class FragmentUser extends Fragment{
                         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                         recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
                         progressBar.setVisibility(View.INVISIBLE);
+
+                        if(savedInstanceState != null){
+                            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
+                            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
+                        }
                     }
 
                     @Override
@@ -146,6 +154,13 @@ public class FragmentUser extends Fragment{
 
                     }
                 });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
+        savedInstanceState.putParcelable(RECYCLER_LIST_SATE, parcelable);
     }
 
     protected UserAdapter.UserOnclickListener onClickUser(){
