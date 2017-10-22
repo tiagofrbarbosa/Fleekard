@@ -12,14 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +27,6 @@ import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.FavoriteAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Favorite;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.

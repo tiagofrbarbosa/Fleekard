@@ -8,7 +8,6 @@ import io.github.tiagofrbarbosa.fleekard.fragment.FragmentChat;
 import io.github.tiagofrbarbosa.fleekard.fragment.FragmentUser;
 import io.github.tiagofrbarbosa.fleekard.fragment.FragmentNotification;
 import io.github.tiagofrbarbosa.fleekard.fragment.FragmentFavorite;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.

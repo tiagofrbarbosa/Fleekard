@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
@@ -20,11 +19,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
-import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+
 import io.github.tiagofrbarbosa.fleekard.model.User;
-import io.github.tiagofrbarbosa.fleekard.retrofit.RetrofitClient;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.

@@ -9,21 +9,17 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.ads.AdRequest;
@@ -47,25 +43,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.ViewPagerAdapter;
-import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.NotificationToken;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.model.UserLocation;
 import io.github.tiagofrbarbosa.fleekard.viewpager.CustomViewPager;
-import io.github.tiagofrbarbosa.fleekard.widget.WidgetDataProvider;
 import timber.log.Timber;
-
 import android.location.Location;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;

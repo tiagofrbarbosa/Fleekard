@@ -8,7 +8,6 @@ import com.google.firebase.database.ServerValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by tfbarbosa on 17/09/17.

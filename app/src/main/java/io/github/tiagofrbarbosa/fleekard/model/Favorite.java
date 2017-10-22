@@ -1,6 +1,5 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,10 +8,6 @@ import com.google.firebase.database.ServerValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.activity.MainActivity;
 
 /**
  * Created by tfbarbosa on 17/09/17.

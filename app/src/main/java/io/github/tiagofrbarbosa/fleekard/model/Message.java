@@ -4,7 +4,6 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by tfbarbosa on 17/09/17.

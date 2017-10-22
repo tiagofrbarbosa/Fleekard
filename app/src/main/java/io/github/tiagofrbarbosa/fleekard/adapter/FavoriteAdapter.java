@@ -1,8 +1,6 @@
 package io.github.tiagofrbarbosa.fleekard.adapter;
 
 import android.content.Context;
-import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +28,6 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Favorite;
 import io.github.tiagofrbarbosa.fleekard.model.User;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.

@@ -3,26 +3,18 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -30,21 +22,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -56,7 +40,6 @@ import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -67,14 +50,11 @@ public class ChatActivity extends AppCompatActivity {
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 500;
     private static final int RC_PHOTO_PICKER = 2;
 
-    @BindView(R.id.profile_image) ImageView mHeader;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.photoPickerButton) ImageButton mPhotoPickerButton;
     @BindView(R.id.messageEditText) EditText mMessageEditText;
     @BindView(R.id.sendButton) Button mSendButton;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Inject Glide glide;
 
@@ -99,10 +79,8 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_paralax);
+        setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
 
         app = (FleekardApplication) getApplication();
 
@@ -111,19 +89,7 @@ public class ChatActivity extends AppCompatActivity {
         mFirebaseAuth = app.getmFirebaseAuth();
         mFirebaseStorage = app.getmFirebaseStorage();
 
-        if(getIntent().getExtras() != null){
-            extras = getIntent().getExtras();
-
-            glide.with(this)
-                    .load(extras.getString(Database.users.USER_IMAGE))
-                    .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
-                    .into(mHeader);
-
-            collapsingToolbarLayout.setTitle(extras.getString(Database.users.USER_NAME));
-
-            if(extras.getString(Database.users.USER_IMAGE).equals(Database.users.USER_IMAGE_AVATAR))
-            collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.black));
-        }
+        if(getIntent().getExtras() != null) extras = getIntent().getExtras();
 
         mMessageDatabaseReference = mFirebaseDatabasePersistence.getReference()
                 .child(Database.messages.CHILD_MESSAGES)
@@ -139,7 +105,9 @@ public class ChatActivity extends AppCompatActivity {
         attachDatabaseReadListener();
 
         mMessages = new ArrayList<>();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(this, mMessages, onClickMessage()));
 
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);

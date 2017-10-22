@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tfbarbosa on 17/09/17.

@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 
 /**
