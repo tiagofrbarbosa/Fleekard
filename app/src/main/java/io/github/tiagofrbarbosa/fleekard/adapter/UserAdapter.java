@@ -63,10 +63,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
             User user = users.get(position);
             holder.userName.setText(user.getUserName());
 
-            glide.with(context)
-                    .load(user.getImg())
-                    .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
-                    .into(holder.imageView);
+            try {
+                glide.with(context)
+                        .load(user.getImg())
+                        .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
+                        .into(holder.imageView);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
             holder.userDistance.setText(user.getDistance());
             holder.userAge.setText(String.valueOf(user.getAge()));

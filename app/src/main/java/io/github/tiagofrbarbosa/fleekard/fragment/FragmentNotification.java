@@ -92,6 +92,8 @@ public class FragmentNotification extends Fragment {
 
                     }
                 });
+
+        setRetainInstance(true);
     }
 
     protected NotificationAdapter.NotificationOnclickListener onClickNotification(){

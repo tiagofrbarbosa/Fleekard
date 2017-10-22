@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
@@ -76,15 +77,23 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                                 User user = userSnap.getValue(User.class);
 
                                 if(!user.getImg().equals(Database.users.USER_IMAGE_AVATAR)) {
+                                    try {
+                                        glide.with(context).load(user.getImg())
+                                                .apply(RequestOptions.circleCropTransform()).into(holder.img);
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
 
-                                    glide.with(context).load(user.getImg())
-                                            .apply(RequestOptions.circleCropTransform()).into(holder.img);
                                 }else{
+                                    try {
+                                        glide.with(context)
+                                                .load(Database.users.USER_AVATAR_IMG)
+                                                .apply(RequestOptions.circleCropTransform())
+                                                .into(holder.img);
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
 
-                                    glide.with(context)
-                                            .load(Database.users.USER_AVATAR_IMG)
-                                            .apply(RequestOptions.circleCropTransform())
-                                            .into(holder.img);
                                 }
 
                                 holder.userName.setText(user.getUserName());

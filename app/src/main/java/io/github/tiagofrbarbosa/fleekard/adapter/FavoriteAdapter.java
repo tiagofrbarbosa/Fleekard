@@ -88,15 +88,23 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                             User user = userSnap.getValue(User.class);
 
                             if(!user.getImg().equals(Database.users.USER_IMAGE_AVATAR)) {
+                                try {
+                                    glide.with(context).load(user.getImg())
+                                            .apply(RequestOptions.circleCropTransform()).into(holder.imageView);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
 
-                                glide.with(context).load(user.getImg())
-                                        .apply(RequestOptions.circleCropTransform()).into(holder.imageView);
                             }else{
+                                try {
+                                    glide.with(context)
+                                            .load(Database.users.USER_AVATAR_IMG)
+                                            .apply(RequestOptions.circleCropTransform())
+                                            .into(holder.imageView);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
 
-                                glide.with(context)
-                                        .load(Database.users.USER_AVATAR_IMG)
-                                        .apply(RequestOptions.circleCropTransform())
-                                        .into(holder.imageView);
                             }
 
                             holder.userName.setText(user.getUserName());

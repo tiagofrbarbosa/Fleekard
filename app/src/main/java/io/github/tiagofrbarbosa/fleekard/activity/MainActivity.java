@@ -130,13 +130,15 @@ public class MainActivity extends AppCompatActivity implements
         mAdView.loadAd(adRequest);
 
         setSupportActionBar(toolbar);
-
         setupViewPager();
         setupTabIcons();
-        buildGoogleApiClient();
-        createChannel();
-        getMessagingToken();
-        setUserPresence();
+
+        if(savedInstanceState == null) {
+            buildGoogleApiClient();
+            createChannel();
+            getMessagingToken();
+            setUserPresence();
+        }
 
         Timber.tag(TAG).e("Male: " + String.valueOf(SettingsActivity.isCheckMale(this)));
         Timber.tag(TAG).e("Female: " + String.valueOf(SettingsActivity.isCheckFemale(this)));
@@ -278,12 +280,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart(){
         super.onStart();
-        mGoogleApiClient.connect();
+        if(mGoogleApiClient != null) mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop(){
         super.onStop();
+        if(mGoogleApiClient != null)
         if(mGoogleApiClient.isConnected()) mGoogleApiClient.disconnect();
     }
 
