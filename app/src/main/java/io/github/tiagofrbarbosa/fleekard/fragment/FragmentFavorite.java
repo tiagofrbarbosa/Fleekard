@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,12 +41,13 @@ public class FragmentFavorite extends Fragment {
     @BindView(R.id.myProgressBar) ProgressBar progressBar;
 
     protected FavoriteAdapter adapter;
-    protected List<Favorite> favorites;
+    protected ArrayList<Favorite> favorites;
     protected FleekardApplication app;
     protected DatabaseReference mFavoriteReference;
 
     private Parcelable parcelable;
     private static final String RECYCLER_LIST_SATE = "recycler_list_state";
+    private static final String FAVORITE_PARCELABLE = "favorite_parcelable";
 
     @Nullable
     @Override
@@ -59,46 +61,52 @@ public class FragmentFavorite extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        progressBar.setVisibility(View.VISIBLE);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
 
         app = (FleekardApplication) getActivity().getApplication();
 
-        mFavoriteReference = app.getmFirebaseDatabase().getReference()
-                .child(Database.favorite.CHILD_FAVORITES)
-                .child(app.getmAppUser().getUserKey());
+        if(savedInstanceState == null) {
 
-        favorites = Favorite.getFavorites();
+            progressBar.setVisibility(View.VISIBLE);
 
-        mFavoriteReference
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+            mFavoriteReference = app.getmFirebaseDatabase().getReference()
+                    .child(Database.favorite.CHILD_FAVORITES)
+                    .child(app.getmAppUser().getUserKey());
 
-                        if(favorites != null) favorites.clear();
+            favorites = Favorite.getFavorites();
 
-                        for(DataSnapshot favSnap : dataSnapshot.getChildren()){
-                            Favorite favorite = favSnap.getValue(Favorite.class);
-                            favorites.add(favorite);
+            mFavoriteReference
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (favorites != null) favorites.clear();
+
+                            for (DataSnapshot favSnap : dataSnapshot.getChildren()) {
+                                Favorite favorite = favSnap.getValue(Favorite.class);
+                                favorites.add(favorite);
+                            }
+
+                            recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite(), app));
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
 
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                        layoutManager.setReverseLayout(true);
-                        layoutManager.setStackFromEnd(true);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite(), app));
-                        progressBar.setVisibility(View.INVISIBLE);
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                        if(savedInstanceState != null){
-                            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
-                            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
                         }
-                    }
+                    });
+        }else{
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+            progressBar.setVisibility(View.INVISIBLE);
+            favorites = savedInstanceState.getParcelableArrayList(FAVORITE_PARCELABLE);
+            recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite(), app));
+            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
+            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
+        }
     }
 
     @Override
@@ -106,6 +114,7 @@ public class FragmentFavorite extends Fragment {
         super.onSaveInstanceState(savedInstanceState);
         parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
         savedInstanceState.putParcelable(RECYCLER_LIST_SATE, parcelable);
+        savedInstanceState.putParcelableArrayList(FAVORITE_PARCELABLE, favorites);
     }
 
     protected FavoriteAdapter.FavoriteOnclickListener onClickFavorite(){

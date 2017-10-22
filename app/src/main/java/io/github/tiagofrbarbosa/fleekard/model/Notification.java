@@ -1,5 +1,8 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
@@ -11,7 +14,7 @@ import java.util.List;
  * Created by tfbarbosa on 17/09/17.
  */
 
-public class Notification {
+public class Notification implements Parcelable {
 
     private String userKey;
     private String userKeyNotificate;
@@ -116,8 +119,49 @@ public class Notification {
     }
 
     @Exclude
-    public static List<Notification> getNotifications(){
-        List<Notification> notifications = new ArrayList<Notification>();
+    public static ArrayList<Notification> getNotifications(){
+        ArrayList<Notification> notifications = new ArrayList<Notification>();
         return notifications;
     }
+
+    protected Notification(Parcel in) {
+        userKey = in.readString();
+        userKeyNotificate = in.readString();
+        notification = in.readInt();
+        userToken = in.readString();
+        userUid = in.readString();
+        mTimeStamp = (HashMap) in.readValue(HashMap.class.getClassLoader());
+        userName = in.readString();
+        userPhoto = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(userKey);
+        dest.writeString(userKeyNotificate);
+        dest.writeInt(notification);
+        dest.writeString(userToken);
+        dest.writeString(userUid);
+        dest.writeValue(mTimeStamp);
+        dest.writeString(userName);
+        dest.writeString(userPhoto);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Notification> CREATOR = new Parcelable.Creator<Notification>() {
+        @Override
+        public Notification createFromParcel(Parcel in) {
+            return new Notification(in);
+        }
+
+        @Override
+        public Notification[] newArray(int size) {
+            return new Notification[size];
+        }
+    };
 }

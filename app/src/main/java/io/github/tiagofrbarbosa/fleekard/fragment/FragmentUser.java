@@ -49,13 +49,14 @@ public class FragmentUser extends Fragment{
     @BindView(R.id.myProgressBar) ProgressBar progressBar;
 
     protected UserAdapter adapter;
-    protected List<User> users;
+    protected ArrayList<User> users;
     private DatabaseReference mFirebaseReference;
     private FleekardApplication app;
     private FirebaseUser mFirebaseUser;
 
     private Parcelable parcelable;
     private static final String RECYCLER_LIST_SATE = "recycler_list_state";
+    private static final String USER_PARCELABLE = "user_parcelable";
 
     @Nullable
     @Override
@@ -79,81 +80,89 @@ public class FragmentUser extends Fragment{
         progressBar.setVisibility(View.VISIBLE);
 
         app = (FleekardApplication) getActivity().getApplication();
-        mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
 
-        users = User.getUsers();
+        if(savedInstanceState == null) {
+            mFirebaseUser = app.getmFirebaseAuth().getCurrentUser();
 
-        mFirebaseReference = app.getmFirebaseDatabase().getReference()
-                .child(Database.users.CHILD_USERS);
+            users = User.getUsers();
 
-        mFirebaseReference
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot userSnap : dataSnapshot.getChildren()) {
-                            User user = userSnap.getValue(User.class);
+            mFirebaseReference = app.getmFirebaseDatabase().getReference()
+                    .child(Database.users.CHILD_USERS);
 
-                            DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask();
-                            distanceAsyncTask.execute(
-                                    app.getmAppUser().getUserLocation().getLatLong()
-                                    , user.getUserLocation().getLatLong()
-                                    , app.getmAppUser().getUserLocation().getLatitude()
-                                    , app.getmAppUser().getUserLocation().getLongitude()
-                                    , user.getUserLocation().getLatitude()
-                                    , user.getUserLocation().getLongitude());
+            mFirebaseReference
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
+                                User user = userSnap.getValue(User.class);
 
-                            try {
-                                user.setDistance(distanceAsyncTask.get());
-                            } catch (InterruptedException | ExecutionException e) {
-                                e.printStackTrace();
-                            }
+                                DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask();
+                                distanceAsyncTask.execute(
+                                        app.getmAppUser().getUserLocation().getLatLong()
+                                        , user.getUserLocation().getLatLong()
+                                        , app.getmAppUser().getUserLocation().getLatitude()
+                                        , app.getmAppUser().getUserLocation().getLongitude()
+                                        , user.getUserLocation().getLatitude()
+                                        , user.getUserLocation().getLongitude());
 
-                            String mDistance = user.getDistance();
-                            String mDistanceReplaceKM = mDistance.replace(" km","");
-                            String mDistanceReplaceM = mDistanceReplaceKM.replace(" m","");
-                            String mDistanceNumberFormat = mDistanceReplaceM.replace("0.","");
-
-                            if(Integer.valueOf(mDistanceNumberFormat) <= distancePref) {
-                                if (checkMalePref && checkFemalePref) {
-
-                                    if (!mFirebaseUser.getUid().equals(user.getUserId())
-                                            && user.getAge() <= ageRangePref) users.add(user);
-
-                                } else if (!checkMalePref && checkFemalePref) {
-
-                                    if (!mFirebaseUser.getUid().equals(user.getUserId())
-                                            && user.getAge() <= ageRangePref
-                                            && user.getGender() == User.GENDER_VALUE_FEMALE) users.add(user);
-
-                                } else if (checkMalePref && !checkFemalePref) {
-
-                                    if (!mFirebaseUser.getUid().equals(user.getUserId())
-                                            && user.getAge() <= ageRangePref
-                                            && user.getGender() == User.GENDER_VALUE_MALE) users.add(user);
-
-                                } else if (!checkMalePref && !checkFemalePref) {
-
-                                    if (!mFirebaseUser.getUid().equals(user.getUserId())
-                                            && user.getAge() <= ageRangePref) users.add(user);
+                                try {
+                                    user.setDistance(distanceAsyncTask.get());
+                                } catch (InterruptedException | ExecutionException e) {
+                                    e.printStackTrace();
                                 }
+
+                                String mDistance = user.getDistance();
+                                String mDistanceReplaceKM = mDistance.replace(" km", "");
+                                String mDistanceReplaceM = mDistanceReplaceKM.replace(" m", "");
+                                String mDistanceNumberFormat = mDistanceReplaceM.replace("0.", "");
+
+                                if (Integer.valueOf(mDistanceNumberFormat) <= distancePref) {
+                                    if (checkMalePref && checkFemalePref) {
+
+                                        if (!mFirebaseUser.getUid().equals(user.getUserId())
+                                                && user.getAge() <= ageRangePref) users.add(user);
+
+                                    } else if (!checkMalePref && checkFemalePref) {
+
+                                        if (!mFirebaseUser.getUid().equals(user.getUserId())
+                                                && user.getAge() <= ageRangePref
+                                                && user.getGender() == User.GENDER_VALUE_FEMALE)
+                                            users.add(user);
+
+                                    } else if (checkMalePref && !checkFemalePref) {
+
+                                        if (!mFirebaseUser.getUid().equals(user.getUserId())
+                                                && user.getAge() <= ageRangePref
+                                                && user.getGender() == User.GENDER_VALUE_MALE)
+                                            users.add(user);
+
+                                    } else if (!checkMalePref && !checkFemalePref) {
+
+                                        if (!mFirebaseUser.getUid().equals(user.getUserId())
+                                                && user.getAge() <= ageRangePref) users.add(user);
+                                    }
+                                }
+
                             }
+                            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+                            recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
                         }
-                        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-                        recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
-                        progressBar.setVisibility(View.INVISIBLE);
+                    });
+        }else{
 
-                        if(savedInstanceState != null){
-                            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
-                            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+            progressBar.setVisibility(View.INVISIBLE);
+            users = savedInstanceState.getParcelableArrayList(USER_PARCELABLE);
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
+            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
+            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
+        }
     }
 
     @Override
@@ -161,6 +170,7 @@ public class FragmentUser extends Fragment{
         super.onSaveInstanceState(savedInstanceState);
         parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
         savedInstanceState.putParcelable(RECYCLER_LIST_SATE, parcelable);
+        savedInstanceState.putParcelableArrayList(USER_PARCELABLE, users);
     }
 
     protected UserAdapter.UserOnclickListener onClickUser(){

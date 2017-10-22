@@ -40,12 +40,13 @@ public class FragmentNotification extends Fragment {
     @BindView(R.id.myProgressBar) ProgressBar progressBar;
 
     protected NotificationAdapter adapter;
-    protected List<Notification> notifications;
+    protected ArrayList<Notification> notifications;
     protected FleekardApplication app;
     protected DatabaseReference mNotificationReference;
 
     private Parcelable parcelable;
     private static final String RECYCLER_LIST_SATE = "recycler_list_state";
+    private static final String NOTIFICATION_PARCELABLE = "notification_parcelable";
 
     @Nullable
     @Override
@@ -59,9 +60,15 @@ public class FragmentNotification extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-            progressBar.setVisibility(View.VISIBLE);
+        app = (FleekardApplication) getActivity().getApplication();
 
-            app = (FleekardApplication) getActivity().getApplication();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
+
+        if(savedInstanceState == null) {
+            progressBar.setVisibility(View.VISIBLE);
 
             mNotificationReference = app.getmFirebaseDatabase().getReference()
                     .child(Database.notification.CHILD_NOTIFICATION)
@@ -83,17 +90,8 @@ public class FragmentNotification extends Fragment {
                                 notifications.add(notification);
                             }
 
-                            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                            layoutManager.setReverseLayout(true);
-                            layoutManager.setStackFromEnd(true);
-                            recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
                             progressBar.setVisibility(View.INVISIBLE);
-
-                            if(savedInstanceState != null){
-                                parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
-                                recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
-                            }
                         }
 
                         @Override
@@ -101,6 +99,14 @@ public class FragmentNotification extends Fragment {
 
                         }
                     });
+        }else{
+
+            progressBar.setVisibility(View.INVISIBLE);
+            notifications = savedInstanceState.getParcelableArrayList(NOTIFICATION_PARCELABLE);
+            recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
+            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
+            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
+        }
     }
 
     @Override
@@ -108,6 +114,7 @@ public class FragmentNotification extends Fragment {
         super.onSaveInstanceState(savedInstanceState);
         parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
         savedInstanceState.putParcelable(RECYCLER_LIST_SATE, parcelable);
+        savedInstanceState.putParcelableArrayList(NOTIFICATION_PARCELABLE, notifications);
     }
 
     protected NotificationAdapter.NotificationOnclickListener onClickNotification(){

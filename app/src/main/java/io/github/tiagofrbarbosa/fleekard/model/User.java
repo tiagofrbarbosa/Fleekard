@@ -1,5 +1,8 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
@@ -9,7 +12,7 @@ import java.util.List;
  * Created by tfbarbosa on 16/09/17.
  */
 
-public class User {
+public class User implements Parcelable {
     private String userId;
     private String userKey;
     private String userName;
@@ -163,8 +166,57 @@ public class User {
     }
 
     @Exclude
-    public static List<User> getUsers(){
-        List<User> users = new ArrayList<User>();
+    public static ArrayList<User> getUsers(){
+        ArrayList<User> users = new ArrayList<User>();
         return users;
     }
+
+    protected User(Parcel in) {
+        userId = in.readString();
+        userKey = in.readString();
+        userName = in.readString();
+        userStatus = in.readString();
+        img = in.readString();
+        email = in.readString();
+        gender = in.readInt();
+        age = in.readInt();
+        userPresence = in.readInt();
+        userLocation = (UserLocation) in.readValue(UserLocation.class.getClassLoader());
+        notificationToken = (NotificationToken) in.readValue(NotificationToken.class.getClassLoader());
+        distance = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(userId);
+        dest.writeString(userKey);
+        dest.writeString(userName);
+        dest.writeString(userStatus);
+        dest.writeString(img);
+        dest.writeString(email);
+        dest.writeInt(gender);
+        dest.writeInt(age);
+        dest.writeInt(userPresence);
+        dest.writeValue(userLocation);
+        dest.writeValue(notificationToken);
+        dest.writeString(distance);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

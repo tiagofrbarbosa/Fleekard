@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,7 +42,7 @@ public class FragmentChat extends Fragment {
     @BindView(R.id.myProgressBar) ProgressBar progressBar;
 
     protected ChatAdapter adapter;
-    protected List<Chat> chats;
+    protected ArrayList<Chat> chats;
     protected FleekardApplication app;
     protected FirebaseUser mFirebaseUser;
     protected DatabaseReference mUserReference;
@@ -54,6 +55,7 @@ public class FragmentChat extends Fragment {
 
     private Parcelable parcelable;
     private static final String RECYCLER_LIST_SATE = "recycler_list_state";
+    private static final String CHAT_PARCELABLE = "chat_parcelable";
 
     @Nullable
     @Override
@@ -67,7 +69,10 @@ public class FragmentChat extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        progressBar.setVisibility(View.VISIBLE);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
 
         app = (FleekardApplication) getActivity().getApplication();
 
@@ -129,36 +134,39 @@ public class FragmentChat extends Fragment {
             }
         });
 
-        mChatReference
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+        if(savedInstanceState == null) {
 
-                        if(chats != null) chats.clear();
+            progressBar.setVisibility(View.VISIBLE);
 
-                        for(DataSnapshot chatSnap : dataSnapshot.getChildren()){
-                            Chat chat = chatSnap.getValue(Chat.class);
-                            chats.add(chat);
+            mChatReference
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (chats != null) chats.clear();
+
+                            for (DataSnapshot chatSnap : dataSnapshot.getChildren()) {
+                                Chat chat = chatSnap.getValue(Chat.class);
+                                chats.add(chat);
+                            }
+
+                            recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), mUserReference));
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
 
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                        layoutManager.setReverseLayout(true);
-                        layoutManager.setStackFromEnd(true);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), mUserReference));
-                        progressBar.setVisibility(View.INVISIBLE);
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                        if(savedInstanceState != null){
-                            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
-                            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
                         }
-                    }
+                    });
+        }else{
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+            progressBar.setVisibility(View.INVISIBLE);
+            chats = savedInstanceState.getParcelableArrayList(CHAT_PARCELABLE);
+            recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), mUserReference));
+            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
+            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
+        }
     }
 
     @Override
@@ -166,6 +174,7 @@ public class FragmentChat extends Fragment {
         super.onSaveInstanceState(savedInstanceState);
         parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
         savedInstanceState.putParcelable(RECYCLER_LIST_SATE, parcelable);
+        savedInstanceState.putParcelableArrayList(CHAT_PARCELABLE, chats);
     }
 
     protected ChatAdapter.ChatOnclickListener onClickChat(){
