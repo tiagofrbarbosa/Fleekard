@@ -110,9 +110,10 @@ public class FragmentUser extends Fragment{
                                 String mDistance = user.getDistance();
                                 String mDistanceReplaceKM = mDistance.replace(" km", "");
                                 String mDistanceReplaceM = mDistanceReplaceKM.replace(" m", "");
-                                String mDistanceNumberFormat = mDistanceReplaceM.replace("0.", "");
+                                String mDistanceFloatNumber = mDistanceReplaceM.replace("0.", "");
+                                String mDistanceNumber = mDistanceFloatNumber.replace(",", "");
 
-                                if (Float.valueOf(mDistanceNumberFormat) <= distancePref) {
+                                if (Float.valueOf(mDistanceNumber) <= distancePref) {
                                     if (checkMalePref && checkFemalePref) {
 
                                         if (!mFirebaseUser.getUid().equals(user.getUserId())
