@@ -31,6 +31,7 @@ import io.github.tiagofrbarbosa.fleekard.adapter.UserAdapter;
 import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -72,6 +73,8 @@ public class FragmentUser extends Fragment{
 
         progressBar.setVisibility(View.VISIBLE);
 
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
         app = (FleekardApplication) getActivity().getApplication();
 
         if(savedInstanceState == null) {
@@ -109,7 +112,7 @@ public class FragmentUser extends Fragment{
                                 String mDistanceReplaceM = mDistanceReplaceKM.replace(" m", "");
                                 String mDistanceNumberFormat = mDistanceReplaceM.replace("0.", "");
 
-                                if (Integer.valueOf(mDistanceNumberFormat) <= distancePref) {
+                                if (Float.valueOf(mDistanceNumberFormat) <= distancePref) {
                                     if (checkMalePref && checkFemalePref) {
 
                                         if (!mFirebaseUser.getUid().equals(user.getUserId())
@@ -137,7 +140,6 @@ public class FragmentUser extends Fragment{
                                 }
 
                             }
-                            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                             recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
                             progressBar.setVisibility(View.INVISIBLE);
                         }
@@ -151,7 +153,6 @@ public class FragmentUser extends Fragment{
 
             progressBar.setVisibility(View.INVISIBLE);
             users = savedInstanceState.getParcelableArrayList(USER_PARCELABLE);
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
             recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
             parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
             recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
