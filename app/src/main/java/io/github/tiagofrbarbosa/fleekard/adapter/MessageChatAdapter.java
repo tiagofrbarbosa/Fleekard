@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
+import me.himanshusoni.chatmessageview.ChatMessageView;
 import timber.log.Timber;
 
 /**
@@ -72,23 +73,28 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
             holder.messageTextView.setVisibility(View.GONE);
             holder.authorTextView.setVisibility(View.GONE);
             holder.photoImageView.setVisibility(View.GONE);
+            holder.chatMessageViewUser.setVisibility(View.GONE);
+            holder.chatViewImage.setVisibility(View.GONE);
 
             holder.messageTextViewConnectedUser.setVisibility(View.VISIBLE);
             holder.authorTextViewConnectedUser.setVisibility(View.VISIBLE);
             holder.photoImageViewConnectedUser.setVisibility(View.VISIBLE);
+            holder.chatMessageViewUserConnected.setVisibility(View.VISIBLE);
+            holder.chatViewImageUserConnected.setVisibility(View.VISIBLE);
 
             if(isPhoto){
                 holder.messageTextViewConnectedUser.setVisibility(View.GONE);
+                holder.chatViewImageUserConnected.setVisibility(View.VISIBLE);
                 holder.photoImageViewConnectedUser.setVisibility(View.VISIBLE);
                 glide.with(context)
                         .load(message.getPhotoUrl())
                         .into(holder.photoImageViewConnectedUser);
             }else{
                 holder.messageTextViewConnectedUser.setVisibility(View.VISIBLE);
+                holder.chatViewImageUserConnected.setVisibility(View.GONE);
                 holder.photoImageViewConnectedUser.setVisibility(View.GONE);
                 holder.messageTextViewConnectedUser.setText(message.getText());
             }
-            holder.messageTextViewConnectedUser.setBackgroundColor(Color.CYAN);
             holder.authorTextViewConnectedUser.setText(mTime);
 
         }else{
@@ -96,23 +102,28 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
             holder.messageTextViewConnectedUser.setVisibility(View.GONE);
             holder.authorTextViewConnectedUser.setVisibility(View.GONE);
             holder.photoImageViewConnectedUser.setVisibility(View.GONE);
+            holder.chatMessageViewUserConnected.setVisibility(View.GONE);
+            holder.chatViewImageUserConnected.setVisibility(View.GONE);
 
             holder.messageTextView.setVisibility(View.VISIBLE);
             holder.authorTextView.setVisibility(View.VISIBLE);
             holder.photoImageView.setVisibility(View.VISIBLE);
+            holder.chatMessageViewUser.setVisibility(View.VISIBLE);
+            holder.chatViewImage.setVisibility(View.VISIBLE);
 
             if(isPhoto){
                 holder.messageTextView.setVisibility(View.GONE);
+                holder.chatViewImage.setVisibility(View.VISIBLE);
                 holder.photoImageView.setVisibility(View.VISIBLE);
                 glide.with(context)
                         .load(message.getPhotoUrl())
                         .into(holder.photoImageView);
             }else{
                 holder.messageTextView.setVisibility(View.VISIBLE);
+                holder.chatViewImage.setVisibility(View.GONE);
                 holder.photoImageView.setVisibility(View.GONE);
                 holder.messageTextView.setText(message.getText());
             }
-            holder.messageTextView.setBackgroundColor(Color.WHITE);
             holder.authorTextView.setText(mTime);
 
         }
@@ -139,6 +150,10 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
         @BindView(R.id.nameTextView) TextView authorTextView;
         @BindView(R.id.messageTextViewConnectedUser) TextView messageTextViewConnectedUser;
         @BindView(R.id.nameTextViewConnectedUser) TextView authorTextViewConnectedUser;
+        @BindView(R.id.chatViewUser) ChatMessageView chatMessageViewUser;
+        @BindView(R.id.chatViewUserConnected) ChatMessageView chatMessageViewUserConnected;
+        @BindView(R.id.chatViewImage) ChatMessageView chatViewImage;
+        @BindView(R.id.chatViewImageUserConnected) ChatMessageView chatViewImageUserConnected;
 
         private View view;
 

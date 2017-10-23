@@ -5,57 +5,124 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/photoImageView"
-        android:contentDescription="@string/content_desc_photo_chat"
-        android:layout_width="@dimen/chat_image"
-        android:layout_height="@dimen/chat_image"
-        android:layout_marginTop="@dimen/chat_message_margin_top"
-        android:adjustViewBounds="true" />
-
-    <TextView
-        android:id="@+id/messageTextView"
+    <me.himanshusoni.chatmessageview.ChatMessageView
+        android:id="@+id/chatViewImage"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:layout_marginTop="@dimen/chat_message_margin_top"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="Message" />
+        app:cmv_backgroundColor="#BDBDBD"
+        app:cmv_backgroundColorPressed="#9E9E9E"
+        app:cmv_cornerRadius="3dp"
+        app:cmv_arrowGravity="start"
+        app:cmv_arrowPosition="left">
 
-    <TextView
-        android:id="@+id/nameTextView"
+        <ImageView
+            android:id="@+id/photoImageView"
+            android:contentDescription="@string/content_desc_photo_chat"
+            android:layout_width="@dimen/chat_image"
+            android:layout_height="@dimen/chat_image"
+            android:adjustViewBounds="true" />
+
+    </me.himanshusoni.chatmessageview.ChatMessageView>
+
+    <me.himanshusoni.chatmessageview.ChatMessageView
+        android:id="@+id/chatViewUser"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        tools:text="Name" />
+        android:layout_marginTop="@dimen/chat_message_margin_top"
+        app:cmv_backgroundColor="#BDBDBD"
+        app:cmv_backgroundColorPressed="#9E9E9E"
+        app:cmv_cornerRadius="3dp"
+        app:cmv_arrowGravity="start"
+        app:cmv_arrowPosition="left">
 
-    <ImageView
-        android:id="@+id/photoImageViewConnectedUser"
-        android:contentDescription="@string/content_desc_photo_chat"
-        android:layout_width="@dimen/chat_image"
-        android:layout_height="@dimen/chat_image"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/messageTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:text="Message" />
+
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="Name" />
+
+        </LinearLayout>
+
+    </me.himanshusoni.chatmessageview.ChatMessageView>
+
+    <me.himanshusoni.chatmessageview.ChatMessageView
+        android:id="@+id/chatViewImageUserConnected"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/chat_message_margin_top"
         android:layout_gravity="end"
-        android:layout_marginTop="@dimen/chat_message_margin_top"
-        android:adjustViewBounds="true" />
+        app:cmv_backgroundColor="#0097A7"
+        app:cmv_backgroundColorPressed="#00838F"
+        app:cmv_cornerRadius="3dp"
+        app:cmv_arrowGravity="end"
+        app:cmv_arrowPosition="right">
 
-    <TextView
-        android:id="@+id/messageTextViewConnectedUser"
+            <ImageView
+                android:id="@+id/photoImageViewConnectedUser"
+                android:contentDescription="@string/content_desc_photo_chat"
+                android:layout_width="@dimen/chat_image"
+                android:layout_height="@dimen/chat_image"
+                android:layout_gravity="end"
+                android:adjustViewBounds="true" />
+
+    </me.himanshusoni.chatmessageview.ChatMessageView>
+
+    <me.himanshusoni.chatmessageview.ChatMessageView
+        android:id="@+id/chatViewUserConnected"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:layout_gravity="end"
         android:layout_marginTop="@dimen/chat_message_margin_top"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="Message" />
-
-    <TextView
-        android:id="@+id/nameTextViewConnectedUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:layout_gravity="end"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        tools:text="Name" />
+        app:cmv_backgroundColor="#0097A7"
+        app:cmv_backgroundColorPressed="#00838F"
+        app:cmv_cornerRadius="3dp"
+        app:cmv_arrowGravity="end"
+        app:cmv_arrowPosition="right">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/messageTextViewConnectedUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:text="Message" />
+
+            <TextView
+                android:id="@+id/nameTextViewConnectedUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_gravity="end"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="Name" />
+
+        </LinearLayout>
+
+    </me.himanshusoni.chatmessageview.ChatMessageView>
 
 </LinearLayout>

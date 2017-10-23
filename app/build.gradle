@@ -71,6 +71,7 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.7'
 
     //Test
     testCompile "junit:junit:${testLibraryVersion}"
