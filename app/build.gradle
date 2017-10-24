@@ -26,6 +26,7 @@ ext {
     daggerVersion = '2.11'
     glideVersion = '4.1.1'
     retrofitVersion = '2.3.0'
+    chatMessageViewVersion = '1.0.7'
     testLibraryVersion = '4.12'
     constraintLayoutVersion = '1.0.2'
     fireBaseToolsReleaseVersion = '11.0.4'
@@ -71,7 +72,7 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
-    compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.7'
+    compile "me.himanshusoni.chatmessageview:chat-message-view:${chatMessageViewVersion}"
 
     //Test
     testCompile "junit:junit:${testLibraryVersion}"

@@ -9,4 +9,8 @@
     <color name="widget_background_linear_layout">#aaDEDFDE</color>
     <color name="widget_textview_color">#4B4B4D</color>
     <color name="widget_line_color">#aaa</color>
+    <color name="chatview_user">#BDBDBD</color>
+    <color name="chatview_user_pressed">#9E9E9E</color>
+    <color name="chatview_user_connected">#0097A7</color>
+    <color name="chatview_user_connected_pressed">#00838F</color>
 </resources>

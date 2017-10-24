@@ -11,9 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/chat_message_margin_top"
-        app:cmv_backgroundColor="#BDBDBD"
-        app:cmv_backgroundColorPressed="#9E9E9E"
-        app:cmv_cornerRadius="3dp"
+        app:cmv_backgroundColor="@color/chatview_user"
+        app:cmv_backgroundColorPressed="@color/chatview_user_pressed"
+        app:cmv_cornerRadius="@dimen/messageview_corner_radius"
         app:cmv_arrowGravity="start"
         app:cmv_arrowPosition="left">
 
@@ -32,9 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/chat_message_margin_top"
-        app:cmv_backgroundColor="#BDBDBD"
-        app:cmv_backgroundColorPressed="#9E9E9E"
-        app:cmv_cornerRadius="3dp"
+        app:cmv_backgroundColor="@color/chatview_user"
+        app:cmv_backgroundColorPressed="@color/chatview_user_pressed"
+        app:cmv_cornerRadius="@dimen/messageview_corner_radius"
         app:cmv_arrowGravity="start"
         app:cmv_arrowPosition="left">
 
@@ -70,9 +70,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/chat_message_margin_top"
         android:layout_gravity="end"
-        app:cmv_backgroundColor="#0097A7"
-        app:cmv_backgroundColorPressed="#00838F"
-        app:cmv_cornerRadius="3dp"
+        app:cmv_backgroundColor="@color/chatview_user_connected"
+        app:cmv_backgroundColorPressed="@color/chatview_user_connected_pressed"
+        app:cmv_cornerRadius="@dimen/messageview_corner_radius"
         app:cmv_arrowGravity="end"
         app:cmv_arrowPosition="right">
 
@@ -93,9 +93,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/chat_message_margin_top"
         android:layout_gravity="end"
-        app:cmv_backgroundColor="#0097A7"
-        app:cmv_backgroundColorPressed="#00838F"
-        app:cmv_cornerRadius="3dp"
+        app:cmv_backgroundColor="@color/chatview_user_connected"
+        app:cmv_backgroundColorPressed="@color/chatview_user_connected_pressed"
+        app:cmv_cornerRadius="@dimen/messageview_corner_radius"
         app:cmv_arrowGravity="end"
         app:cmv_arrowPosition="right">
 

@@ -27,6 +27,7 @@
     <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="chat_image">250dp</dimen>
     <dimen name="chat_message_margin_top">8dp</dimen>
+    <dimen name="messageview_corner_radius">3dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
