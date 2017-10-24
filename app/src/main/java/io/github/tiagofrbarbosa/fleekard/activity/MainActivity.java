@@ -96,7 +96,10 @@ public class MainActivity extends AppCompatActivity implements
     private static final int LOCATION_REQUEST_FAST_INTERVAL = 1800000;
 
     private static final String SELECTED_TAB_POSITION = "selected_tab_position";
-    private static final String TAG = "mySettingsPref";
+
+    private static final String TAG_PREF = "mySettingsPref";
+    private static final String TAG_LOCATION = "myLocation";
+    private static final String TAG_TOKEN = "myTokenService";
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -135,10 +138,10 @@ public class MainActivity extends AppCompatActivity implements
             setUserPresence();
         }
 
-        Timber.tag(TAG).e("Male: " + String.valueOf(SettingsActivity.isCheckMale(this)));
-        Timber.tag(TAG).e("Female: " + String.valueOf(SettingsActivity.isCheckFemale(this)));
-        Timber.tag(TAG).e("Distance: " + SettingsActivity.getEditDistance(this));
-        Timber.tag(TAG).e("Age Range: " + SettingsActivity.getAgeRange(this));
+        Timber.tag(TAG_PREF).i("Male: " + String.valueOf(SettingsActivity.isCheckMale(this)));
+        Timber.tag(TAG_PREF).i("Female: " + String.valueOf(SettingsActivity.isCheckFemale(this)));
+        Timber.tag(TAG_PREF).i("Distance: " + SettingsActivity.getEditDistance(this));
+        Timber.tag(TAG_PREF).i("Age Range: " + SettingsActivity.getAgeRange(this));
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -365,12 +368,12 @@ public class MainActivity extends AppCompatActivity implements
                         .child(Database.users.USER_LOCATION)
                         .setValue(mUserLocation);
 
-                Timber.tag("myLocation").e("locationUpdate: " + location.getLatitude() + " " + location.getLongitude());
+                Timber.tag(TAG_LOCATION).i("locationUpdate: " + location.getLatitude() + " " + location.getLongitude());
 
                 stopLocationUpdate();
             }else{
                 setDefaultLocation();
-                Timber.tag("myLocation").e("No UserLocation data");
+                Timber.tag(TAG_LOCATION).e("No UserLocation data");
 
                 stopLocationUpdate();
             }
@@ -468,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements
     public void getMessagingToken(){
 
         String token = FirebaseInstanceId.getInstance().getToken();
-        Timber.tag("myTokenService").e("MainActivity: " + token);
+        Timber.tag(TAG_TOKEN).i("MainActivity: " + token);
 
         DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);

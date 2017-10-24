@@ -11,6 +11,8 @@ import timber.log.Timber;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
+    private static final String TAG_TOKEN = "myTokenService";
+
     @Override
     public void onTokenRefresh(){
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -18,6 +20,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
 
     private void sendRegistrationToServer(String token){
-        Timber.tag("myTokenService").e("Service: " + token);
+        Timber.tag(TAG_TOKEN).e("Service: " + token);
     }
 }

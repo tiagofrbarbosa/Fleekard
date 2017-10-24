@@ -36,6 +36,8 @@ public class SignIn extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
+    private static final String TAG = "myLogin";
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -85,7 +87,7 @@ public class SignIn extends AppCompatActivity {
 
     private void onSignedInInitialize(final FirebaseUser mFirebaseUser){
 
-        Timber.tag("myLogin");
+        Timber.tag(TAG);
 
         final DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);

@@ -28,6 +28,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Favorite;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import io.github.tiagofrbarbosa.fleekard.utils.myUtils;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -41,6 +42,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     private FleekardApplication app;
     private Favorite favorite;
     private String mTime;
+    private myUtils mUtils;
 
     @Inject
     Glide glide;
@@ -54,6 +56,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         this.favorites = favorites;
         this.onClickListener = onClickListener;
         this.app = app;
+        this.mUtils = new myUtils(context);
     }
 
     @Override
@@ -67,10 +70,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     public void onBindViewHolder(final FavoritesViewHolder holder, final int position) {
         favorite = favorites.get(position);
 
-        long mSystemTime = favorite.getTimeStampLong();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy");
-        Date date = new Date(mSystemTime);
-        mTime = simpleDateFormat.format(date);
+        mTime = mUtils.longToDate(favorite.getTimeStampLong(), "dd/MM/yy");
 
         DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                 .child(Database.users.CHILD_USERS);

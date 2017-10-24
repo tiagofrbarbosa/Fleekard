@@ -65,6 +65,8 @@ public class ProfileEditActivity extends AppCompatActivity{
     public static final int ACTIVITY_SOURCE_SIGIN = 0;
     public static final int ACTIVITY_SOURCE_MAIN_ACTIVITY = 1;
 
+    private static final String TAG_LOGIN = "myLogin";
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -163,7 +165,7 @@ public class ProfileEditActivity extends AppCompatActivity{
                         .child(Database.users.CHILD_USERS)
                         .child(extras.getString(Database.users.USER_KEY));
 
-                Timber.tag("myLogin").i("ProfileActivity: " + extras.getString(Database.users.USER_KEY));
+                Timber.tag(TAG_LOGIN).i("ProfileActivity: " + extras.getString(Database.users.USER_KEY));
 
                 int gender = spinner.getSelectedItem().toString().equals("Male") ? User.GENDER_VALUE_MALE : User.GENDER_VALUE_FEMALE;
                 int userAgeInt = Integer.valueOf(userAge.getText().toString());

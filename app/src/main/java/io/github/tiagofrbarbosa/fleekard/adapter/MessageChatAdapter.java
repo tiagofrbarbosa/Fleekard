@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
+import io.github.tiagofrbarbosa.fleekard.utils.myUtils;
 import me.himanshusoni.chatmessageview.ChatMessageView;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 01/10/17.
@@ -36,6 +36,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
     private Context context;
     private final MessageOnclickListener onClickListener;
     private FleekardApplication app;
+    private myUtils mUtils;
 
     @Inject Glide glide;
 
@@ -48,6 +49,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
         this.messages = messages;
         this.onClickListener = onClickListener;
         this.app = app;
+        this.mUtils = new myUtils(context);
     }
 
     @Override
@@ -63,10 +65,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
 
         boolean isPhoto = message.getPhotoUrl() != null;
 
-        long mSystemTime = message.getTimeStampLong();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        Date date = new Date(mSystemTime);
-        String mTime = simpleDateFormat.format(date);
+        String mTime = mUtils.longToDate(message.getTimeStampLong(), "HH:mm");
 
         if(message.getUserId().equals(app.getmAppUser().getUserId())){
 

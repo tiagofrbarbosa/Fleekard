@@ -28,6 +28,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import io.github.tiagofrbarbosa.fleekard.utils.myUtils;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -42,6 +43,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private String descNotification;
     private Notification notification;
     private String mTime;
+    private myUtils mUtils;
 
     @Inject Glide glide;
 
@@ -54,6 +56,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.notifications = notifications;
         this.onClickListener = onClickListener;
         this.app = app;
+        this.mUtils = new myUtils(context);
     }
 
     @Override
@@ -67,10 +70,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(final NotificationsViewHolder holder, final int position) {
         notification = notifications.get(position);
 
-        long mSystemTime = notification.getTimeStampLong();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy");
-        Date date = new Date(mSystemTime);
-        mTime = simpleDateFormat.format(date);
+        mTime = mUtils.longToDate(notification.getTimeStampLong(), "dd/MM/yy");
 
         holder.notification_date.setText(mTime);
 
