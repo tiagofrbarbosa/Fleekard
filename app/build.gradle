@@ -73,8 +73,10 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     compile "me.himanshusoni.chatmessageview:chat-message-view:${chatMessageViewVersion}"
+    compile 'com.airbnb.android:lottie:2.2.5'
 
     //Test
     testCompile "junit:junit:${testLibraryVersion}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 apply plugin: 'com.google.gms.google-services'

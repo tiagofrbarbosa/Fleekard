@@ -13,4 +13,5 @@
     <color name="chatview_user_pressed">#9E9E9E</color>
     <color name="chatview_user_connected">#0097A7</color>
     <color name="chatview_user_connected_pressed">#00838F</color>
+    <color name="offline_textview">#FF8A80</color>
 </resources>

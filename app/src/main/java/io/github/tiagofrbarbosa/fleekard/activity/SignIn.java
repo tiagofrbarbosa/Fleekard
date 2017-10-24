@@ -21,6 +21,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.model.UserLocation;
+import io.github.tiagofrbarbosa.fleekard.utils.myUtils;
 import timber.log.Timber;
 
 /**
@@ -40,31 +41,37 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sigin);
 
-        app = (FleekardApplication) getApplication();
-        mFirebaseAuth = app.getmFirebaseAuth();
-        mAuthStateListener = new FirebaseAuth.AuthStateListener(){
+        if(new myUtils(this).checkConnecton()) {
 
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
-                if(mFirebaseUser != null){
-                    onSignedInInitialize(mFirebaseUser);
-                }else{
-                    onSignedOutCleanUp();
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setIsSmartLockEnabled(false)
-                                    .setAvailableProviders(
-                                            Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
-                                                    new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
-                                    .setTosUrl(getResources().getString(R.string.tos_link))
-                                    .setPrivacyPolicyUrl(getResources().getString(R.string.privacy_policy_link))
-                                    .build(),
-                            RC_SIGN_IN);
+            app = (FleekardApplication) getApplication();
+            mFirebaseAuth = app.getmFirebaseAuth();
+            mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser mFirebaseUser = firebaseAuth.getCurrentUser();
+                    if (mFirebaseUser != null) {
+                        onSignedInInitialize(mFirebaseUser);
+                    } else {
+                        onSignedOutCleanUp();
+                        startActivityForResult(
+                                AuthUI.getInstance()
+                                        .createSignInIntentBuilder()
+                                        .setIsSmartLockEnabled(false)
+                                        .setAvailableProviders(
+                                                Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                                        new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                                        .setTosUrl(getResources().getString(R.string.tos_link))
+                                        .setPrivacyPolicyUrl(getResources().getString(R.string.privacy_policy_link))
+                                        .build(),
+                                RC_SIGN_IN);
+                    }
                 }
-            }
-        };
+            };
+        }else{
+            startActivity(new Intent(this, OfflineActivity.class));
+            finish();
+        }
     }
 
     @Override
