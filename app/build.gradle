@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "io.github.tiagofrbarbosa.fleekard"
         minSdkVersion 17
@@ -31,6 +31,7 @@ ext {
     glideVersion = '4.1.1'
     retrofitVersion = '2.3.0'
     chatMessageViewVersion = '1.0.7'
+    lottieVersion = '2.2.5'
     testLibraryVersion = '4.12'
     constraintLayoutVersion = '1.0.2'
     fireBaseToolsReleaseVersion = '11.0.4'
@@ -53,6 +54,7 @@ dependencies {
     compile "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}"
     compile "com.android.support:customtabs:${supportLibraryVersion}"
     compile "com.android.support:support-v4:${supportLibraryVersion}"
+    compile "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}"
 
     //Google play services & Firebase
     compile "com.google.firebase:firebase-core:${fireBaseToolsReleaseVersion}"
@@ -77,10 +79,9 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     compile "me.himanshusoni.chatmessageview:chat-message-view:${chatMessageViewVersion}"
-    compile 'com.airbnb.android:lottie:2.2.5'
+    compile "com.airbnb.android:lottie:${lottieVersion}"
 
     //Test
     testCompile "junit:junit:${testLibraryVersion}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 apply plugin: 'com.google.gms.google-services'
