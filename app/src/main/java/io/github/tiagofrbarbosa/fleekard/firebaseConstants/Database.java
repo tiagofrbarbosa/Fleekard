@@ -28,6 +28,7 @@ public final class Database {
     public static final class messages {
 
         public static final String CHILD_MESSAGES = "messages";
+        public static final String MESSAGE_READ = "readMessage";
     }
 
     public static final class chats {

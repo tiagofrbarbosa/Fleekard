@@ -15,16 +15,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
+import io.github.tiagofrbarbosa.fleekard.model.Message;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -34,8 +38,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
 
     private Context context;
     private List<Chat> chats;
+    private List<Message> messages;
     private final ChatAdapter.ChatOnclickListener onClickListener;
+    private FleekardApplication app;
     private DatabaseReference mUserReference;
+    private DatabaseReference mMessageReference;
+    private int mNewMessages = 0;
 
     @Inject
     Glide glide;
@@ -45,12 +53,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
     }
 
     public ChatAdapter(Context context, List<Chat> chats, ChatOnclickListener onClickListener,
-                       DatabaseReference mUserReference){
+                       FleekardApplication app){
 
         this.context = context;
         this.chats = chats;
         this.onClickListener = onClickListener;
-        this.mUserReference = mUserReference;
+        this.app = app;
+        this.mUserReference = app.getmFirebaseDatabase().getReference().child(Database.users.CHILD_USERS);
+        this.mMessageReference = app.getmFirebaseDatabase().getReference().child(Database.messages.CHILD_MESSAGES);
+        this.messages = new ArrayList<Message>();
     }
 
     @Override
@@ -70,6 +81,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+
                             for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
                                 User user = userSnap.getValue(User.class);
 
@@ -110,7 +122,36 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                         }
                     });
 
-            holder.chatUnread.setText(String.valueOf(chat.getMsgUnread()));
+            mMessageReference
+                    .child(chat.getChatId())
+                    .orderByChild(Database.users.USER_ID)
+                    .equalTo(chat.getUserIdAuth())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if(messages != null) messages.clear();
+
+                            Timber.tag("myMessages").e("dataSnapShot: " + dataSnapshot.getChildrenCount());
+                            for(DataSnapshot snapMessage : dataSnapshot.getChildren()){
+                                Message message = snapMessage.getValue(Message.class);
+                                messages.add(message);
+                            }
+
+                            for(int i = 1; i < messages.size(); i++){
+                                if(!messages.get(i).isReadMessage()){
+                                    mNewMessages++;
+                                }
+                            }
+
+                            holder.chatUnread.setText(String.valueOf(mNewMessages));
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
             if (onClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +167,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
     public int getItemCount() {
         return this.chats != null ? this.chats.size() : 0;
     }
+
 
     public static class ChatsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.user_image) ImageView img;

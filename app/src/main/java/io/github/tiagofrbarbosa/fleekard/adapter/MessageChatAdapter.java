@@ -25,6 +25,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
 import io.github.tiagofrbarbosa.fleekard.utils.myUtils;
 import me.himanshusoni.chatmessageview.ChatMessageView;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 01/10/17.

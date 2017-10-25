@@ -16,11 +16,12 @@ public class Message {
     private String name;
     private String photoUrl;
     private HashMap<String, Object> mTimeStamp;
+    private boolean readMessage;
 
     public Message() {
     }
 
-    public Message(String text, String userId, String name, String photoUrl) {
+    public Message(String text, String userId, String name, String photoUrl, boolean readMessage) {
         this.text = text;
         this.userId = userId;
         this.name = name;
@@ -28,6 +29,7 @@ public class Message {
         HashMap<String, Object> stampHash = new HashMap<>();
         stampHash.put("timestamp", ServerValue.TIMESTAMP);
         this.mTimeStamp = stampHash;
+        this.readMessage = readMessage;
     }
 
     public String getText() {
@@ -64,6 +66,14 @@ public class Message {
 
     public HashMap<String, Object> getmTimeStamp(){
         return this.mTimeStamp;
+    }
+
+    public void setReadMessage(boolean readMessage){
+        this.readMessage = readMessage;
+    }
+
+    public boolean isReadMessage(){
+        return this.readMessage;
     }
 
     @Exclude

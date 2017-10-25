@@ -231,8 +231,8 @@ public class ProfileActivity extends AppCompatActivity {
                             if(dataSnapshot.getValue() == null){
 
                                 chatId = userConnected.getUserKey() + user.getUserKey();
-                                Chat chat = new Chat(chatId, user.getUserKey(), 1, 10);
-                                Chat chatCrush = new Chat(chatId, userConnected.getUserKey(), 1, 10);
+                                Chat chat = new Chat(chatId, user.getUserKey(), user.getUserId(), 1, 0);
+                                Chat chatCrush = new Chat(chatId, userConnected.getUserKey(), userConnected.getUserId(), 1, 0);
 
                                 mChatReference.child(userConnected.getUserKey()).push().setValue(chat);
                                 mChatReference.child(user.getUserKey()).push().setValue(chatCrush);

@@ -148,7 +148,7 @@ public class FragmentChat extends Fragment {
                                 chats.add(chat);
                             }
 
-                            recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), mUserReference));
+                            recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), app));
                             progressBar.setVisibility(View.INVISIBLE);
                         }
 
@@ -161,7 +161,7 @@ public class FragmentChat extends Fragment {
 
             progressBar.setVisibility(View.INVISIBLE);
             chats = savedInstanceState.getParcelableArrayList(CHAT_PARCELABLE);
-            recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), mUserReference));
+            recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), app));
             parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
             recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
         }

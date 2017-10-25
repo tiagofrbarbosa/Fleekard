@@ -15,6 +15,7 @@ public class Chat implements Parcelable {
 
     private String chatId;
     private String userId;
+    private String userIdAuth;
     private int userPresence;
     private int msgUnread;
 
@@ -23,9 +24,10 @@ public class Chat implements Parcelable {
 
     public Chat(){}
 
-    public Chat(String chatId, String userId, int userPresence, int msgUnread){
+    public Chat(String chatId, String userId, String userIdAuth, int userPresence, int msgUnread){
         this.chatId = chatId;
         this.userId = userId;
+        this.userIdAuth = userIdAuth;
         this.userPresence = userPresence;
         this.msgUnread = msgUnread;
     }
@@ -44,6 +46,14 @@ public class Chat implements Parcelable {
 
     public String getUserId(){
         return this.userId;
+    }
+
+    public void setUserIdAuth(String userIdAuth){
+        this.userIdAuth = userIdAuth;
+    }
+
+    public String getUserIdAuth(){
+        return this.userIdAuth;
     }
 
     public void setUserPresence(int userPresence){

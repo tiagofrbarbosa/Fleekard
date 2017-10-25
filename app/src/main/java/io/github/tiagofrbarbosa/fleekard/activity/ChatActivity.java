@@ -47,6 +47,7 @@ import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -172,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
     @OnClick(R.id.sendButton)
     public void onClickSendButton(){
 
-        Message mMessage = new Message(mMessageEditText.getText().toString(), mUserId, mUserName, null);
+        Message mMessage = new Message(mMessageEditText.getText().toString(), mUserId, mUserName, null, false);
         mMessageDatabaseReference.push().setValue(mMessage);
         mMessageEditText.setText("");
 
@@ -210,7 +211,7 @@ public class ChatActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
-                            Message mMessage = new Message(null, mUserId, mUserName, downloadUrl.toString());
+                            Message mMessage = new Message(null, mUserId, mUserName, downloadUrl.toString(), false);
                             mMessageDatabaseReference.push().setValue(mMessage);
                         }
                     });
@@ -223,6 +224,11 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Message mMessage = dataSnapshot.getValue(Message.class);
+
+                    if(!mFirebaseAuth.getCurrentUser().getUid().equals(mMessage.getUserId()) && !mMessage.isReadMessage()){
+                        dataSnapshot.getRef().child(Database.messages.MESSAGE_READ).setValue(true);
+                    }
+
                     mMessages.add(mMessage);
                     mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(ChatActivity.this, mMessages, onClickMessage(), app));
                 }
