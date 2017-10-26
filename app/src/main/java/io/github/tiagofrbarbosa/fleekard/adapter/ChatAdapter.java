@@ -75,6 +75,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
     public void onBindViewHolder(final ChatsViewHolder holder, final int position) {
         Chat chat = chats.get(position);
 
+        holder.chatUnread.setVisibility(View.INVISIBLE);
+
             mUserReference
                     .orderByChild(Database.users.USER_KEY)
                     .equalTo(chat.getUserId())
@@ -139,8 +141,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                             }
 
                             if(messages.size() > 0){
+                                holder.chatUnread.setVisibility(View.VISIBLE);
                                 holder.chatUnread.setText(String.valueOf(String.valueOf(messages.size())));
                             }else{
+                                holder.chatUnread.setVisibility(View.INVISIBLE);
                                 holder.chatUnread.setText("");
                             }
                         }

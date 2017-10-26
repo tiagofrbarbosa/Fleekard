@@ -30,6 +30,8 @@
     <dimen name="messageview_corner_radius">3dp</dimen>
     <dimen name="offline_margin_top">60dp</dimen>
     <dimen name="offline_textview">24sp</dimen>
+    <dimen name="badge_chat_text">12sp</dimen>
+    <dimen name="badge_chat_margin_end">2dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
