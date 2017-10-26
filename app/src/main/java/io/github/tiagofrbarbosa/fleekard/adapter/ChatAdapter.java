@@ -132,19 +132,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
 
                             if(messages != null) messages.clear();
 
-                            Timber.tag("myMessages").e("dataSnapShot: " + dataSnapshot.getChildrenCount());
                             for(DataSnapshot snapMessage : dataSnapshot.getChildren()){
                                 Message message = snapMessage.getValue(Message.class);
-                                messages.add(message);
+                                if(!app.getmFirebaseAuth().getCurrentUser().getUid().equals(message.getUserId())
+                                        && !message.isReadMessage()) messages.add(message);
                             }
 
-                            for(int i = 1; i < messages.size(); i++){
-                                if(!messages.get(i).isReadMessage()){
-                                    mNewMessages++;
-                                }
+                            if(messages.size() > 0){
+                                holder.chatUnread.setText(String.valueOf(String.valueOf(messages.size())));
+                            }else{
+                                holder.chatUnread.setText("");
                             }
-
-                            holder.chatUnread.setText(String.valueOf(mNewMessages));
                         }
 
                         @Override

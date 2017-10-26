@@ -144,6 +144,12 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        detachDatabaseReadLIstener();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         return super.onCreateOptionsMenu(menu);
@@ -276,6 +282,13 @@ public class ChatActivity extends AppCompatActivity {
                     .orderByChild(Database.users.USER_ID)
                     .equalTo(mFirebaseAuth.getCurrentUser().getUid())
                     .addListenerForSingleValueEvent(mValueEventListener);
+        }
+    }
+
+    private void detachDatabaseReadLIstener(){
+        if(mChildEventListener != null) {
+            mMessageDatabaseReference.removeEventListener(mChildEventListener);
+            mChildEventListener = null;
         }
     }
 
