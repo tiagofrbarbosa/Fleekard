@@ -44,6 +44,10 @@
     <string name="age_range_title_settings">Age range</string>
     <string name="age_range_summary_settings">shows users up to the maximum age set</string>
     <string name="offline_textview">you are offline, check your connection!</string>
+    <string name="tabtext_find">Search</string>
+    <string name="tabtext_notification">Notification</string>
+    <string name="tabtext_chat">Chat</string>
+    <string name="tabtext_favorite">Favorite</string>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>

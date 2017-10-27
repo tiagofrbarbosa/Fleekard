@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void setupViewPager(){
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(ViewPagerAdapter.TABS);
         viewPager.setSwipe(true);
