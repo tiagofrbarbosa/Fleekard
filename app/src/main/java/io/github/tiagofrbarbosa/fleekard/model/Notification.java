@@ -23,6 +23,7 @@ public class Notification implements Parcelable {
     private HashMap<String, Object> mTimeStamp;
     private String userName;
     private String userPhoto;
+    private boolean notificationRead;
 
     public static final int INTERACTION_CODE_MSG = 1;
     public static final int INTERACTION_CODE_LIKE = 2;
@@ -30,12 +31,14 @@ public class Notification implements Parcelable {
 
     public Notification(){}
 
-    public Notification(String userKey, String userKeyNotificate, int notification, String userName, String userPhoto){
+    public Notification(String userKey, String userUid, String userKeyNotificate, int notification, String userName, String userPhoto, boolean notificationRead){
         this.userKey = userKey;
+        this.userUid = userUid;
         this.userKeyNotificate = userKeyNotificate;
         this.notification = notification;
         this.userName = userName;
         this.userPhoto = userPhoto;
+        this.notification = notification;
         HashMap<String, Object> stampHash = new HashMap<>();
         stampHash.put("timestamp", ServerValue.TIMESTAMP);
         this.mTimeStamp = stampHash;
@@ -110,6 +113,14 @@ public class Notification implements Parcelable {
 
     public HashMap<String, Object> getmTimeStamp(){
         return this.mTimeStamp;
+    }
+
+    public void setNotificationRead(boolean notificationRead){
+        this.notificationRead = notificationRead;
+    }
+
+    public boolean isNotificationRead(){
+        return this.notificationRead;
     }
 
     @Exclude

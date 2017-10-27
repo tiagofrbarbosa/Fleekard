@@ -77,7 +77,7 @@ public class FragmentNotification extends Fragment {
             mNotificationReference
                     .orderByChild(Database.notification.USER_KEY_NOTIFICATE)
                     .equalTo(app.getmAppUser().getUserKey())
-                    .addValueEventListener(new ValueEventListener() {
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -85,6 +85,10 @@ public class FragmentNotification extends Fragment {
 
                             for (DataSnapshot notificationSnap : dataSnapshot.getChildren()) {
                                 Notification notification = notificationSnap.getValue(Notification.class);
+
+                                if(!notification.isNotificationRead())
+                                notificationSnap.getRef().child(Database.notification.NOTIFICATION_UNREAD).setValue(true);
+
                                 notifications.add(notification);
                             }
 

@@ -27,6 +27,7 @@ import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.utils.MyUtils;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -127,6 +128,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
 
+        if(!notification.isNotificationRead()) holder.notification_badge.setText("1");
+
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,6 +150,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         @BindView(R.id.user_notification) TextView notifications;
         @BindView(R.id.user_image) ImageView imageView;
         @BindView(R.id.user_notification_date) TextView notification_date;
+        @BindView(R.id.badge_notification) TextView notification_badge;
         private View view;
 
         public NotificationsViewHolder(View view) {

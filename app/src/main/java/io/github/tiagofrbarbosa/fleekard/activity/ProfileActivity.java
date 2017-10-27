@@ -122,10 +122,12 @@ public class ProfileActivity extends AppCompatActivity {
                     .child(extras.getString(Database.users.USER_KEY));
 
             Notification notification = new Notification(app.getmAppUser().getUserKey()
+                    , app.getmAppUser().getUserId()
                     , extras.getString(Database.users.USER_KEY)
                     , Notification.INTERACTION_CODE_VISIT
                     ,app.getmAppUser().getUserName()
-                    ,app.getmAppUser().getImg());
+                    ,app.getmAppUser().getImg()
+                    ,false);
 
             mNotificationReference.push().setValue(notification);
         }
@@ -289,8 +291,8 @@ public class ProfileActivity extends AppCompatActivity {
                     .child(Database.notification.CHILD_NOTIFICATION)
                     .child(user.getUserKey());
 
-            Notification notification = new Notification(userConnected.getUserKey(), user.getUserKey(), Notification.INTERACTION_CODE_LIKE,
-                                                         userConnected.getUserName(), userConnected.getImg());
+            Notification notification = new Notification(userConnected.getUserKey(), userConnected.getUserId(), user.getUserKey(), Notification.INTERACTION_CODE_LIKE,
+                                                         userConnected.getUserName(), userConnected.getImg(), false);
 
             mNotificationReference.push().setValue(notification);
 

@@ -46,6 +46,8 @@ public final class Database {
 
         public static final String CHILD_NOTIFICATION = "notifications";
         public static final String USER_KEY_NOTIFICATE = "userKeyNotificate";
+        public static final String USER_UID = "userUid";
+        public static final String NOTIFICATION_UNREAD = "notificationRead";
     }
 
     public static final class notification_message {
