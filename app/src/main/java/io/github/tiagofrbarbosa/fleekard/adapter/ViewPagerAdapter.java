@@ -21,8 +21,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public static final int TAB_FAVORITE = 3;
     public static final int TABS = 4;
 
-    private int rotate = 0;
-
     public ViewPagerAdapter(FragmentManager fm){
         super(fm);
     }
@@ -54,9 +52,5 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position){
        return null;
-    }
-
-    public void setRotate(int rotate){
-        this.rotate = rotate;
     }
 }

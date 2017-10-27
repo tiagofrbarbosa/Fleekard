@@ -13,11 +13,11 @@ import timber.log.Timber;
  * Created by tfbarbosa on 23/10/17.
  */
 
-public class myUtils {
+public class MyUtils {
 
     private Context context;
 
-    public myUtils(Context context){
+    public MyUtils(Context context){
         this.context = context;
     }
 

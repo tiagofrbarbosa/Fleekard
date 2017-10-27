@@ -65,6 +65,7 @@ import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.NotificationToken;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.model.UserLocation;
+import io.github.tiagofrbarbosa.fleekard.utils.MyUtils;
 import io.github.tiagofrbarbosa.fleekard.viewpager.CustomViewPager;
 import timber.log.Timber;
 
@@ -238,12 +239,17 @@ public class MainActivity extends AppCompatActivity implements
 
         if (id == R.id.action_filter){
 
-            int mTabPosition = tabLayout.getSelectedTabPosition();
+            if(new MyUtils(this).checkConnecton()) {
+                int mTabPosition = tabLayout.getSelectedTabPosition();
 
-            setupViewPager();
-            setupTabIcons();
+                setupViewPager();
+                setupTabIcons();
 
-            viewPager.setCurrentItem(mTabPosition);
+                viewPager.setCurrentItem(mTabPosition);
+            }else{
+                startActivity(new Intent(this, OfflineActivity.class));
+                finish();
+            }
         }
 
         if (id == R.id.action_settings) {
@@ -292,7 +298,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(SELECTED_TAB_POSITION, tabLayout.getSelectedTabPosition());
-        viewPagerAdapter.setRotate(1);
     }
 
     @Override

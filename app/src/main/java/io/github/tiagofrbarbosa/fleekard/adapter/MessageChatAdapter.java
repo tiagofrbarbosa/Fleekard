@@ -1,9 +1,7 @@
 package io.github.tiagofrbarbosa.fleekard.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,9 +19,8 @@ import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
-import io.github.tiagofrbarbosa.fleekard.utils.myUtils;
+import io.github.tiagofrbarbosa.fleekard.utils.MyUtils;
 import me.himanshusoni.chatmessageview.ChatMessageView;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 01/10/17.
@@ -37,7 +32,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
     private Context context;
     private final MessageOnclickListener onClickListener;
     private FleekardApplication app;
-    private myUtils mUtils;
+    private MyUtils mUtils;
 
     @Inject Glide glide;
 
@@ -50,7 +45,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
         this.messages = messages;
         this.onClickListener = onClickListener;
         this.app = app;
-        this.mUtils = new myUtils(context);
+        this.mUtils = new MyUtils(context);
     }
 
     @Override

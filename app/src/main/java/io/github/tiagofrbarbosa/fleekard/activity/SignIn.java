@@ -21,7 +21,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.model.UserLocation;
-import io.github.tiagofrbarbosa.fleekard.utils.myUtils;
+import io.github.tiagofrbarbosa.fleekard.utils.MyUtils;
 import timber.log.Timber;
 
 /**
@@ -43,7 +43,7 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sigin);
 
-        if(new myUtils(this).checkConnecton()) {
+        if(new MyUtils(this).checkConnecton()) {
 
             app = (FleekardApplication) getApplication();
             mFirebaseAuth = app.getmFirebaseAuth();

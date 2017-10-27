@@ -15,8 +15,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,7 +26,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
-import io.github.tiagofrbarbosa.fleekard.utils.myUtils;
+import io.github.tiagofrbarbosa.fleekard.utils.MyUtils;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -43,7 +41,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private String descNotification;
     private Notification notification;
     private String mTime;
-    private myUtils mUtils;
+    private MyUtils mUtils;
 
     @Inject Glide glide;
 
@@ -56,7 +54,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.notifications = notifications;
         this.onClickListener = onClickListener;
         this.app = app;
-        this.mUtils = new myUtils(context);
+        this.mUtils = new MyUtils(context);
     }
 
     @Override
