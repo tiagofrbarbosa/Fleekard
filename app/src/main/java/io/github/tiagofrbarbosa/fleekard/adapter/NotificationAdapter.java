@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +44,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private Notification notification;
     private String mTime;
     private MyUtils mUtils;
+    private DatabaseReference mNotificationReference;
 
     @Inject Glide glide;
 
@@ -56,6 +58,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.onClickListener = onClickListener;
         this.app = app;
         this.mUtils = new MyUtils(context);
+        this.mNotificationReference = app.getmFirebaseDatabase().getReference().child(Database.notification.CHILD_NOTIFICATION);
     }
 
     @Override
@@ -69,8 +72,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(final NotificationsViewHolder holder, final int position) {
         notification = notifications.get(position);
 
+        holder.notification_badge.setVisibility(View.INVISIBLE);
         mTime = mUtils.longToDate(notification.getTimeStampLong(), "dd/MM/yy");
-
         holder.notification_date.setText(mTime);
 
         if(notification.getNotification() == Notification.INTERACTION_CODE_MSG){
@@ -128,14 +131,28 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
 
-        Timber.tag("myVisibility").e("antes: " + String.valueOf(holder.notification_badge.getVisibility()));
-        if(!notification.isNotificationRead()){
-            holder.notification_badge.setVisibility(View.VISIBLE);
-            holder.notification_badge.setText("1");
-        }else{
-            holder.notification_badge.setVisibility(View.INVISIBLE);
-        }
-        Timber.tag("myVisibility").e("depois: " + String.valueOf(holder.notification_badge.getVisibility()));
+        mNotificationReference
+                .child(notification.getUserKeyNotificate())
+                .child(notification.getNotificationKey())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                            Notification notification = dataSnapshot.getValue(Notification.class);
+
+                            if(!notification.isNotificationRead()) {
+                                holder.notification_badge.setVisibility(View.VISIBLE);
+                                holder.notification_badge.setText("!");
+                                dataSnapshot.getRef().child(Database.notification.NOTIFICATION_UNREAD).setValue(true);
+                            }else{
+                                holder.notification_badge.setVisibility(View.INVISIBLE);
+                            }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {

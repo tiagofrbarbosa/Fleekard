@@ -17,6 +17,7 @@ public class Notification implements Parcelable {
 
     private String userKey;
     private String userKeyNotificate;
+    private String notificationKey;
     private int notification;
     private String userToken;
     private String userUid;
@@ -69,6 +70,16 @@ public class Notification implements Parcelable {
 
     public String getUserKeyNotificate(){
         return this.userKeyNotificate;
+    }
+
+    @Exclude
+    public void setNotificationKey(String notificationKey){
+        this.notificationKey = notificationKey;
+    }
+
+    @Exclude
+    public String getNotificationKey(){
+        return  this.notificationKey;
     }
 
     public void setNotification(int notification){
