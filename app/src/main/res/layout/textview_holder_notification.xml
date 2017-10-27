@@ -45,7 +45,11 @@
                 <TextView
                     android:id="@+id/badge_notification"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/badge_circle"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/badge_notification_text"
+                    android:textColor="@color/badge_notification_color_text"/>
 
         </LinearLayout>
 

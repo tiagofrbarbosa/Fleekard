@@ -143,6 +143,7 @@ public class Notification implements Parcelable {
         mTimeStamp = (HashMap) in.readValue(HashMap.class.getClassLoader());
         userName = in.readString();
         userPhoto = in.readString();
+        notificationRead = in.readByte() != 0x00;
     }
 
     @Override
@@ -160,6 +161,7 @@ public class Notification implements Parcelable {
         dest.writeValue(mTimeStamp);
         dest.writeString(userName);
         dest.writeString(userPhoto);
+        dest.writeByte((byte) (notificationRead ? 0x01 : 0x00));
     }
 
     @SuppressWarnings("unused")

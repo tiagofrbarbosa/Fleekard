@@ -128,7 +128,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
 
-        if(!notification.isNotificationRead()) holder.notification_badge.setText("1");
+        Timber.tag("myVisibility").e("antes: " + String.valueOf(holder.notification_badge.getVisibility()));
+        if(!notification.isNotificationRead()){
+            holder.notification_badge.setVisibility(View.VISIBLE);
+            holder.notification_badge.setText("1");
+        }else{
+            holder.notification_badge.setVisibility(View.INVISIBLE);
+        }
+        Timber.tag("myVisibility").e("depois: " + String.valueOf(holder.notification_badge.getVisibility()));
 
         if (onClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
