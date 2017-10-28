@@ -1,46 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:focusable="true"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/notification_margin"
-    android:layout_marginTop="@dimen/notification_margin"
-    android:layout_marginStart="@dimen/notification_margin">
+    android:layout_marginStart="@dimen/cardview_margin"
+    android:layout_marginEnd="@dimen/cardview_margin"
+    android:layout_marginTop="@dimen/cardview_margin"
+    android:layout_marginBottom="@dimen/cardview_margin"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="@dimen/cardview_corner"
+    app:cardElevation="@dimen/cardview_elevation">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/user_image"
             android:contentDescription="@string/content_desc_user_image"
             android:layout_width="@dimen/holder_notification_user_image"
             android:layout_height="@dimen/holder_notification_user_image"
-            android:layout_weight="0"
-            android:layout_marginEnd="@dimen/notification_margin"/>
+            android:layout_alignParentStart="true"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center"/>
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/cardview_text"
+                    android:layout_toEndOf="@id/user_image"/>
 
                 <TextView
                     android:id="@+id/user_notification"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center"/>
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/cardview_text"
+                    android:layout_below="@id/user_name"
+                    android:layout_toEndOf="@id/user_image"/>
 
                 <TextView
                     android:id="@+id/user_notification_date"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center"/>
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/cardview_text"
+                    android:layout_below="@id/user_notification"
+                    android:layout_toEndOf="@id/user_image"/>
 
                 <TextView
                     android:id="@+id/badge_notification"
@@ -49,8 +57,11 @@
                     android:background="@drawable/badge_circle"
                     android:textStyle="bold"
                     android:textSize="@dimen/badge_notification_text"
-                    android:textColor="@color/badge_notification_color_text"/>
+                    android:textColor="@color/badge_notification_color_text"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="@dimen/badge_notification_margin_end"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>

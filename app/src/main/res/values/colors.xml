@@ -16,4 +16,5 @@
     <color name="offline_textview">#FF8A80</color>
     <color name="badge_chat_color_text">#FFFFFF</color>
     <color name="badge_notification_color_text">#FFFFFF</color>
+    <color name="cardview_text">#9E9E9E</color>
 </resources>

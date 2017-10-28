@@ -33,6 +33,7 @@
     <dimen name="badge_chat_text">12sp</dimen>
     <dimen name="badge_chat_margin_end">2dp</dimen>
     <dimen name="badge_notification_text">12sp</dimen>
+    <dimen name="badge_notification_margin_end">2dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

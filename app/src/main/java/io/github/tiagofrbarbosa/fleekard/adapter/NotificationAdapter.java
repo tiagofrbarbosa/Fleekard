@@ -49,7 +49,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Inject Glide glide;
 
     public interface NotificationOnclickListener{
-        public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx);
+        public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx, DatabaseReference databaseReference);
     }
 
     public NotificationAdapter(Context context, List<Notification> notifications, NotificationOnclickListener onClickListener, FleekardApplication app){
@@ -136,13 +136,22 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 .child(notification.getNotificationKey())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(final DataSnapshot dataSnapshot) {
                             Notification notification = dataSnapshot.getValue(Notification.class);
 
                             if(!notification.isNotificationRead()) {
                                 holder.notification_badge.setVisibility(View.VISIBLE);
-                                holder.notification_badge.setText("!");
-                                dataSnapshot.getRef().child(Database.notification.NOTIFICATION_UNREAD).setValue(true);
+                                holder.notification_badge.setText(" ! ");
+
+                                if (onClickListener != null) {
+                                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            onClickListener.onClickNotification(holder, position, dataSnapshot.getRef());
+                                        }
+                                    });
+                                }
+
                             }else{
                                 holder.notification_badge.setVisibility(View.INVISIBLE);
                             }
@@ -153,15 +162,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                     }
                 });
-
-        if (onClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickListener.onClickNotification(holder, position);
-                }
-            });
-        }
     }
 
     @Override

@@ -123,8 +123,10 @@ public class FragmentNotification extends Fragment {
         return new NotificationAdapter.NotificationOnclickListener(){
 
             @Override
-            public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx) {
+            public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx, DatabaseReference databaseReference) {
                 Notification n = notifications.get(idx);
+
+                databaseReference.child(Database.notification.NOTIFICATION_UNREAD).setValue(true);
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 intent.putExtra(Database.users.USER_KEY, n.getUserKey());
                 startActivity(intent);

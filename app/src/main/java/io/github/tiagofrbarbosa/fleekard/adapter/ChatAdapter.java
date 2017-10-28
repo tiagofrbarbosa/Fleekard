@@ -142,7 +142,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
 
                             if(messages.size() > 0){
                                 holder.chatUnread.setVisibility(View.VISIBLE);
-                                holder.chatUnread.setText(String.valueOf(String.valueOf(messages.size())));
+                                holder.chatUnread.setText(String.valueOf(messages.size()));
                             }else{
                                 holder.chatUnread.setVisibility(View.INVISIBLE);
                                 holder.chatUnread.setText("");

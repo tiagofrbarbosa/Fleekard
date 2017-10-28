@@ -6,8 +6,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/cardview_margin"
         android:layout_marginEnd="@dimen/cardview_margin"
-        android:layout_marginTop="@dimen/cardview_margin"
-        android:layout_marginBottom="@dimen/cardview_margin"
+        android:layout_marginTop="1dp"
         android:clickable="true"
         android:focusable="true"
         app:cardCornerRadius="@dimen/cardview_corner"
@@ -15,13 +14,15 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="16dp">
 
                     <ImageView
                         android:id="@+id/user_image"
                         android:contentDescription="@string/content_desc_user_image"
                         android:layout_width="@dimen/holder_chat_user_image"
                         android:layout_height="@dimen/holder_chat_user_image"
+                        android:layout_marginEnd="8dp"
                         android:layout_alignParentStart="true"/>
 
 
@@ -29,12 +30,18 @@
                         android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="@color/cardview_text"
                         android:layout_toEndOf="@id/user_image"/>
 
                     <TextView
                         android:id="@+id/user_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/cardview_text"
                         android:layout_below="@id/user_name"
                         android:layout_toEndOf="@id/user_image" />
 
@@ -54,8 +61,7 @@
                         android:textSize="@dimen/badge_chat_text"
                         android:textColor="@color/badge_chat_color_text"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="@dimen/badge_chat_margin_end"/>
+                        android:layout_alignParentBottom="true" />
 
             </RelativeLayout>
 
