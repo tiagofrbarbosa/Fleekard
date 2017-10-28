@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/cardview_margin"
     android:layout_marginEnd="@dimen/cardview_margin"
-    android:layout_marginTop="@dimen/cardview_margin"
-    android:layout_marginBottom="@dimen/cardview_margin"
+    android:layout_marginTop="@dimen/cardview_notification_margin_top"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="@dimen/cardview_corner"
@@ -15,13 +14,15 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/relative_layout_notification_padding">
 
         <ImageView
             android:id="@+id/user_image"
             android:contentDescription="@string/content_desc_user_image"
             android:layout_width="@dimen/holder_notification_user_image"
             android:layout_height="@dimen/holder_notification_user_image"
+            android:layout_marginEnd="@dimen/imageview_notification_margin_end"
             android:layout_alignParentStart="true"/>
 
 
@@ -30,6 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:textSize="@dimen/user_name_notification"
                     android:textColor="@color/cardview_text"
                     android:layout_toEndOf="@id/user_image"/>
 
@@ -37,6 +39,7 @@
                     android:id="@+id/user_notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/user_notification"
                     android:textColor="@color/cardview_text"
                     android:layout_below="@id/user_name"
                     android:layout_toEndOf="@id/user_image"/>
@@ -45,6 +48,7 @@
                     android:id="@+id/user_notification_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/user_notification_date"
                     android:textStyle="bold"
                     android:textColor="@color/cardview_text"
                     android:layout_below="@id/user_notification"

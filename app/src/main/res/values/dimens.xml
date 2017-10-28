@@ -51,4 +51,23 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     <dimen name="widget_text_user_name">15sp</dimen>
     <dimen name="widget_text_notification">15sp</dimen>
     <dimen name="widget_text_timestamp">12sp</dimen>
+    <dimen name="recyclerview_chat_margin_top">8dp</dimen>
+    <dimen name="recyclerview_notification_margin_top">8dp</dimen>
+    <dimen name="recyclerview_favorite_margin_top">8dp</dimen>
+    <dimen name="cardview_chat_margin_top">1dp</dimen>
+    <dimen name="relative_layout_chat_padding">16dp</dimen>
+    <dimen name="imageview_chat_margin_end">8dp</dimen>
+    <dimen name="user_name_chat">14sp</dimen>
+    <dimen name="user_status_chat">14sp</dimen>
+    <dimen name="cardview_notification_margin_top">1dp</dimen>
+    <dimen name="relative_layout_notification_padding">16dp</dimen>
+    <dimen name="imageview_notification_margin_end">8dp</dimen>
+    <dimen name="user_name_notification">14sp</dimen>
+    <dimen name="user_notification">14sp</dimen>
+    <dimen name="user_notification_date">14sp</dimen>
+    <dimen name="cardview_favorite_margin_top">1dp</dimen>
+    <dimen name="relative_layout_favorite_padding">16dp</dimen>
+    <dimen name="imageview_favorite_margin_end">8dp</dimen>
+    <dimen name="user_name_favorite">14sp</dimen>
+    <dimen name="user_favorite_date">14sp</dimen>
 </resources>
