@@ -72,74 +72,74 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(final NotificationsViewHolder holder, final int position) {
         notification = notifications.get(position);
 
-        holder.notification_badge.setVisibility(View.INVISIBLE);
-        mTime = mUtils.longToDate(notification.getTimeStampLong(), "dd/MM/yy");
-        holder.notification_date.setText(mTime);
+            holder.notification_badge.setVisibility(View.INVISIBLE);
+            mTime = mUtils.longToDate(notification.getTimeStampLong(), "dd/MM/yy");
+            holder.notification_date.setText(mTime);
 
-        if(notification.getNotification() == Notification.INTERACTION_CODE_MSG){
-            descNotification = context.getResources().getString(R.string.notification_desc_msg);
-        }
-        if(notification.getNotification() == Notification.INTERACTION_CODE_LIKE){
-            descNotification = context.getResources().getString(R.string.notification_desc_like);
-        }
-        if(notification.getNotification() == Notification.INTERACTION_CODE_VISIT){
-            descNotification = context.getResources().getString(R.string.notification_desc_visited);
-        }
+            if (notification.getNotification() == Notification.INTERACTION_CODE_MSG) {
+                descNotification = context.getResources().getString(R.string.notification_desc_msg);
+            }
+            if (notification.getNotification() == Notification.INTERACTION_CODE_LIKE) {
+                descNotification = context.getResources().getString(R.string.notification_desc_like);
+            }
+            if (notification.getNotification() == Notification.INTERACTION_CODE_VISIT) {
+                descNotification = context.getResources().getString(R.string.notification_desc_visited);
+            }
 
-        holder.notifications.setText(descNotification);
+            holder.notifications.setText(descNotification);
 
-        DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
-                .child(Database.users.CHILD_USERS);
+            DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
+                    .child(Database.users.CHILD_USERS);
 
-        mUserReference
-                .orderByChild(Database.users.USER_KEY)
-                .equalTo(notification.getUserKey())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot userSnap : dataSnapshot.getChildren()){
-                            User user = userSnap.getValue(User.class);
+            mUserReference
+                    .orderByChild(Database.users.USER_KEY)
+                    .equalTo(notification.getUserKey())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
+                                User user = userSnap.getValue(User.class);
 
-                            if(!user.getImg().equals(Database.users.USER_IMAGE_AVATAR)) {
+                                if (!user.getImg().equals(Database.users.USER_IMAGE_AVATAR)) {
 
-                                try {
-                                    glide.with(context).load(user.getImg())
-                                            .apply(RequestOptions.circleCropTransform()).into(holder.imageView);
-                                }catch (Exception e){
-                                    e.printStackTrace();
+                                    try {
+                                        glide.with(context).load(user.getImg())
+                                                .apply(RequestOptions.circleCropTransform()).into(holder.imageView);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                } else {
+                                    try {
+                                        glide.with(context)
+                                                .load(Database.users.USER_AVATAR_IMG)
+                                                .apply(RequestOptions.circleCropTransform())
+                                                .into(holder.imageView);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
 
-                            }else{
-                                try {
-                                    glide.with(context)
-                                            .load(Database.users.USER_AVATAR_IMG)
-                                            .apply(RequestOptions.circleCropTransform())
-                                            .into(holder.imageView);
-                                }catch (Exception e){
-                                    e.printStackTrace();
-                                }
-
+                                holder.userName.setText(user.getUserName());
                             }
-
-                            holder.userName.setText(user.getUserName());
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
 
-        mNotificationReference
-                .child(notification.getUserKeyNotificate())
-                .child(notification.getNotificationKey())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(final DataSnapshot dataSnapshot) {
+            mNotificationReference
+                    .child(notification.getUserKeyNotificate())
+                    .child(notification.getNotificationKey())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(final DataSnapshot dataSnapshot) {
                             Notification notification = dataSnapshot.getValue(Notification.class);
 
-                            if(!notification.isNotificationRead()) {
+                            if (!notification.isNotificationRead()) {
                                 holder.notification_badge.setVisibility(View.VISIBLE);
                                 holder.notification_badge.setText(" ! ");
 
@@ -152,16 +152,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                     });
                                 }
 
-                            }else{
+                            } else {
                                 holder.notification_badge.setVisibility(View.INVISIBLE);
+
+                                if (onClickListener != null) {
+                                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            onClickListener.onClickNotification(holder, position, dataSnapshot.getRef());
+                                        }
+                                    });
+                                }
                             }
-                    }
+                        }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
     }
 
     @Override

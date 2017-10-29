@@ -79,20 +79,20 @@ public class FragmentNotification extends Fragment {
                     .orderByChild(Database.notification.USER_KEY_NOTIFICATE)
                     .equalTo(app.getmAppUser().getUserKey())
                     .addValueEventListener(new ValueEventListener() {
+
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            if (notifications != null) notifications.clear();
+                                if (notifications != null) notifications.clear();
 
-                            for (DataSnapshot notificationSnap : dataSnapshot.getChildren()) {
-                                Notification notification = notificationSnap.getValue(Notification.class);
+                                for (DataSnapshot notificationSnap : dataSnapshot.getChildren()) {
+                                    Notification notification = notificationSnap.getValue(Notification.class);
+                                    notification.setNotificationKey(notificationSnap.getKey());
+                                    notifications.add(notification);
+                                }
 
-                                notification.setNotificationKey(notificationSnap.getKey());
-                                notifications.add(notification);
-                            }
-
-                            recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
-                            progressBar.setVisibility(View.INVISIBLE);
+                                recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
+                                progressBar.setVisibility(View.INVISIBLE);
                         }
 
                         @Override
@@ -126,7 +126,9 @@ public class FragmentNotification extends Fragment {
             public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx, DatabaseReference databaseReference) {
                 Notification n = notifications.get(idx);
 
+                if(!n.isNotificationRead())
                 databaseReference.child(Database.notification.NOTIFICATION_UNREAD).setValue(true);
+
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 intent.putExtra(Database.users.USER_KEY, n.getUserKey());
                 startActivity(intent);
