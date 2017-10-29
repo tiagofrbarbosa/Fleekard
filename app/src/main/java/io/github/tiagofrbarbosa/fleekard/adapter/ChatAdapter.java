@@ -1,10 +1,13 @@
 package io.github.tiagofrbarbosa.fleekard.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +47,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
     private FleekardApplication app;
     private DatabaseReference mUserReference;
     private DatabaseReference mMessageReference;
-    private int mNewMessages = 0;
 
     @Inject
     Glide glide;
@@ -85,7 +88,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                             for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
-                                User user = userSnap.getValue(User.class);
+                                final User user = userSnap.getValue(User.class);
 
                                 if(!user.getImg().equals(Database.users.USER_IMAGE_AVATAR)) {
                                     try {
@@ -115,6 +118,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                                 } else {
                                     holder.userPresence.setImageResource(android.R.drawable.presence_offline);
                                 }
+
+                                holder.deleteChat.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        deleteChat(position, user);
+                                    }
+                                });
                             }
                         }
 
@@ -175,6 +185,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
         @BindView(R.id.user_image) ImageView img;
         @BindView(R.id.user_name) TextView userName;
         @BindView(R.id.user_status) TextView userStatus;
+        @BindView(R.id.delete_chat) ImageButton deleteChat;
         @BindView(R.id.user_chat_presence) ImageView userPresence;
         @BindView(R.id.chat_unread) TextView chatUnread;
         private View view;
@@ -184,5 +195,42 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
             this.view = view;
             ButterKnife.bind(this, view);
         }
+    }
+
+    private void deleteChat(final int position, final User user){
+
+        final Chat chat = chats.get(position);
+
+        new AlertDialog.Builder(context)
+                .setTitle(context.getResources().getString(R.string.delete_chat_title))
+                .setMessage(context.getResources().getString(R.string.delete_chat_message)
+                        + user.getUserName() + context.getResources().getString(R.string.delete_chat_all_messages))
+                .setPositiveButton(context.getResources().getString(R.string.delete_chat_positive),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                DatabaseReference mMessageDeleteReference = app.getmFirebaseDatabase().getReference()
+                                        .child(Database.messages.CHILD_MESSAGES);
+
+                                DatabaseReference mChatDeleteReference = app.getmFirebaseDatabase().getReference()
+                                        .child(Database.chats.CHILD_CHATS)
+                                        .child(app.getmAppUser().getUserKey());
+
+                                DatabaseReference mUserChatDeleteReference = app.getmFirebaseDatabase().getReference()
+                                        .child(Database.chats.CHILD_CHATS)
+                                        .child(user.getUserKey());
+
+                                mMessageDeleteReference.child(chat.getChatId()).removeValue();
+                                mChatDeleteReference.child(chat.getChatPushKey()).removeValue();
+                                mUserChatDeleteReference.child(chat.getChatPushKey()).removeValue();
+
+                                chats.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, chats.size());
+                            }
+                        })
+                .setNegativeButton(context.getResources().getString(R.string.delete_chat_negative), null)
+                .show();
     }
 }

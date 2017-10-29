@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.adapter.ChatAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
 import io.github.tiagofrbarbosa.fleekard.model.Favorite;
@@ -233,11 +234,14 @@ public class ProfileActivity extends AppCompatActivity {
                             if(dataSnapshot.getValue() == null){
 
                                 chatId = userConnected.getUserKey() + user.getUserKey();
-                                Chat chat = new Chat(chatId, user.getUserKey(), user.getUserId(), 1, 0);
-                                Chat chatCrush = new Chat(chatId, userConnected.getUserKey(), userConnected.getUserId(), 1, 0);
 
-                                mChatReference.child(userConnected.getUserKey()).push().setValue(chat);
-                                mChatReference.child(user.getUserKey()).push().setValue(chatCrush);
+                                String chatPushKey = mChatReference.child(userConnected.getUserKey()).push().getKey();
+
+                                Chat chat = new Chat(chatId, user.getUserKey(), user.getUserId(), chatPushKey);
+                                Chat chatCrush = new Chat(chatId, userConnected.getUserKey(), userConnected.getUserId(), chatPushKey);
+
+                                mChatReference.child(userConnected.getUserKey()).child(chatPushKey).setValue(chat);
+                                mChatReference.child(user.getUserKey()).child(chatPushKey).setValue(chatCrush);
 
                                 Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
                                 Bundle bundle = new Bundle();

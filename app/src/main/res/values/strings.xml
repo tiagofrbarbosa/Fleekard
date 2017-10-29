@@ -48,6 +48,11 @@
     <string name="tabtext_notification">Notification</string>
     <string name="tabtext_chat">Chat</string>
     <string name="tabtext_favorite">Favorite</string>
+    <string name="delete_chat_title">Delete chat</string>
+    <string name="delete_chat_message">"Are you sure you want to delete chat with "</string>
+    <string name="delete_chat_all_messages">" all messages will be deleted"</string>
+    <string name="delete_chat_positive">Yes</string>
+    <string name="delete_chat_negative">No</string>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>

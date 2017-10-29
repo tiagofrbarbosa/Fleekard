@@ -16,20 +16,18 @@ public class Chat implements Parcelable {
     private String chatId;
     private String userId;
     private String userIdAuth;
-    private int userPresence;
-    private int msgUnread;
+    private String chatPushKey;
 
     public static final int USER_PRESENCE_ONLINE = 1;
     public static final int USER_PRESENCE_OFFLINE = 0;
 
     public Chat(){}
 
-    public Chat(String chatId, String userId, String userIdAuth, int userPresence, int msgUnread){
+    public Chat(String chatId, String userId, String userIdAuth, String chatPushKey){
         this.chatId = chatId;
         this.userId = userId;
         this.userIdAuth = userIdAuth;
-        this.userPresence = userPresence;
-        this.msgUnread = msgUnread;
+        this.chatPushKey = chatPushKey;
     }
 
     public void setChatId(String chatId){
@@ -56,20 +54,12 @@ public class Chat implements Parcelable {
         return this.userIdAuth;
     }
 
-    public void setUserPresence(int userPresence){
-        this.userPresence = userPresence;
+    public void setChatPushKey(String chatPushKey){
+        this.chatPushKey = chatPushKey;
     }
 
-    public int getUserPresence(){
-        return this.userPresence;
-    }
-
-    public void setMsgUnread(int msgUnread){
-        this.msgUnread = msgUnread;
-    }
-
-    public int getMsgUnread(){
-        return this.msgUnread;
+    public String getChatPushKey(){
+        return this.chatPushKey;
     }
 
     @Exclude
@@ -81,8 +71,8 @@ public class Chat implements Parcelable {
     protected Chat(Parcel in) {
         chatId = in.readString();
         userId = in.readString();
-        userPresence = in.readInt();
-        msgUnread = in.readInt();
+        userIdAuth = in.readString();
+        chatPushKey = in.readString();
     }
 
     @Override
@@ -94,8 +84,8 @@ public class Chat implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(chatId);
         dest.writeString(userId);
-        dest.writeInt(userPresence);
-        dest.writeInt(msgUnread);
+        dest.writeString(userIdAuth);
+        dest.writeString(chatPushKey);
     }
 
     @SuppressWarnings("unused")
