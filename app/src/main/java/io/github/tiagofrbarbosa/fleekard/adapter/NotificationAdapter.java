@@ -1,6 +1,8 @@
 package io.github.tiagofrbarbosa.fleekard.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
@@ -71,6 +74,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(final NotificationsViewHolder holder, final int position) {
         notification = notifications.get(position);
+
+            if(onClickListener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onClickListener.onClickNotification(holder, position, null);
+                    }
+                });
+            }
 
             holder.notification_badge.setVisibility(View.INVISIBLE);
             mTime = mUtils.longToDate(notification.getTimeStampLong(), "dd/MM/yy");
@@ -134,35 +146,35 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             mNotificationReference
                     .child(notification.getUserKeyNotificate())
                     .child(notification.getNotificationKey())
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                    .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(final DataSnapshot dataSnapshot) {
                             Notification notification = dataSnapshot.getValue(Notification.class);
 
-                            if (!notification.isNotificationRead()) {
+                            if(!notification.isNotificationRead()){
                                 holder.notification_badge.setVisibility(View.VISIBLE);
                                 holder.notification_badge.setText(" ! ");
 
-                                if (onClickListener != null) {
-                                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            onClickListener.onClickNotification(holder, position, dataSnapshot.getRef());
-                                        }
-                                    });
-                                }
+                                    if(onClickListener != null) {
+                                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                onClickListener.onClickNotification(holder, position, dataSnapshot.getRef());
+                                            }
+                                        });
+                                    }
 
-                            } else {
+                            }else{
                                 holder.notification_badge.setVisibility(View.INVISIBLE);
 
-                                if (onClickListener != null) {
-                                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            onClickListener.onClickNotification(holder, position, dataSnapshot.getRef());
-                                        }
-                                    });
-                                }
+                                    if(onClickListener != null) {
+                                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                onClickListener.onClickNotification(holder, position, null);
+                                            }
+                                        });
+                                    }
                             }
                         }
 

@@ -55,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static String getEditDistance(Context context){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getString(context.getResources().getString(R.string.distance_key_settings), "1000");
+        return sp.getString(context.getResources().getString(R.string.distance_key_settings), "40075");
     }
 
     public static String getAgeRange(Context context){
