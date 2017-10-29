@@ -32,7 +32,8 @@ ext {
     retrofitVersion = '2.3.0'
     chatMessageViewVersion = '1.0.7'
     lottieVersion = '2.2.5'
-    testLibraryVersion = '4.12'
+    jUnitVersion = '4.12'
+    espressoVersion = '2.2.2'
     constraintLayoutVersion = '1.0.2'
     fireBaseToolsReleaseVersion = '11.0.4'
     googlePlayServicesVersion = '11.0.4'
@@ -42,17 +43,6 @@ ext {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
-        // Necessary to avoid version conflicts
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude module: 'recyclerview-v7'
-    }
 
     //Support Library
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
@@ -89,6 +79,9 @@ dependencies {
     compile "com.airbnb.android:lottie:${lottieVersion}"
 
     //Test
-    testCompile "junit:junit:${testLibraryVersion}"
+    androidTestCompile("com.android.support.test.espresso:espresso-core:${espressoVersion}", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile "junit:junit:${jUnitVersion}"
 }
 apply plugin: 'com.google.gms.google-services'
