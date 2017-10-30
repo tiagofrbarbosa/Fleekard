@@ -13,12 +13,12 @@ relacionamentos.
 
 # Funcionalidades/Features
 
-● Mostra outros usuários por perto com base na localização
-● Permite que os usuários criem perfis e adicionem foto, status, nome, idade, gênero
-● Bate-papo
-● Filtro de perfil de outros usuários por distância, gênero e idade
-● Opção de curtir outros perfis
-● Tela de notificações para exibição de visitas, likes e mensagens
+- Mostra outros usuários por perto com base na localização
+- Permite que os usuários criem perfis e adicionem foto, status, nome, idade, gênero
+- Bate-papo
+- Filtro de perfil de outros usuários por distância, gênero e idade
+- Opção de curtir outros perfis
+- Tela de notificações para exibição de visitas, likes e mensagens
 
 <p align="left">
 <img src="https://raw.githubusercontent.com/tiagofrbarbosa/Fleekard/master/extras/screenshots/cap01.png" width="250">
