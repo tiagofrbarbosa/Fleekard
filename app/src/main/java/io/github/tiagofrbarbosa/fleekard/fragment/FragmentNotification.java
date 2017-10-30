@@ -27,7 +27,6 @@ import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.NotificationAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.

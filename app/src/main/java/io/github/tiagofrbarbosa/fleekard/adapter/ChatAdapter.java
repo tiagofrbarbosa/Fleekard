@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,6 @@ import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
 import io.github.tiagofrbarbosa.fleekard.model.User;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.

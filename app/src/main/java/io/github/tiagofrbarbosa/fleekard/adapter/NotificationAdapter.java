@@ -1,8 +1,6 @@
 package io.github.tiagofrbarbosa.fleekard.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,12 +23,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
-import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.utils.MyUtils;
-import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.

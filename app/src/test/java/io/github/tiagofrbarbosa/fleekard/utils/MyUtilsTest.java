@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by tfbarbosa on 29/10/17.
