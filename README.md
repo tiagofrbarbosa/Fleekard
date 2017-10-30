@@ -7,7 +7,9 @@ por perto, navegar por perfis, ver fotos, status, marcar perfis como favoritos e
 interesse mandar uma mensagem pelo bate papo, os usuários podem ver quem os visitou,
 gostou do seu perfil e mandou mensagem através da tela de notificações, além de filtrar outros
 perfis por distância, faixa etária e gênero.
-Público-Alvo/Intended User
+
+
+## Público-Alvo/Intended User
 Este é um app para pessoas que estão em busca de novas amizades, bate-papo e
 relacionamentos.
 
