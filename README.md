@@ -1,7 +1,7 @@
 # Fleekard
 Projeto de conclusão de curso, do nanodegree desenvolvedor android da Udacity
 
-# Descrição
+## Descrição
 Fleekard é um aplicativo de rede social que permite aos usuários encontrarem outros usuários
 por perto, navegar por perfis, ver fotos, status, marcar perfis como favoritos e caso tenha
 interesse mandar uma mensagem pelo bate papo, os usuários podem ver quem os visitou,
@@ -11,7 +11,7 @@ Público-Alvo/Intended User
 Este é um app para pessoas que estão em busca de novas amizades, bate-papo e
 relacionamentos.
 
-# Funcionalidades/Features
+## Funcionalidades/Features
 
 - Mostra outros usuários por perto com base na localização
 - Permite que os usuários criem perfis e adicionem foto, status, nome, idade, gênero
@@ -20,7 +20,7 @@ relacionamentos.
 - Opção de curtir outros perfis
 - Tela de notificações para exibição de visitas, likes e mensagens
 
-# Bibliotecas utilizadas
+## Bibliotecas utilizadas
 
 - Dagger2 - para fazer a injeção de dependências.
 - ButterKnife - para injetar views e anotar eventos.
@@ -35,7 +35,7 @@ relacionamentos.
 - Cardview - para usar cartões.
 
 
-# Google play services
+## Google play services
 
 - Google location API - para captura de latitude e longitude.
 - Google maps distance matrix API - para calcular a distância entre duas coordenadas de latitude e longitude.
