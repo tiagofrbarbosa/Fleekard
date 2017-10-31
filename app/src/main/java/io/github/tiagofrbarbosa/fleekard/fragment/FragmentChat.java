@@ -27,6 +27,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.activity.ChatActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.ChatAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+import io.github.tiagofrbarbosa.fleekard.holder.ChatsViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 
@@ -180,7 +181,7 @@ public class FragmentChat extends Fragment {
         return new ChatAdapter.ChatOnclickListener(){
 
             @Override
-            public void onClickChat(ChatAdapter.ChatsViewHolder holder, int idx) {
+            public void onClickChat(ChatsViewHolder holder, int idx) {
                 c = chats.get(idx);
 
                 mUserReference

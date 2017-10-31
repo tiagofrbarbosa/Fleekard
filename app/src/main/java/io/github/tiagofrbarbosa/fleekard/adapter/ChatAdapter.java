@@ -7,9 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -23,11 +20,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+import io.github.tiagofrbarbosa.fleekard.holder.ChatsViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.Chat;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
 import io.github.tiagofrbarbosa.fleekard.model.User;
@@ -36,7 +32,7 @@ import io.github.tiagofrbarbosa.fleekard.model.User;
  * Created by tfbarbosa on 17/09/17.
  */
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolder>{
+public class ChatAdapter extends RecyclerView.Adapter<ChatsViewHolder>{
 
     private Context context;
     private List<Chat> chats;
@@ -50,7 +46,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
     Glide glide;
 
     public interface ChatOnclickListener{
-        public void onClickChat(ChatAdapter.ChatsViewHolder holder, int idx);
+        public void onClickChat(ChatsViewHolder holder, int idx);
     }
 
     public ChatAdapter(Context context, List<Chat> chats, ChatOnclickListener onClickListener,
@@ -76,7 +72,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
     public void onBindViewHolder(final ChatsViewHolder holder, final int position) {
         Chat chat = chats.get(position);
 
-        holder.chatUnread.setVisibility(View.INVISIBLE);
+        holder.getChatUnread().setVisibility(View.INVISIBLE);
 
             mUserReference
                     .orderByChild(Database.users.USER_KEY)
@@ -91,7 +87,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                                 if(!user.getImg().equals(Database.users.USER_IMAGE_AVATAR)) {
                                     try {
                                         glide.with(context).load(user.getImg())
-                                                .apply(RequestOptions.circleCropTransform()).into(holder.img);
+                                                .apply(RequestOptions.circleCropTransform()).into(holder.getImg());
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
@@ -101,23 +97,23 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                                         glide.with(context)
                                                 .load(Database.users.USER_AVATAR_IMG)
                                                 .apply(RequestOptions.circleCropTransform())
-                                                .into(holder.img);
+                                                .into(holder.getImg());
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
 
                                 }
 
-                                holder.userName.setText(user.getUserName());
-                                holder.userStatus.setText(user.getUserStatus());
+                                holder.getUserName().setText(user.getUserName());
+                                holder.getUserStatus().setText(user.getUserStatus());
 
                                 if (user.getUserPresence() == 1) {
-                                    holder.userPresence.setImageResource(android.R.drawable.presence_online);
+                                    holder.getUserPresence().setImageResource(android.R.drawable.presence_online);
                                 } else {
-                                    holder.userPresence.setImageResource(android.R.drawable.presence_offline);
+                                    holder.getUserPresence().setImageResource(android.R.drawable.presence_offline);
                                 }
 
-                                holder.deleteChat.setOnClickListener(new View.OnClickListener() {
+                                holder.getDeleteChat().setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         deleteChat(position, user);
@@ -149,11 +145,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
                             }
 
                             if(messages.size() > 0){
-                                holder.chatUnread.setVisibility(View.VISIBLE);
-                                holder.chatUnread.setText(String.valueOf(messages.size()));
+                                holder.getChatUnread().setVisibility(View.VISIBLE);
+                                holder.getChatUnread().setText(String.valueOf(messages.size()));
                             }else{
-                                holder.chatUnread.setVisibility(View.INVISIBLE);
-                                holder.chatUnread.setText("");
+                                holder.getChatUnread().setVisibility(View.INVISIBLE);
+                                holder.getChatUnread().setText("");
                             }
                         }
 
@@ -176,23 +172,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatsViewHolde
     @Override
     public int getItemCount() {
         return this.chats != null ? this.chats.size() : 0;
-    }
-
-
-    public static class ChatsViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.user_image) ImageView img;
-        @BindView(R.id.user_name) TextView userName;
-        @BindView(R.id.user_status) TextView userStatus;
-        @BindView(R.id.delete_chat) ImageButton deleteChat;
-        @BindView(R.id.user_chat_presence) ImageView userPresence;
-        @BindView(R.id.chat_unread) TextView chatUnread;
-        private View view;
-
-        public ChatsViewHolder(View view) {
-            super(view);
-            this.view = view;
-            ButterKnife.bind(this, view);
-        }
     }
 
     private void deleteChat(final int position, final User user){

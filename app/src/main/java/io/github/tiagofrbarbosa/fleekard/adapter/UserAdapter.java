@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -15,17 +13,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.holder.UsersViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 
 /**
  * Created by tfbarbosa on 16/09/17.
  */
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolder>{
+public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder>{
 
     private List<User> users;
     private Context context;
@@ -56,24 +53,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
     public void onBindViewHolder(final UsersViewHolder holder, final int position) {
         if(users.size() >= 0) {
             User user = users.get(position);
-            holder.userName.setText(user.getUserName());
+            holder.getUserName().setText(user.getUserName());
 
             try {
                 glide.with(context)
                         .load(user.getImg())
                         .apply(RequestOptions.placeholderOf(R.drawable.user_avatar))
-                        .into(holder.imageView);
+                        .into(holder.getImageView());
             }catch (Exception e){
                 e.printStackTrace();
             }
 
-            holder.userDistance.setText(user.getDistance());
-            holder.userAge.setText(String.valueOf(user.getAge()));
+            holder.getUserDistance().setText(user.getDistance());
+            holder.getUserAge().setText(String.valueOf(user.getAge()));
 
             if (user.getGender() == 0) {
-                holder.userGender.setImageResource(R.drawable.ic_male);
+                holder.getUserGender().setImageResource(R.drawable.ic_male);
             } else {
-                holder.userGender.setImageResource(R.drawable.ic_female);
+                holder.getUserGender().setImageResource(R.drawable.ic_female);
             }
 
             if (onClickListener != null) {
@@ -90,20 +87,5 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsersViewHolde
     @Override
     public int getItemCount() {
         return this.users != null ? this.users.size() : 0;
-    }
-
-    public static class UsersViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.user_name) TextView userName;
-        @BindView(R.id.user_image) ImageView imageView;
-        @BindView(R.id.user_distance) TextView userDistance;
-        @BindView(R.id.user_age) TextView userAge;
-        @BindView(R.id.user_gender) ImageView userGender;
-        private View view;
-
-        public UsersViewHolder(View view) {
-            super(view);
-            this.view = view;
-            ButterKnife.bind(this, view);
-        }
     }
 }

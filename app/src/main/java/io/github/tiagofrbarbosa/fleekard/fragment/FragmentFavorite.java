@@ -26,6 +26,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.FavoriteAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+import io.github.tiagofrbarbosa.fleekard.holder.FavoritesViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.Favorite;
 
 /**
@@ -119,7 +120,7 @@ public class FragmentFavorite extends Fragment {
         return new FavoriteAdapter.FavoriteOnclickListener(){
 
             @Override
-            public void onClickFavorite(FavoriteAdapter.FavoritesViewHolder holder, int idx) {
+            public void onClickFavorite(FavoritesViewHolder holder, int idx) {
                 Favorite favorite = favorites.get(idx);
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 intent.putExtra(Database.users.USER_KEY, favorite.getUserKey());

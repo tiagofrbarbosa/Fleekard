@@ -44,6 +44,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.adapter.MessageChatAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
+import io.github.tiagofrbarbosa.fleekard.holder.MessagesViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
@@ -295,7 +296,7 @@ public class ChatActivity extends AppCompatActivity {
 
         return new MessageChatAdapter.MessageOnclickListener(){
             @Override
-            public void onClickUser(MessageChatAdapter.MessagesViewHolder holder, int idx) {
+            public void onClickUser(MessagesViewHolder holder, int idx) {
             }
         };
     }

@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -19,11 +17,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+import io.github.tiagofrbarbosa.fleekard.holder.NotificationsViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import io.github.tiagofrbarbosa.fleekard.utils.MyUtils;
@@ -32,7 +29,7 @@ import io.github.tiagofrbarbosa.fleekard.utils.MyUtils;
  * Created by tfbarbosa on 17/09/17.
  */
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationsViewHolder>{
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationsViewHolder>{
 
     private List<Notification> notifications;
     private Context context;
@@ -47,7 +44,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Inject Glide glide;
 
     public interface NotificationOnclickListener{
-        public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx, DatabaseReference databaseReference);
+        public void onClickNotification(NotificationsViewHolder holder, int idx, DatabaseReference databaseReference);
     }
 
     public NotificationAdapter(Context context, List<Notification> notifications, NotificationOnclickListener onClickListener, FleekardApplication app){
@@ -79,9 +76,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 });
             }
 
-            holder.notification_badge.setVisibility(View.INVISIBLE);
+            holder.getNotification_badge().setVisibility(View.INVISIBLE);
             mTime = mUtils.longToDate(notification.getTimeStampLong(), "dd/MM/yy");
-            holder.notification_date.setText(mTime);
+            holder.getNotification_date().setText(mTime);
 
             if (notification.getNotification() == Notification.INTERACTION_CODE_MSG) {
                 descNotification = context.getResources().getString(R.string.notification_desc_msg);
@@ -93,7 +90,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 descNotification = context.getResources().getString(R.string.notification_desc_visited);
             }
 
-            holder.notifications.setText(descNotification);
+            holder.getNotifications().setText(descNotification);
 
             DatabaseReference mUserReference = app.getmFirebaseDatabase().getReference()
                     .child(Database.users.CHILD_USERS);
@@ -111,7 +108,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                                     try {
                                         glide.with(context).load(user.getImg())
-                                                .apply(RequestOptions.circleCropTransform()).into(holder.imageView);
+                                                .apply(RequestOptions.circleCropTransform()).into(holder.getImageView());
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -121,14 +118,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                         glide.with(context)
                                                 .load(Database.users.USER_AVATAR_IMG)
                                                 .apply(RequestOptions.circleCropTransform())
-                                                .into(holder.imageView);
+                                                .into(holder.getImageView());
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
 
                                 }
 
-                                holder.userName.setText(user.getUserName());
+                                holder.getUserName().setText(user.getUserName());
                             }
                         }
 
@@ -147,8 +144,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                             Notification notification = dataSnapshot.getValue(Notification.class);
 
                             if(!notification.isNotificationRead()){
-                                holder.notification_badge.setVisibility(View.VISIBLE);
-                                holder.notification_badge.setText(" ! ");
+                                holder.getNotification_badge().setVisibility(View.VISIBLE);
+                                holder.getNotification_badge().setText(" ! ");
 
                                     if(onClickListener != null) {
                                         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +157,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                     }
 
                             }else{
-                                holder.notification_badge.setVisibility(View.INVISIBLE);
+                                holder.getNotification_badge().setVisibility(View.INVISIBLE);
 
                                     if(onClickListener != null) {
                                         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -183,20 +180,5 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public int getItemCount() {
         return this.notifications != null ? this.notifications.size() : 0;
-    }
-
-    public static class NotificationsViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.user_name) TextView userName;
-        @BindView(R.id.user_notification) TextView notifications;
-        @BindView(R.id.user_image) ImageView imageView;
-        @BindView(R.id.user_notification_date) TextView notification_date;
-        @BindView(R.id.badge_notification) TextView notification_badge;
-        private View view;
-
-        public NotificationsViewHolder(View view) {
-            super(view);
-            this.view = view;
-            ButterKnife.bind(this, view);
-        }
     }
 }

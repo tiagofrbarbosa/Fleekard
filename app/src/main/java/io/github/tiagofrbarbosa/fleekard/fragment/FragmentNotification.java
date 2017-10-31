@@ -26,6 +26,7 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.NotificationAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+import io.github.tiagofrbarbosa.fleekard.holder.NotificationsViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 
 /**
@@ -122,7 +123,7 @@ public class FragmentNotification extends Fragment {
         return new NotificationAdapter.NotificationOnclickListener(){
 
             @Override
-            public void onClickNotification(NotificationAdapter.NotificationsViewHolder holder, int idx, DatabaseReference databaseReference) {
+            public void onClickNotification(NotificationsViewHolder holder, int idx, DatabaseReference databaseReference) {
                 Notification n = notifications.get(idx);
 
                 if(databaseReference != null) {

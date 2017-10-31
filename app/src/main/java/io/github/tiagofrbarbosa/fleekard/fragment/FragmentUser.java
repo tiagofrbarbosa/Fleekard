@@ -30,6 +30,7 @@ import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.UserAdapter;
 import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
+import io.github.tiagofrbarbosa.fleekard.holder.UsersViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 
 /**
@@ -172,7 +173,7 @@ public class FragmentUser extends Fragment{
         return new UserAdapter.UserOnclickListener(){
 
             @Override
-            public void onClickUser(UserAdapter.UsersViewHolder holder, int idx) {
+            public void onClickUser(UsersViewHolder holder, int idx) {
                 User u = users.get(idx);
 
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
