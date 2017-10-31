@@ -44,8 +44,6 @@
             onView(withId(R.id.password)).perform(typeText("123456"), closeSoftKeyboard());
             onView(withId(R.id.button_done)).perform(click());
 
-            sleepApp(SLEEP_TIME);
-
         }
 
         private void sleepApp(int sleepTime){

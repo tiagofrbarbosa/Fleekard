@@ -21,14 +21,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * Created by tfbarbosa on 29/10/17.
+ * Created by tfbarbosa on 31/10/2017.
  */
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class UpdateProfileWithUserNotLoggedIn {
+public class StressUpdateProfileWithUserNotLoggedIn {
 
     private static int SLEEP_TIME = 4000;
+    private static int LOOP_STRESS = 5;
 
     @Rule
     public ActivityTestRule<SignIn> mActivityRule = new ActivityTestRule<>(SignIn.class);
@@ -47,16 +48,21 @@ public class UpdateProfileWithUserNotLoggedIn {
 
         sleepApp(SLEEP_TIME);
 
+        for(int i=0;i<=LOOP_STRESS;i++) {
             openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
             onView(withText("Profile settings")).perform(click());
 
-            onView(withId(R.id.user_name)).perform(clearText(), typeText("teste"), closeSoftKeyboard());
-            onView(withId(R.id.user_status)).perform(clearText(), typeText("teste"), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(clearText(), typeText("teste" + i), closeSoftKeyboard());
+            onView(withId(R.id.user_status)).perform(clearText(), typeText("teste" + i), closeSoftKeyboard());
             onView(withId(R.id.user_gender)).perform(click());
             onView(withText("Male")).perform(click());
-            onView(withId(R.id.user_age)).perform(clearText(), typeText("20"), closeSoftKeyboard());
+            onView(withId(R.id.user_age)).perform(clearText(), typeText(String.valueOf(i)), closeSoftKeyboard());
 
             onView(withId(R.id.fab_save)).perform(click());
+        }
+
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText("Exit")).perform(click());
     }
 
     private void sleepApp(int sleepTime){
