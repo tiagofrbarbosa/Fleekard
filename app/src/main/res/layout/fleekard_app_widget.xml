@@ -1,13 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/widget_margin">
-
         <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/widget_background"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="@dimen/widget_margin">
             
                 <LinearLayout
                     android:id="@+id/widgetLayoutMain"
@@ -68,5 +65,3 @@
                     android:layout_height="wrap_content"/>
             
         </LinearLayout>
-
-</FrameLayout>

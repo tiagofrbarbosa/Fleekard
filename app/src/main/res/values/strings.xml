@@ -54,6 +54,8 @@
     <string name="delete_chat_positive">Yes</string>
     <string name="delete_chat_negative">No</string>
     <string name="widget_title_notifications">Notifications</string>
+    <string name="array_value_male">Male</string>
+    <string name="array_value_female">Female</string>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>
