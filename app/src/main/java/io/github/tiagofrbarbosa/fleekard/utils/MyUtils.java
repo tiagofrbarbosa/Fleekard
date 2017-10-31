@@ -23,7 +23,7 @@ public class MyUtils {
 
     private static final String TAG_CONNECTION = "myConnection";
 
-    public boolean checkConnecton(){
+    public boolean checkConnection(){
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean connectionStatus = activeNetwork != null && activeNetwork.isConnectedOrConnecting();

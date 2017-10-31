@@ -46,7 +46,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatsViewHolder>{
     Glide glide;
 
     public interface ChatOnclickListener{
-        public void onClickChat(ChatsViewHolder holder, int idx);
+        void onClickChat(ChatsViewHolder holder, int idx);
     }
 
     public ChatAdapter(Context context, List<Chat> chats, ChatOnclickListener onClickListener,

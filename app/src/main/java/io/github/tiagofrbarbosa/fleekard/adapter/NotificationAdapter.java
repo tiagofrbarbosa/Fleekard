@@ -44,7 +44,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationsViewH
     @Inject Glide glide;
 
     public interface NotificationOnclickListener{
-        public void onClickNotification(NotificationsViewHolder holder, int idx, DatabaseReference databaseReference);
+        void onClickNotification(NotificationsViewHolder holder, int idx, DatabaseReference databaseReference);
     }
 
     public NotificationAdapter(Context context, List<Notification> notifications, NotificationOnclickListener onClickListener, FleekardApplication app){

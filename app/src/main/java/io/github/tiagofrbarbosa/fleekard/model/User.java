@@ -31,7 +31,7 @@ public class User implements Parcelable {
     public static final int USER_DISCONNECTED = 0;
     public static final int USER_CONNECTED = 1;
 
-    public User(){};
+    public User(){}
 
     //holder test
     public User(String userName, String img){

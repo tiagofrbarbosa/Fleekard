@@ -20,6 +20,7 @@
                     
                         <ImageView
                             android:id="@+id/widgetImgLauncher"
+                            android:contentDescription="@string/widget_app_icon"
                             android:layout_width="@dimen/widget_icon"
                             android:layout_height="@dimen/widget_icon"
                             android:layout_gravity="center_vertical"
@@ -33,6 +34,7 @@
                             android:orientation="vertical"
                             android:paddingBottom="@dimen/widget_padding_bottom"
                             android:paddingStart="@dimen/widget_padding_start"
+                            android:paddingEnd="@dimen/widget_padding_end"
                             android:paddingTop="@dimen/widget_padding_top">
 
                                 <TextView
@@ -47,7 +49,7 @@
                                     android:id="@+id/txvWidgetTitle"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Notifications"
+                                    android:text="@string/widget_title_notifications"
                                     android:textAppearance="?android:attr/textAppearanceSmall"
                                     android:textColor="@color/widget_textview_color"/>
 

@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(ViewPagerAdapter.TABS);
-        viewPager.setSwipe(true);
+        viewPager.setSwipe();
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (id == R.id.action_filter){
 
-            if(new MyUtils(this).checkConnecton()) {
+            if(new MyUtils(this).checkConnection()) {
                 int mTabPosition = tabLayout.getSelectedTabPosition();
 
                 setupViewPager();

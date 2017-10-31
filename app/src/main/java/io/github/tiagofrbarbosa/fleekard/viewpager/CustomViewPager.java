@@ -1,5 +1,6 @@
 package io.github.tiagofrbarbosa.fleekard.viewpager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -23,17 +24,18 @@ public class CustomViewPager extends ViewPager {
         this.enabled = true;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent){
-        return enabled ? super.onTouchEvent(motionEvent) : false;
+        return enabled && super.onTouchEvent(motionEvent);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent motionEvent){
-        return enabled ? super.onInterceptTouchEvent(motionEvent) : false;
+        return enabled && super.onInterceptTouchEvent(motionEvent);
     }
 
-    public void setSwipe(boolean enabled){
-        this.enabled = enabled;
+    public void setSwipe(){
+        this.enabled = true;
     }
 }

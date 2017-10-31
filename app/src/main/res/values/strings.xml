@@ -14,7 +14,7 @@
     <!-- translatable -->
     <string name="action_settings">Settings</string>
     <string name="profile_settings">Profile settings</string>
-    <string name="menu_exit">Exit</string>
+    <string name="menu_exit">Close</string>
     <string name="favorite_user_text">you liked this user on this day: </string>
     <string name="send_button_label">Send</string>
     <string name="settings_title_category_gender">Gender</string>
@@ -53,6 +53,7 @@
     <string name="delete_chat_all_messages">" all messages will be deleted"</string>
     <string name="delete_chat_positive">Yes</string>
     <string name="delete_chat_negative">No</string>
+    <string name="widget_title_notifications">Notifications</string>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>
@@ -71,8 +72,17 @@
     <string name="content_desc_user_like">User like</string>
     <string name="content_desc_photo_chat">Photo image chat</string>
     <string name="settings_activity_label">Settings</string>
+    <string name="photo_picker">photo picker button</string>
+    <string name="profile_edit_button">profile edit button</string>
+    <string name="delete_chat_button">delete chat button</string>
+    <string name="widget_app_icon">app icon</string>
+    <string name="widiget_user_image">user image</string>
+    <string name="user_name_profile_hint">Your name</string>
+    <string name="user_status_profile_hint">Your status</string>
 
     <!-- AdMob -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="app_ad_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="message_chat">Write a message</string>
+
 </resources>

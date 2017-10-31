@@ -33,7 +33,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessagesViewHolder>
     @Inject Glide glide;
 
     public interface MessageOnclickListener{
-        public void onClickUser(MessagesViewHolder holder, int idx);
+        void onClickUser(MessagesViewHolder holder, int idx);
     }
 
     public MessageChatAdapter(Context context, List<Message> messages, MessageOnclickListener onClickListener, FleekardApplication app){

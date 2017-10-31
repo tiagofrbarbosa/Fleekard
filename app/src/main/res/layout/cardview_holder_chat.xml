@@ -28,7 +28,7 @@
 
                     <TextView
                         android:id="@+id/user_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="@dimen/user_name_chat"
@@ -37,7 +37,7 @@
 
                     <TextView
                         android:id="@+id/user_status"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/user_status_chat"
                         android:textColor="@color/cardview_text"
@@ -46,6 +46,7 @@
 
                     <ImageButton
                         android:id="@+id/delete_chat"
+                        android:contentDescription="@string/delete_chat_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/user_status"

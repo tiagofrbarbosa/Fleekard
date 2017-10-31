@@ -32,7 +32,7 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder>{
     @Inject Glide glide;
 
     public interface UserOnclickListener{
-        public void onClickUser(UsersViewHolder holder, int idx);
+        void onClickUser(UsersViewHolder holder, int idx);
     }
 
     public UserAdapter(Context context, List<User> users, UserOnclickListener onClickListener, FleekardApplication app){

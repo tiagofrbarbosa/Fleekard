@@ -43,7 +43,7 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sigin);
 
-        if(new MyUtils(this).checkConnecton()) {
+        if(new MyUtils(this).checkConnection()) {
 
             app = (FleekardApplication) getApplication();
             mFirebaseAuth = app.getmFirebaseAuth();

@@ -43,7 +43,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoritesViewHolder>{
     Glide glide;
 
     public interface FavoriteOnclickListener{
-        public void onClickFavorite(FavoritesViewHolder holder, int idx);
+        void onClickFavorite(FavoritesViewHolder holder, int idx);
     }
 
     public FavoriteAdapter(Context context, List<Favorite> favorites, FavoriteOnclickListener onClickListener, FleekardApplication app){

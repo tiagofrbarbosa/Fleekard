@@ -56,6 +56,7 @@
 
                 <ImageView
                     android:id="@+id/profile_edit"
+                    android:contentDescription="@string/profile_edit_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -70,11 +71,13 @@
 
                     <EditText
                         android:id="@+id/user_name"
+                        android:hint="@string/user_name_profile_hint"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                     <EditText
                         android:id="@+id/user_status"
+                        android:hint="@string/user_status_profile_hint"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
