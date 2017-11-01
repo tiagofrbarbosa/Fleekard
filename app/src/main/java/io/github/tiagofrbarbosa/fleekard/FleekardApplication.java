@@ -5,6 +5,7 @@ import android.app.Application;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 
 import io.github.tiagofrbarbosa.fleekard.component.AppComponent;
@@ -23,6 +24,7 @@ public class FleekardApplication extends Application {
     private FirebaseDatabase mFirebaseDatabasePersistence;
     private FirebaseStorage mFirebaseStorage;
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseInstanceId mFirebaseInstanceId;
     private FirebaseAnalytics mFirebaseAnalytics;
     private User mAppUser;
 
@@ -35,6 +37,7 @@ public class FleekardApplication extends Application {
         mFirebaseDatabasePersistence.setPersistenceEnabled(true);
         mFirebaseStorage = FirebaseStorage.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseInstanceId = FirebaseInstanceId.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
@@ -73,5 +76,9 @@ public class FleekardApplication extends Application {
 
     public User getmAppUser(){
         return this.mAppUser;
+    }
+
+    public FirebaseInstanceId getmFirebaseInstanceId(){
+        return mFirebaseInstanceId;
     }
 }
