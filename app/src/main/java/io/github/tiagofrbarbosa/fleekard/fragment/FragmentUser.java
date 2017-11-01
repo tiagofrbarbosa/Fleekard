@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +35,8 @@ import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.holder.UsersViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.User;
 import timber.log.Timber;
+
+import static com.google.maps.android.SphericalUtil.computeDistanceBetween;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -67,6 +70,7 @@ public class FragmentUser extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        final int distancePref = Integer.valueOf(SettingsActivity.getEditDistance(getActivity()));
         final int ageRangePref = Integer.valueOf(SettingsActivity.getAgeRange(getActivity()));
 
         final boolean checkMalePref = SettingsActivity.isCheckMale(getActivity());
@@ -93,29 +97,24 @@ public class FragmentUser extends Fragment{
                             for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
                                 User user = userSnap.getValue(User.class);
 
-                                /*DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask(onFinishListener());
-                                distanceAsyncTask.execute(
-                                        app.getmAppUser().getUserLocation().getLatLong()
-                                        , user.getUserLocation().getLatLong()
-                                        , app.getmAppUser().getUserLocation().getLatitude()
-                                        , app.getmAppUser().getUserLocation().getLongitude()
-                                        , user.getUserLocation().getLatitude()
-                                        , user.getUserLocation().getLongitude()
-                                        , user);
+                                String mDistance;
+                                double latitude_origin = Double.valueOf(app.getmAppUser().getUserLocation().getLatitude());
+                                double longitude_origin = Double.valueOf(app.getmAppUser().getUserLocation().getLongitude());
+                                double latitude_destination = Double.valueOf(user.getUserLocation().getLatitude());
+                                double longitude_destination = Double.valueOf(user.getUserLocation().getLongitude());
 
-                                try {
-                                    user.setDistance(distanceAsyncTask.get().getDistance());
-                                } catch (InterruptedException | ExecutionException e) {
-                                    e.printStackTrace();
+                                Double computeDistanceBetween = computeDistanceBetween(new LatLng(latitude_origin,longitude_origin)
+                                        , new LatLng(latitude_destination,longitude_destination));
+
+                                if(computeDistanceBetween > 1000) {
+                                    mDistance = String.valueOf(String.format("%.0f",computeDistanceBetween / 1000));
+                                }else{
+                                    mDistance = String.valueOf(String.format("%.0f",computeDistanceBetween));
                                 }
 
-                                String mDistance = user.getDistance();
-                                String mDistanceReplaceKM = mDistance.replace(" km", "");
-                                String mDistanceReplaceM = mDistanceReplaceKM.replace(" m", "");
-                                String mDistanceFloatNumber = mDistanceReplaceM.replace("0.", "");
-                                String mDistanceNumber = mDistanceFloatNumber.replace(",", "");
+                                Timber.tag(DistanceAsyncTask.TAG_LISTENER).i("mDistance: " + mDistance);
 
-                                if (Float.valueOf(mDistanceNumber) <= distancePref) {*/
+                                if (Float.valueOf(mDistance) <= distancePref) {
                                     if (checkMalePref && checkFemalePref) {
 
                                         if (!mFirebaseUser.getUid().equals(user.getUserId())
@@ -140,8 +139,7 @@ public class FragmentUser extends Fragment{
                                         if (!mFirebaseUser.getUid().equals(user.getUserId())
                                                 && user.getAge() <= ageRangePref) users.add(user);
                                     }
-                                //}
-
+                                }
                             }
                             recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));
                             progressBar.setVisibility(View.INVISIBLE);

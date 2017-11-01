@@ -22,7 +22,7 @@
             android:title="@string/distance_title_settings"
             android:summary="@string/distance_summary_settings"
             android:key="@string/distance_key_settings"
-            android:defaultValue="1000"
+            android:defaultValue="40075"
             android:dialogIcon="@mipmap/ic_launcher_round"
             android:inputType="numberDecimal"/>
 

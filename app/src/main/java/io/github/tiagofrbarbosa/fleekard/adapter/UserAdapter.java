@@ -75,18 +75,6 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder>{
                     , user.getUserLocation().getLongitude()
                     , user);
 
-            /*try {
-                user.setDistance(distanceAsyncTask.get().getDistance());
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-
-            String mDistance = user.getDistance();
-            String mDistanceReplaceKM = mDistance.replace(" km", "");
-            String mDistanceReplaceM = mDistanceReplaceKM.replace(" m", "");
-            String mDistanceFloatNumber = mDistanceReplaceM.replace("0.", "");
-            String mDistanceNumber = mDistanceFloatNumber.replace(",", "");*/
-
             holder.getUserName().setText(user.getUserName());
 
             try {
@@ -129,16 +117,7 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder>{
             @Override
             public void onFinish(User user, UsersViewHolder holder, int position) {
                 Timber.tag(DistanceAsyncTask.TAG_LISTENER).i("onFinishListener: " + user.getDistance());
-                String mDistance = user.getDistance();
-                String mDistanceReplaceKM = mDistance.replace(" km", "");
-                String mDistanceReplaceM = mDistanceReplaceKM.replace(" m", "");
-                String mDistanceFloatNumber = mDistanceReplaceM.replace("0.", "");
-                String mDistanceNumber = mDistanceFloatNumber.replace(",", "");
                 holder.getUserDistance().setText(user.getDistance());
-
-                if (!(Float.valueOf(mDistanceNumber) <= distancePref)) {
-                    users.remove(position);
-                }
             }
         };
     }
