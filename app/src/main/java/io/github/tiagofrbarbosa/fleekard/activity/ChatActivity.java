@@ -120,7 +120,8 @@ public class ChatActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(this, mMessages, onClickMessage(), app));
+        mMessageChatAdapter = new MessageChatAdapter(this, mMessages, onClickMessage(), app);
+        mRecyclerView.setAdapter(mMessageChatAdapter);
 
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
 
