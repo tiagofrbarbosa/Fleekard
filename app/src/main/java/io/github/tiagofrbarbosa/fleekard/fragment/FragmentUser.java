@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.holder.UsersViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -47,6 +49,7 @@ public class FragmentUser extends Fragment{
     private DatabaseReference mFirebaseReference;
     private FleekardApplication app;
     private FirebaseUser mFirebaseUser;
+    User userDistance;
 
     private Parcelable parcelable;
     private static final String RECYCLER_LIST_SATE = "recycler_list_state";
@@ -69,8 +72,6 @@ public class FragmentUser extends Fragment{
         final boolean checkMalePref = SettingsActivity.isCheckMale(getActivity());
         final boolean checkFemalePref = SettingsActivity.isCheckFemale(getActivity());
 
-        final int distancePref = Integer.valueOf(SettingsActivity.getEditDistance(getActivity()));
-
         progressBar.setVisibility(View.VISIBLE);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -92,17 +93,18 @@ public class FragmentUser extends Fragment{
                             for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
                                 User user = userSnap.getValue(User.class);
 
-                                DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask();
+                                /*DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask(onFinishListener());
                                 distanceAsyncTask.execute(
                                         app.getmAppUser().getUserLocation().getLatLong()
                                         , user.getUserLocation().getLatLong()
                                         , app.getmAppUser().getUserLocation().getLatitude()
                                         , app.getmAppUser().getUserLocation().getLongitude()
                                         , user.getUserLocation().getLatitude()
-                                        , user.getUserLocation().getLongitude());
+                                        , user.getUserLocation().getLongitude()
+                                        , user);
 
                                 try {
-                                    user.setDistance(distanceAsyncTask.get());
+                                    user.setDistance(distanceAsyncTask.get().getDistance());
                                 } catch (InterruptedException | ExecutionException e) {
                                     e.printStackTrace();
                                 }
@@ -113,7 +115,7 @@ public class FragmentUser extends Fragment{
                                 String mDistanceFloatNumber = mDistanceReplaceM.replace("0.", "");
                                 String mDistanceNumber = mDistanceFloatNumber.replace(",", "");
 
-                                if (Float.valueOf(mDistanceNumber) <= distancePref) {
+                                if (Float.valueOf(mDistanceNumber) <= distancePref) {*/
                                     if (checkMalePref && checkFemalePref) {
 
                                         if (!mFirebaseUser.getUid().equals(user.getUserId())
@@ -138,7 +140,7 @@ public class FragmentUser extends Fragment{
                                         if (!mFirebaseUser.getUid().equals(user.getUserId())
                                                 && user.getAge() <= ageRangePref) users.add(user);
                                     }
-                                }
+                                //}
 
                             }
                             recyclerView.setAdapter(adapter = new UserAdapter(getActivity(), users, onClickUser(), app));

@@ -10,13 +10,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
+import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
+import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.holder.UsersViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 16/09/17.
@@ -28,6 +32,7 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder>{
     private Context context;
     private final UserOnclickListener onClickListener;
     private FleekardApplication app;
+    private int distancePref;
 
     @Inject Glide glide;
 
@@ -35,11 +40,16 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder>{
         void onClickUser(UsersViewHolder holder, int idx);
     }
 
+    public interface DistanceAsyncListener{
+        void onFinish(User user, UsersViewHolder holder, int position);
+    }
+
     public UserAdapter(Context context, List<User> users, UserOnclickListener onClickListener, FleekardApplication app){
         this.context = context;
         this.users = users;
         this.onClickListener = onClickListener;
         this.app = app;
+        this.distancePref = Integer.valueOf(SettingsActivity.getEditDistance(context));
     }
 
     @Override
@@ -52,7 +62,31 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder>{
     @Override
     public void onBindViewHolder(final UsersViewHolder holder, final int position) {
         if(users.size() >= 0) {
+
             User user = users.get(position);
+
+            DistanceAsyncTask distanceAsyncTask = new DistanceAsyncTask(onFinishListener(), holder, position);
+            distanceAsyncTask.execute(
+                    app.getmAppUser().getUserLocation().getLatLong()
+                    , user.getUserLocation().getLatLong()
+                    , app.getmAppUser().getUserLocation().getLatitude()
+                    , app.getmAppUser().getUserLocation().getLongitude()
+                    , user.getUserLocation().getLatitude()
+                    , user.getUserLocation().getLongitude()
+                    , user);
+
+            /*try {
+                user.setDistance(distanceAsyncTask.get().getDistance());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            String mDistance = user.getDistance();
+            String mDistanceReplaceKM = mDistance.replace(" km", "");
+            String mDistanceReplaceM = mDistanceReplaceKM.replace(" m", "");
+            String mDistanceFloatNumber = mDistanceReplaceM.replace("0.", "");
+            String mDistanceNumber = mDistanceFloatNumber.replace(",", "");*/
+
             holder.getUserName().setText(user.getUserName());
 
             try {
@@ -64,7 +98,6 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder>{
                 e.printStackTrace();
             }
 
-            holder.getUserDistance().setText(user.getDistance());
             holder.getUserAge().setText(String.valueOf(user.getAge()));
 
             if (user.getGender() == 0) {
@@ -87,5 +120,26 @@ public class UserAdapter extends RecyclerView.Adapter<UsersViewHolder>{
     @Override
     public int getItemCount() {
         return this.users != null ? this.users.size() : 0;
+    }
+
+    protected UserAdapter.DistanceAsyncListener onFinishListener(){
+
+        return new UserAdapter.DistanceAsyncListener() {
+
+            @Override
+            public void onFinish(User user, UsersViewHolder holder, int position) {
+                Timber.tag(DistanceAsyncTask.TAG_LISTENER).i("onFinishListener: " + user.getDistance());
+                String mDistance = user.getDistance();
+                String mDistanceReplaceKM = mDistance.replace(" km", "");
+                String mDistanceReplaceM = mDistanceReplaceKM.replace(" m", "");
+                String mDistanceFloatNumber = mDistanceReplaceM.replace("0.", "");
+                String mDistanceNumber = mDistanceFloatNumber.replace(",", "");
+                holder.getUserDistance().setText(user.getDistance());
+
+                if (!(Float.valueOf(mDistanceNumber) <= distancePref)) {
+                    users.remove(position);
+                }
+            }
+        };
     }
 }
