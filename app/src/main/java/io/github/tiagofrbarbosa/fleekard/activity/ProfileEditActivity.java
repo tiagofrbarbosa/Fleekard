@@ -3,6 +3,7 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +14,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
@@ -51,6 +54,7 @@ public class ProfileEditActivity extends AppCompatActivity{
     @BindView(R.id.user_age) EditText userAge;
     @BindView(R.id.fab_save) FloatingActionButton floatingActionButton;
     @BindView(R.id.main_layout) View mLayout;
+    @BindView(R.id.myProgressBarEdit) ProgressBar progressBar;
 
     @Inject
     Glide glide;
@@ -76,6 +80,8 @@ public class ProfileEditActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
 
         app = (FleekardApplication) getApplication();
+
+        progressBar.setVisibility(View.INVISIBLE);
 
         ArrayAdapter<CharSequence> adapter =
                 ArrayAdapter.createFromResource(this, R.array.gender_array,
@@ -123,6 +129,13 @@ public class ProfileEditActivity extends AppCompatActivity{
         if(extras.getInt(ACTIVITY_SOURCE_EXTRA) == ACTIVITY_SOURCE_SIGIN){
             Snackbar.make(mLayout, getResources().getString(R.string.snackbar_welcome), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if(progressBar.getVisibility() == View.VISIBLE) progressBar.setVisibility(View.INVISIBLE);
+        if(!floatingActionButton.isEnabled()) floatingActionButton.setEnabled(true);
     }
 
     @Override
@@ -210,6 +223,9 @@ public class ProfileEditActivity extends AppCompatActivity{
         mFirebaseStorage = app.getmFirebaseStorage();
 
         if(requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK){
+
+            floatingActionButton.setEnabled(false);
+
             Uri selectedImageUri = data.getData();
 
             StorageReference profileImageRef = mFirebaseStorage.getReference()
@@ -222,7 +238,17 @@ public class ProfileEditActivity extends AppCompatActivity{
                     .child(Database.users.CHILD_USERS)
                     .child(extras.getString(Database.users.USER_KEY));
 
+            progressBar.setVisibility(View.VISIBLE);
+
             profileImageRef.putFile(selectedImageUri)
+                    .addOnFailureListener(this, new OnFailureListener() {
+
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            floatingActionButton.setEnabled(true);
+                        }
+                    })
                     .addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -235,6 +261,9 @@ public class ProfileEditActivity extends AppCompatActivity{
                                     .load(user.getImg())
                                     .apply(RequestOptions.circleCropTransform())
                                     .into(profileImage);
+
+                            progressBar.setVisibility(View.INVISIBLE);
+                            floatingActionButton.setEnabled(true);
                         }
                     });
         }

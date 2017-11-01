@@ -54,6 +54,16 @@
                     android:layout_alignParentStart="true"
                     android:src="@drawable/user_avatar"/>
 
+                <ProgressBar
+                    android:id="@+id/myProgressBarEdit"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progressDrawable="@drawable/circular_progress_bar"
+                    android:layout_alignTop="@id/profile_image"
+                    android:layout_below="@id/profile_image"
+                    android:layout_centerHorizontal="true"/>
+
                 <ImageView
                     android:id="@+id/profile_edit"
                     android:contentDescription="@string/profile_edit_button"
