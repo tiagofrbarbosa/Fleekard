@@ -3,6 +3,7 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -147,7 +150,14 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onPause(){
         super.onPause();
+        if(mProgressBar.getVisibility() == View.VISIBLE) mProgressBar.setVisibility(View.INVISIBLE);
         detachDatabaseReadLIstener();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        attachDatabaseReadListener();
     }
 
     @Override
@@ -212,7 +222,15 @@ public class ChatActivity extends AppCompatActivity {
 
             StorageReference photoRef = mChatPhotosStorageReference.child(selectedImageUri.getLastPathSegment());
 
+            mProgressBar.setVisibility(View.VISIBLE);
+
             photoRef.putFile(selectedImageUri)
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                        }
+                    })
                     .addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -220,6 +238,8 @@ public class ChatActivity extends AppCompatActivity {
 
                             Message mMessage = new Message(null, mUserId, mUserName, downloadUrl.toString(), false);
                             mMessageDatabaseReference.push().setValue(mMessage);
+
+                            mProgressBar.setVisibility(View.INVISIBLE);
                         }
                     });
         }
