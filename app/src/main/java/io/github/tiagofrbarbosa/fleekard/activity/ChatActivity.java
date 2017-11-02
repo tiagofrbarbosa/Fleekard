@@ -209,7 +209,7 @@ public class ChatActivity extends AppCompatActivity {
     @OnClick(R.id.sendButton)
     public void onClickSendButton(){
 
-        Message mMessage = new Message(mMessageEditText.getText().toString(), mUserId, mUserName, null, false);
+        Message mMessage = new Message(mMessageEditText.getText().toString().trim(), mUserId, mUserName, null, false);
         mMessageDatabaseReference.push().setValue(mMessage);
         mMessageEditText.setText("");
 
@@ -230,7 +230,11 @@ public class ChatActivity extends AppCompatActivity {
 
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mMessageEditText.getWindowToken(), 0);
-        linearLayoutManager.scrollToPositionWithOffset(0,0);
+        try {
+            mRecyclerView.getLayoutManager().scrollToPosition(0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -249,6 +253,11 @@ public class ChatActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             mProgressBar.setVisibility(View.INVISIBLE);
+                            try {
+                                mRecyclerView.getLayoutManager().scrollToPosition(0);
+                            }catch (Exception exception){
+                                exception.printStackTrace();
+                            }
                         }
                     })
                     .addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -258,8 +267,13 @@ public class ChatActivity extends AppCompatActivity {
 
                             Message mMessage = new Message(null, mUserId, mUserName, downloadUrl.toString(), false);
                             mMessageDatabaseReference.push().setValue(mMessage);
-
                             mProgressBar.setVisibility(View.INVISIBLE);
+
+                            try {
+                                mRecyclerView.getLayoutManager().scrollToPosition(0);
+                            }catch (Exception exception){
+                                exception.printStackTrace();
+                            }
                         }
                     });
         }
@@ -336,6 +350,7 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         parcelable = mRecyclerView.getLayoutManager().onSaveInstanceState();
+        mMessages.clear();
     }
 
     protected MessageChatAdapter.MessageOnclickListener onClickMessage(){

@@ -25,6 +25,8 @@ public class MessagesViewHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.chatViewUserConnected) ChatMessageView chatMessageViewUserConnected;
     @BindView(R.id.chatViewImage) ChatMessageView chatViewImage;
     @BindView(R.id.chatViewImageUserConnected) ChatMessageView chatViewImageUserConnected;
+    @BindView(R.id.timeImageView) TextView timeImageView;
+    @BindView(R.id.timeImageViewConnectedUser) TextView timeImageViewUserConnected;
 
     private View view;
 
@@ -72,5 +74,13 @@ public class MessagesViewHolder extends RecyclerView.ViewHolder{
 
     public ChatMessageView getChatViewImageUserConnected() {
         return this.chatViewImageUserConnected;
+    }
+
+    public TextView getTimeImageView(){
+        return this.timeImageView;
+    }
+
+    public TextView getTimeImageViewUserConnected(){
+        return this.timeImageViewUserConnected;
     }
 }

@@ -28,11 +28,9 @@ import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.activity.ProfileActivity;
 import io.github.tiagofrbarbosa.fleekard.activity.prefs.SettingsActivity;
 import io.github.tiagofrbarbosa.fleekard.adapter.UserAdapter;
-import io.github.tiagofrbarbosa.fleekard.asynctask.DistanceAsyncTask;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.holder.UsersViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.User;
-import timber.log.Timber;
 
 import static com.google.maps.android.SphericalUtil.computeDistanceBetween;
 
@@ -109,8 +107,6 @@ public class FragmentUser extends Fragment{
                                 }else{
                                     mDistance = String.valueOf(String.format("%.0f",computeDistanceBetween));
                                 }
-
-                                Timber.tag(DistanceAsyncTask.TAG_LISTENER).i("mDistance: " + mDistance);
 
                                 if (Float.valueOf(mDistance) <= distancePref) {
                                     if (checkMalePref && checkFemalePref) {

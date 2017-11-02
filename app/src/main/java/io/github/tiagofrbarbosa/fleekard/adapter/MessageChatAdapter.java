@@ -66,27 +66,36 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessagesViewHolder>
             holder.getPhotoImageView().setVisibility(View.GONE);
             holder.getChatMessageViewUser().setVisibility(View.GONE);
             holder.getChatViewImage().setVisibility(View.GONE);
+            holder.getTimeImageView().setVisibility(View.GONE);
 
             holder.getMessageTextViewConnectedUser().setVisibility(View.VISIBLE);
             holder.getAuthorTextViewConnectedUser().setVisibility(View.VISIBLE);
             holder.getPhotoImageViewConnectedUser().setVisibility(View.VISIBLE);
             holder.getChatMessageViewUserConnected().setVisibility(View.VISIBLE);
             holder.getChatViewImageUserConnected().setVisibility(View.VISIBLE);
+            holder.getTimeImageViewUserConnected().setVisibility(View.VISIBLE);
 
             if(isPhoto){
                 holder.getMessageTextViewConnectedUser().setVisibility(View.GONE);
+                holder.getAuthorTextViewConnectedUser().setVisibility(View.GONE);
+                holder.getChatMessageViewUserConnected().setVisibility(View.GONE);
                 holder.getChatViewImageUserConnected().setVisibility(View.VISIBLE);
                 holder.getPhotoImageViewConnectedUser().setVisibility(View.VISIBLE);
+                holder.getTimeImageViewUserConnected().setVisibility(View.VISIBLE);
+                holder.getTimeImageViewUserConnected().setText(mTime);
                 glide.with(context)
                         .load(message.getPhotoUrl())
                         .into(holder.getPhotoImageViewConnectedUser());
             }else{
                 holder.getMessageTextViewConnectedUser().setVisibility(View.VISIBLE);
+                holder.getAuthorTextViewConnectedUser().setVisibility(View.VISIBLE);
+                holder.getChatMessageViewUserConnected().setVisibility(View.VISIBLE);
+                holder.getAuthorTextViewConnectedUser().setText(mTime);
                 holder.getChatViewImageUserConnected().setVisibility(View.GONE);
                 holder.getPhotoImageViewConnectedUser().setVisibility(View.GONE);
+                holder.getTimeImageViewUserConnected().setVisibility(View.GONE);
                 holder.getMessageTextViewConnectedUser().setText(message.getText());
             }
-            holder.getAuthorTextViewConnectedUser().setText(mTime);
 
         }else{
 
@@ -95,28 +104,37 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessagesViewHolder>
             holder.getPhotoImageViewConnectedUser().setVisibility(View.GONE);
             holder.getChatMessageViewUserConnected().setVisibility(View.GONE);
             holder.getChatViewImageUserConnected().setVisibility(View.GONE);
+            holder.getTimeImageViewUserConnected().setVisibility(View.GONE);
 
             holder.getMessageTextView().setVisibility(View.VISIBLE);
             holder.getAuthorTextView().setVisibility(View.VISIBLE);
             holder.getPhotoImageView().setVisibility(View.VISIBLE);
             holder.getChatMessageViewUser().setVisibility(View.VISIBLE);
             holder.getChatViewImage().setVisibility(View.VISIBLE);
+            holder.getTimeImageView().setVisibility(View.VISIBLE);
 
             if(isPhoto){
                 holder.getMessageTextView().setVisibility(View.GONE);
+                holder.getAuthorTextView().setVisibility(View.GONE);
+                holder.getChatMessageViewUser().setVisibility(View.GONE);
                 holder.getChatViewImage().setVisibility(View.VISIBLE);
+                holder.getTimeImageView().setVisibility(View.VISIBLE);
                 holder.getPhotoImageView().setVisibility(View.VISIBLE);
+                holder.getTimeImageView().setText(mTime);
                 glide.with(context)
-                        .load(message.getPhotoUrl())
-                        .into(holder.getPhotoImageView());
+                            .load(message.getPhotoUrl())
+                            .into(holder.getPhotoImageView());
+
             }else{
                 holder.getMessageTextView().setVisibility(View.VISIBLE);
+                holder.getAuthorTextView().setVisibility(View.VISIBLE);
+                holder.getChatMessageViewUser().setVisibility(View.VISIBLE);
+                holder.getAuthorTextView().setText(mTime);
                 holder.getChatViewImage().setVisibility(View.GONE);
                 holder.getPhotoImageView().setVisibility(View.GONE);
+                holder.getTimeImageView().setVisibility(View.GONE);
                 holder.getMessageTextView().setText(message.getText());
             }
-            holder.getAuthorTextView().setText(mTime);
-
         }
 
         if (onClickListener != null) {
