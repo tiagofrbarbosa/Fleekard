@@ -91,8 +91,10 @@ public class FragmentNotification extends Fragment {
                                     notifications.add(notification);
                                 }
 
+                                parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
                                 recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
                                 progressBar.setVisibility(View.INVISIBLE);
+                                recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
                         }
 
                         @Override

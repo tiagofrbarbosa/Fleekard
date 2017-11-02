@@ -3,6 +3,7 @@ package io.github.tiagofrbarbosa.fleekard.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +46,7 @@ import butterknife.OnClick;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.adapter.MessageChatAdapter;
+import io.github.tiagofrbarbosa.fleekard.adapter.NotificationAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
 import io.github.tiagofrbarbosa.fleekard.holder.MessagesViewHolder;
@@ -71,9 +73,10 @@ public class ChatActivity extends AppCompatActivity {
     @Inject Glide glide;
 
     private MessageChatAdapter mMessageChatAdapter;
-    private List<Message> mMessages;
+    private ArrayList<Message> mMessages;
     private String mUserId;
     private String mUserName;
+    private LinearLayoutManager linearLayoutManager;
 
     private FleekardApplication app;
     private FirebaseDatabase mFirebaseDatabase;
@@ -88,6 +91,9 @@ public class ChatActivity extends AppCompatActivity {
 
     private Bundle extras;
 
+    private Parcelable parcelable;
+    private static final String RECYCLER_LIST_SATE = "recycler_list_state";
+    private static final String MESSAGE_PARCELABLE = "message_parcelable";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,14 +123,13 @@ public class ChatActivity extends AppCompatActivity {
                 .child(Storage.messages.MESSAGES_IMAGE_PATH)
                 .child(extras.getString(Database.chats.CHAT_ID));
 
-        attachDatabaseReadListener();
-
         mMessages = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mMessageChatAdapter = new MessageChatAdapter(this, mMessages, onClickMessage(), app);
-        mRecyclerView.setAdapter(mMessageChatAdapter);
+        mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(this, mMessages, onClickMessage(), app));
+
+        if(savedInstanceState == null) attachDatabaseReadListener();
 
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
 
@@ -158,6 +163,22 @@ public class ChatActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
         attachDatabaseReadListener();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        parcelable = mRecyclerView.getLayoutManager().onSaveInstanceState();
+        savedInstanceState.putParcelable(RECYCLER_LIST_SATE, parcelable);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null) {
+            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
+        }
     }
 
     @Override
@@ -211,6 +232,7 @@ public class ChatActivity extends AppCompatActivity {
 
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mMessageEditText.getWindowToken(), 0);
+        linearLayoutManager.scrollToPositionWithOffset(0,0);
     }
 
     @Override
@@ -258,6 +280,9 @@ public class ChatActivity extends AppCompatActivity {
 
                     mMessages.add(mMessage);
                     mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(ChatActivity.this, mMessages, onClickMessage(), app));
+
+                    if(parcelable != null)
+                    mRecyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
                 }
 
                 @Override
@@ -311,6 +336,8 @@ public class ChatActivity extends AppCompatActivity {
             mMessageDatabaseReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
+
+        parcelable = mRecyclerView.getLayoutManager().onSaveInstanceState();
     }
 
     protected MessageChatAdapter.MessageOnclickListener onClickMessage(){

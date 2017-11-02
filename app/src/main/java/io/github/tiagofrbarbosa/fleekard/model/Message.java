@@ -1,5 +1,8 @@
 package io.github.tiagofrbarbosa.fleekard.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
@@ -9,7 +12,7 @@ import java.util.HashMap;
  * Created by tfbarbosa on 17/09/17.
  */
 
-public class Message {
+public class Message implements Parcelable {
 
     private String text;
     private String userId;
@@ -80,4 +83,41 @@ public class Message {
     public long getTimeStampLong(){
         return (long) mTimeStamp.get("timestamp");
     }
+
+    protected Message(Parcel in) {
+        text = in.readString();
+        userId = in.readString();
+        name = in.readString();
+        photoUrl = in.readString();
+        mTimeStamp = (HashMap) in.readValue(HashMap.class.getClassLoader());
+        readMessage = in.readByte() != 0x00;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(text);
+        dest.writeString(userId);
+        dest.writeString(name);
+        dest.writeString(photoUrl);
+        dest.writeValue(mTimeStamp);
+        dest.writeByte((byte) (readMessage ? 0x01 : 0x00));
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Message> CREATOR = new Parcelable.Creator<Message>() {
+        @Override
+        public Message createFromParcel(Parcel in) {
+            return new Message(in);
+        }
+
+        @Override
+        public Message[] newArray(int size) {
+            return new Message[size];
+        }
+    };
 }
