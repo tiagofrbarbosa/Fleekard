@@ -36,7 +36,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -46,7 +45,6 @@ import butterknife.OnClick;
 import io.github.tiagofrbarbosa.fleekard.FleekardApplication;
 import io.github.tiagofrbarbosa.fleekard.R;
 import io.github.tiagofrbarbosa.fleekard.adapter.MessageChatAdapter;
-import io.github.tiagofrbarbosa.fleekard.adapter.NotificationAdapter;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Database;
 import io.github.tiagofrbarbosa.fleekard.firebaseConstants.Storage;
 import io.github.tiagofrbarbosa.fleekard.holder.MessagesViewHolder;
