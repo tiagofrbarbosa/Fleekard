@@ -14,7 +14,6 @@
     import static android.support.test.espresso.action.ViewActions.click;
     import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
     import static android.support.test.espresso.action.ViewActions.typeText;
-    import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
     /**
      * Created by tfbarbosa on 29/10/17.
