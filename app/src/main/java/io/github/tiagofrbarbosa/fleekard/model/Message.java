@@ -71,6 +71,10 @@ public class Message implements Parcelable {
         return this.mTimeStamp;
     }
 
+    public void setmTimeStamp(HashMap<String, Object> mTimeStamp){
+        this.mTimeStamp = mTimeStamp;
+    }
+
     public void setReadMessage(boolean readMessage){
         this.readMessage = readMessage;
     }

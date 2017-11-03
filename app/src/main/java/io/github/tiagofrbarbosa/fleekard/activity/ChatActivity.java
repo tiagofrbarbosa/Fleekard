@@ -30,12 +30,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -51,6 +54,7 @@ import io.github.tiagofrbarbosa.fleekard.holder.MessagesViewHolder;
 import io.github.tiagofrbarbosa.fleekard.model.Message;
 import io.github.tiagofrbarbosa.fleekard.model.Notification;
 import io.github.tiagofrbarbosa.fleekard.model.User;
+import timber.log.Timber;
 
 /**
  * Created by tfbarbosa on 17/09/17.
@@ -81,7 +85,7 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabasePersistence;
     private DatabaseReference mMessageDatabaseReference;
     private DatabaseReference mUserDatabaseReference;
-    private ChildEventListener mChildEventListener;
+    private ValueEventListener mMessageEventListener;
     private ValueEventListener mValueEventListener;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseStorage mFirebaseStorage;
@@ -276,36 +280,36 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void attachDatabaseReadListener(){
-        if(mChildEventListener == null){
-            mChildEventListener = new ChildEventListener() {
+
+        if(mMessageEventListener == null){
+            mMessageEventListener = new ValueEventListener() {
                 @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Message mMessage = dataSnapshot.getValue(Message.class);
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    if(!mFirebaseAuth.getCurrentUser().getUid().equals(mMessage.getUserId()) && !mMessage.isReadMessage()){
-                        dataSnapshot.getRef().child(Database.messages.MESSAGE_READ).setValue(true);
+                    if(mMessages != null) mMessages.clear();
+
+                    for(DataSnapshot snapMessage : dataSnapshot.getChildren()){
+
+                        GenericTypeIndicator<HashMap<String, Object>> mGenericHash = new GenericTypeIndicator<HashMap<String, Object>>() {};
+
+                        Message mMessage = new Message();
+                        mMessage.setText(snapMessage.child("text").getValue(String.class));
+                        mMessage.setUserId(snapMessage.child("userId").getValue(String.class));
+                        mMessage.setName(snapMessage.child("name").getValue(String.class));
+                        mMessage.setPhotoUrl(snapMessage.child("photoUrl").getValue(String.class));
+                        mMessage.setmTimeStamp(snapMessage.child("mTimeStamp").getValue(mGenericHash));
+                        mMessage.setReadMessage(snapMessage.child("readMessage").getValue(Boolean.class));
+
+                        if(!mFirebaseAuth.getCurrentUser().getUid().equals(mMessage.getUserId()) && !mMessage.isReadMessage()){
+                            snapMessage.getRef().child(Database.messages.MESSAGE_READ).setValue(true);
+                        }
+
+                        mMessages.add(mMessage);
                     }
-
-                    mMessages.add(mMessage);
                     mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(ChatActivity.this, mMessages, onClickMessage(), app));
 
                     if(parcelable != null)
-                    mRecyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                        mRecyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
                 }
 
                 @Override
@@ -313,7 +317,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 }
             };
-            mMessageDatabaseReference.addChildEventListener(mChildEventListener);
+
+            mMessageDatabaseReference.addValueEventListener(mMessageEventListener);
         }
 
         if(mValueEventListener == null){
@@ -340,9 +345,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void detachDatabaseReadLIstener(){
-        if(mChildEventListener != null) {
-            mMessageDatabaseReference.removeEventListener(mChildEventListener);
-            mChildEventListener = null;
+        if(mMessageEventListener != null) {
+            mMessageDatabaseReference.removeEventListener(mMessageEventListener);
+            mMessageEventListener = null;
         }
 
         parcelable = mRecyclerView.getLayoutManager().onSaveInstanceState();
