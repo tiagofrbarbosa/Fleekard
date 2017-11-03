@@ -133,8 +133,6 @@ public class FragmentChat extends Fragment {
             }
         });
 
-        if(savedInstanceState == null) {
-
             progressBar.setVisibility(View.VISIBLE);
 
             mChatReference
@@ -149,23 +147,17 @@ public class FragmentChat extends Fragment {
                                 chats.add(chat);
                             }
 
+                            parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
                             recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), app));
                             progressBar.setVisibility(View.INVISIBLE);
+                            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     });
-        }else{
-
-            progressBar.setVisibility(View.INVISIBLE);
-            chats = savedInstanceState.getParcelableArrayList(CHAT_PARCELABLE);
-            recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), app));
-            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
-            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
-        }
     }
 
     @Override

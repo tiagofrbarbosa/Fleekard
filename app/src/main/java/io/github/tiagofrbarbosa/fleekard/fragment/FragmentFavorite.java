@@ -66,8 +66,6 @@ public class FragmentFavorite extends Fragment {
 
         app = (FleekardApplication) getActivity().getApplication();
 
-        if(savedInstanceState == null) {
-
             progressBar.setVisibility(View.VISIBLE);
 
             mFavoriteReference = app.getmFirebaseDatabase().getReference()
@@ -88,23 +86,17 @@ public class FragmentFavorite extends Fragment {
                                 favorites.add(favorite);
                             }
 
+                            parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
                             recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite(), app));
                             progressBar.setVisibility(View.INVISIBLE);
+                            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     });
-        }else{
-
-            progressBar.setVisibility(View.INVISIBLE);
-            favorites = savedInstanceState.getParcelableArrayList(FAVORITE_PARCELABLE);
-            recyclerView.setAdapter(adapter = new FavoriteAdapter(getActivity(), favorites, onClickFavorite(), app));
-            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
-            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
-        }
     }
 
     @Override

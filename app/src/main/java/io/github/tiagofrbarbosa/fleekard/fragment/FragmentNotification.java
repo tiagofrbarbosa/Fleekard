@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +38,7 @@ public class FragmentNotification extends Fragment {
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.myProgressBar) ProgressBar progressBar;
+    @BindView(R.id.animation_view) LottieAnimationView lottieAnimationView;
 
     protected NotificationAdapter adapter;
     protected ArrayList<Notification> notifications;
@@ -90,8 +92,10 @@ public class FragmentNotification extends Fragment {
                                     notifications.add(notification);
                                 }
 
-                                parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
+                                if(!notifications.isEmpty())
+                                lottieAnimationView.setVisibility(View.GONE);
 
+                                parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
                                 recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
                                 progressBar.setVisibility(View.INVISIBLE);
                                 recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
