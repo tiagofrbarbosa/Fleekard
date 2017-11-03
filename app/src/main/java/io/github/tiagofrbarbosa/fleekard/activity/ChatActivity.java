@@ -205,12 +205,6 @@ public class ChatActivity extends AppCompatActivity {
         intent.setType("image/jpeg");
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_picker_intent)), RC_PHOTO_PICKER);
-
-        try {
-            mRecyclerView.getLayoutManager().scrollToPosition(0);
-        }catch (Exception exception){
-            exception.printStackTrace();
-        }
     }
 
     @OnClick(R.id.sendButton)
@@ -250,6 +244,13 @@ public class ChatActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK){
+
+            try {
+                mRecyclerView.getLayoutManager().scrollToPosition(0);
+            }catch (Exception exception){
+                exception.printStackTrace();
+            }
+
             Uri selectedImageUri = data.getData();
 
             StorageReference photoRef = mChatPhotosStorageReference.child(selectedImageUri.getLastPathSegment());
