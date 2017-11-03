@@ -66,14 +66,13 @@ public class FragmentNotification extends Fragment {
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        if(savedInstanceState == null) {
-            progressBar.setVisibility(View.VISIBLE);
-
             mNotificationReference = app.getmFirebaseDatabase().getReference()
                     .child(Database.notification.CHILD_NOTIFICATION)
                     .child(app.getmAppUser().getUserKey());
 
             notifications = Notification.getNotifications();
+
+            progressBar.setVisibility(View.VISIBLE);
 
             mNotificationReference
                     .orderByChild(Database.notification.USER_KEY_NOTIFICATE)
@@ -92,6 +91,7 @@ public class FragmentNotification extends Fragment {
                                 }
 
                                 parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
+
                                 recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
                                 progressBar.setVisibility(View.INVISIBLE);
                                 recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
@@ -99,17 +99,9 @@ public class FragmentNotification extends Fragment {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
+                                progressBar.setVisibility(View.INVISIBLE);
                         }
                     });
-        }else{
-
-            progressBar.setVisibility(View.INVISIBLE);
-            notifications = savedInstanceState.getParcelableArrayList(NOTIFICATION_PARCELABLE);
-            recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));
-            parcelable = savedInstanceState.getParcelable(RECYCLER_LIST_SATE);
-            recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
-        }
     }
 
     @Override
