@@ -9,6 +9,7 @@ import io.github.tiagofrbarbosa.fleekard.activity.SignIn;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
  * Created by tfbarbosa on 29/10/17.

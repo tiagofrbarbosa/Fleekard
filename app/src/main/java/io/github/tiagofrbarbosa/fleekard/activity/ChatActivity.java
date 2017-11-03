@@ -214,12 +214,6 @@ public class ChatActivity extends AppCompatActivity {
         mMessageDatabaseReference.push().setValue(mMessage);
         mMessageEditText.setText("");
 
-        try {
-            mRecyclerView.getLayoutManager().scrollToPosition(0);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
         if(extras.getInt(Database.users.USER_PRESENCE) == User.USER_DISCONNECTED) {
             Notification mNotificationMessage = new Notification(app.getmAppUser().getUserKey()
                     , extras.getString(Database.users.USER_KEY)
@@ -244,12 +238,6 @@ public class ChatActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK){
-
-            try {
-                mRecyclerView.getLayoutManager().scrollToPosition(0);
-            }catch (Exception exception){
-                exception.printStackTrace();
-            }
 
             Uri selectedImageUri = data.getData();
 
