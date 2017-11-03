@@ -38,7 +38,7 @@ public class FragmentNotification extends Fragment {
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.myProgressBar) ProgressBar progressBar;
-    @BindView(R.id.animation_view) LottieAnimationView lottieAnimationView;
+    @BindView(R.id.animation_view_notification) LottieAnimationView lottieAnimationView;
 
     protected NotificationAdapter adapter;
     protected ArrayList<Notification> notifications;
@@ -92,8 +92,7 @@ public class FragmentNotification extends Fragment {
                                     notifications.add(notification);
                                 }
 
-                                if(!notifications.isEmpty())
-                                lottieAnimationView.setVisibility(View.GONE);
+                                if(!notifications.isEmpty()) lottieAnimationView.setVisibility(View.GONE);
 
                                 parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
                                 recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));

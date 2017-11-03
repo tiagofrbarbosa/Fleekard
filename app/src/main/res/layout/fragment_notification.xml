@@ -21,7 +21,7 @@
         android:layout_marginTop="@dimen/recyclerview_notification_margin_top"/>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animation_view"
+        android:id="@+id/animation_view_notification"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:lottie_fileName="no_notifications.json"
