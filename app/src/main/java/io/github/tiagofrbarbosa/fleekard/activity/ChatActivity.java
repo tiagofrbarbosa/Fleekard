@@ -210,6 +210,7 @@ public class ChatActivity extends AppCompatActivity {
     @OnClick(R.id.sendButton)
     public void onClickSendButton(){
 
+        parcelable = null;
         Message mMessage = new Message(mMessageEditText.getText().toString().trim(), mUserId, mUserName, null, false);
         mMessageDatabaseReference.push().setValue(mMessage);
         mMessageEditText.setText("");
@@ -257,6 +258,7 @@ public class ChatActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
+                            parcelable = null;
                             Message mMessage = new Message(null, mUserId, mUserName, downloadUrl.toString(), false);
                             mMessageDatabaseReference.push().setValue(mMessage);
                             mProgressBar.setVisibility(View.INVISIBLE);
@@ -294,8 +296,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                     mRecyclerView.setAdapter(mMessageChatAdapter = new MessageChatAdapter(ChatActivity.this, mMessages, onClickMessage(), app));
 
-                    if(parcelable != null)
-                        mRecyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
+                    if(parcelable != null) mRecyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
                 }
 
                 @Override
