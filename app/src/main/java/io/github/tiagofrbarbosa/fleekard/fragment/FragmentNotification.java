@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +40,7 @@ public class FragmentNotification extends Fragment {
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.myProgressBar) ProgressBar progressBar;
     @BindView(R.id.animation_view_notification) LottieAnimationView lottieAnimationView;
+    @BindView(R.id.no_notifications_text) TextView noNotificationsText;
 
     protected NotificationAdapter adapter;
     protected ArrayList<Notification> notifications;
@@ -92,7 +94,10 @@ public class FragmentNotification extends Fragment {
                                     notifications.add(notification);
                                 }
 
-                                if(!notifications.isEmpty()) lottieAnimationView.setVisibility(View.GONE);
+                                if(!notifications.isEmpty()){
+                                    lottieAnimationView.setVisibility(View.GONE);
+                                    noNotificationsText.setVisibility(View.GONE);
+                                }
 
                                 parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
                                 recyclerView.setAdapter(adapter = new NotificationAdapter(getActivity(), notifications, onClickNotification(), app));

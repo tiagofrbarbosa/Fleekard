@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +42,7 @@ public class FragmentChat extends Fragment {
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.myProgressBar) ProgressBar progressBar;
     @BindView(R.id.animation_view_chat) LottieAnimationView lottieAnimationView;
+    @BindView(R.id.no_chats_text) TextView noChatsText;
 
     protected ChatAdapter adapter;
     protected ArrayList<Chat> chats;
@@ -149,7 +151,10 @@ public class FragmentChat extends Fragment {
                                 chats.add(chat);
                             }
 
-                            if(!chats.isEmpty()) lottieAnimationView.setVisibility(View.GONE);
+                            if(!chats.isEmpty()){
+                                lottieAnimationView.setVisibility(View.GONE);
+                                noChatsText.setVisibility(View.GONE);
+                            }
 
                             parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
                             recyclerView.setAdapter(adapter = new ChatAdapter(getActivity(), chats, onClickChat(), app));

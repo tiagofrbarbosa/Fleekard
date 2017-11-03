@@ -57,6 +57,10 @@
     <string name="widget_title_notifications">Notifications</string>
     <string name="array_value_male">Male</string>
     <string name="array_value_female">Female</string>
+    <string name="message_chat">Write a message</string>
+    <string name="no_notifications">No notifications</string>
+    <string name="no_chats">No chats</string>
+    <string name="no_favorites">No favorites</string>
 
     <!-- content description, translatable -->
     <string name="content_desc_user_image">user image</string>
@@ -86,6 +90,5 @@
     <!-- AdMob -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="app_ad_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="message_chat">Write a message</string>
 
 </resources>
